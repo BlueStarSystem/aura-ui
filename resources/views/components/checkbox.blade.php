@@ -5,10 +5,9 @@
     'disabled' => false,
 ])
 
-<label class="aura-checkbox-wrapper" @if($disabled) aria-disabled="true" @endif>
+<label class="aura-checkbox" @if($disabled) aria-disabled="true" @endif>
     <input
         type="checkbox"
-        class="aura-checkbox"
         @if($value) value="{{ $value }}" @endif
         @if($disabled) disabled @endif
         {{ $attributes }}
@@ -19,7 +18,7 @@
         </svg>
     </span>
     @if($label)
-        <span class="aura-checkbox-text">
+        <span class="aura-checkbox-content">
             <span class="aura-checkbox-label">{{ $label }}</span>
             @if($description)
                 <span class="aura-checkbox-description">{{ $description }}</span>
