@@ -1,5 +1,6 @@
 @props([
     'name' => null,
+    'title' => null,
     'maxWidth' => 'lg',
     'glass' => false,
     'closeable' => true,
