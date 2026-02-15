@@ -52,6 +52,57 @@
     font-size: 24px;
 }
 
+/* Avatar Color Variants */
+.aura-avatar-color-primary {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #ffffff;
+}
+
+.aura-avatar-color-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #ffffff;
+}
+
+.aura-avatar-color-warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #ffffff;
+}
+
+.aura-avatar-color-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #ffffff;
+}
+
+.aura-avatar-color-info {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    color: #ffffff;
+}
+
+.aura-avatar-color-purple {
+    background: linear-gradient(135deg, #a855f7, #9333ea);
+    color: #ffffff;
+}
+
+.aura-avatar-color-pink {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+    color: #ffffff;
+}
+
+.aura-avatar-color-teal {
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    color: #ffffff;
+}
+
+.aura-avatar-color-orange {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: #ffffff;
+}
+
+.aura-avatar-color-indigo {
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+    color: #ffffff;
+}
+
 /* Avatar Status Indicator */
 .aura-avatar-status {
     position: absolute;
