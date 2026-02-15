@@ -43,99 +43,70 @@
                 </svg>
                 <div>
                     <h1 class="aura-playground-title">Aura UI</h1>
-                    <span class="aura-playground-version">Playground</span>
+                    <span class="aura-playground-version">Free — Playground</span>
                 </div>
             </div>
-            <h2 class="aura-nav-title">Phase 1 — Base</h2>
+            <h2 class="aura-nav-title">Primitives</h2>
             <a href="#buttons" class="aura-nav-link">Button</a>
             <a href="#inputs" class="aura-nav-link">Input</a>
             <a href="#textarea" class="aura-nav-link">Textarea</a>
             <a href="#select" class="aura-nav-link">Select</a>
             <a href="#checkbox-radio" class="aura-nav-link">Checkbox & Radio</a>
             <a href="#toggle" class="aura-nav-link">Toggle</a>
+            <h2 class="aura-nav-title">Feedback</h2>
             <a href="#badges" class="aura-nav-link">Badge</a>
             <a href="#alerts" class="aura-nav-link">Alert</a>
+            <a href="#spinner" class="aura-nav-link">Spinner & Skeleton</a>
+            <a href="#progress" class="aura-nav-link">Progress</a>
+            <h2 class="aura-nav-title">Layout</h2>
             <a href="#cards" class="aura-nav-link">Card</a>
             <a href="#modal" class="aura-nav-link">Modal</a>
             <a href="#dropdown" class="aura-nav-link">Dropdown</a>
             <a href="#tooltip" class="aura-nav-link">Tooltip</a>
             <a href="#avatar" class="aura-nav-link">Avatar</a>
-            <a href="#spinner" class="aura-nav-link">Spinner & Skeleton</a>
-            <h2 class="aura-nav-title">Phase 2 — Data</h2>
+            <h2 class="aura-nav-title">Navigation</h2>
+            <a href="#breadcrumbs" class="aura-nav-link">Breadcrumbs</a>
+            <h2 class="aura-nav-title">Data Display</h2>
             <a href="#empty-state" class="aura-nav-link">Empty State</a>
             <a href="#stats-cards" class="aura-nav-link">Stats Card</a>
-            <a href="#progress" class="aura-nav-link">Progress</a>
-            <a href="#datatable-preview" class="aura-nav-link">DataTable</a>
-            <h2 class="aura-nav-title">Phase 3 — Forms</h2>
-            <a href="#date-picker" class="aura-nav-link">DatePicker</a>
-            <a href="#time-picker" class="aura-nav-link">TimePicker</a>
-            <a href="#file-upload" class="aura-nav-link">File Upload</a>
-            <a href="#autocomplete" class="aura-nav-link">Autocomplete</a>
-            <a href="#tags-input" class="aura-nav-link">Tags Input</a>
-            <a href="#color-picker" class="aura-nav-link">Color Picker</a>
-            <a href="#slider-otp" class="aura-nav-link">Slider & OTP</a>
+            <h2 class="aura-nav-title">Form Layout</h2>
             <a href="#form-layout" class="aura-nav-link">Form & Editor</a>
-            <h2 class="aura-nav-title">Phase 4 — Advanced</h2>
-            <a href="#breadcrumbs" class="aura-nav-link">Breadcrumbs</a>
-            <a href="#tabs" class="aura-nav-link">Tabs</a>
-            <a href="#accordion" class="aura-nav-link">Accordion</a>
-            <a href="#steps" class="aura-nav-link">Steps</a>
-            <a href="#confirmation-dialog" class="aura-nav-link">Confirmation</a>
-            <a href="#toasts" class="aura-nav-link">Toasts</a>
-            <a href="#sidebar-nav" class="aura-nav-link">Sidebar Nav</a>
-            <a href="#tree-view" class="aura-nav-link">Tree View</a>
-            <a href="#command-palette" class="aura-nav-link">Command Palette</a>
-            <a href="#charts" class="aura-nav-link">Charts</a>
-            <a href="#calendar" class="aura-nav-link">Calendar</a>
-            <a href="#kanban" class="aura-nav-link">Kanban Board</a>
+
+            {{-- Pro sections are added by aura-ui-pro package --}}
         </nav>
 
         {{-- Main Content --}}
         <main class="aura-playground-main">
+            {{-- Primitives --}}
             @include('aura::playground.sections.buttons')
             @include('aura::playground.sections.inputs')
             @include('aura::playground.sections.textarea')
             @include('aura::playground.sections.select')
             @include('aura::playground.sections.checkbox-radio')
             @include('aura::playground.sections.toggle')
+
+            {{-- Feedback --}}
             @include('aura::playground.sections.badges')
             @include('aura::playground.sections.alerts')
+            @include('aura::playground.sections.spinner')
+            @include('aura::playground.sections.progress')
+
+            {{-- Layout --}}
             @include('aura::playground.sections.cards')
             @include('aura::playground.sections.modal')
             @include('aura::playground.sections.dropdown')
             @include('aura::playground.sections.tooltip')
             @include('aura::playground.sections.avatar')
-            @include('aura::playground.sections.spinner')
 
-            {{-- Phase 2 — Data Components --}}
+            {{-- Navigation --}}
+            @include('aura::playground.sections.breadcrumbs')
+
+            {{-- Data Display --}}
             @include('aura::playground.sections.empty-state')
             @include('aura::playground.sections.stats-cards')
-            @include('aura::playground.sections.progress')
-            @include('aura::playground.sections.datatable-preview')
 
-            {{-- Phase 3 — Form Components --}}
-            @include('aura::playground.sections.date-picker')
-            @include('aura::playground.sections.time-picker')
-            @include('aura::playground.sections.file-upload')
-            @include('aura::playground.sections.autocomplete')
-            @include('aura::playground.sections.tags-input')
-            @include('aura::playground.sections.color-picker')
-            @include('aura::playground.sections.slider-otp')
+            {{-- Form Layout --}}
             @include('aura::playground.sections.form-layout')
-
-            {{-- Phase 4 — Advanced Components --}}
-            @include('aura::playground.sections.breadcrumbs')
-            @include('aura::playground.sections.tabs')
-            @include('aura::playground.sections.accordion')
-            @include('aura::playground.sections.steps')
-            @include('aura::playground.sections.confirmation-dialog')
-            @include('aura::playground.sections.toasts')
-            @include('aura::playground.sections.sidebar-nav')
-            @include('aura::playground.sections.tree-view')
-            @include('aura::playground.sections.command-palette')
-            @include('aura::playground.sections.charts')
-            @include('aura::playground.sections.calendar')
-            @include('aura::playground.sections.kanban')
         </main>
     </div>
 </body>

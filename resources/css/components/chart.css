@@ -1,8 +1,0 @@
-/* Aura UI — Charts */
-
-.aura-chart {
-    background: var(--aura-surface-0); border-radius: var(--aura-radius-lg);
-    padding: 16px;
-}
-.dark .aura-chart { background: var(--aura-surface-800); }
-.aura-chart canvas { width: 100% !important; }

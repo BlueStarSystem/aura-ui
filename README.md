@@ -2,13 +2,14 @@
 
 **"Vibrant Depth" UI component library for Laravel 12 + Livewire 4 + Alpine.js + Tailwind CSS 4.**
 
-Aura UI provides 54 production-ready Blade components with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support.
+Aura UI provides 26 production-ready Blade components with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support.
+
+**Looking for advanced components?** Check out [Aura UI Pro](https://aura-ui.com) for DataTable, charts, calendar, kanban, advanced forms, and more.
 
 ## Requirements
 
 - PHP 8.3+
 - Laravel 12
-- Livewire 3.6+ (for DataTable traits)
 - Tailwind CSS 4
 
 ## Installation
@@ -106,10 +107,6 @@ Import the CSS in your app:
 |-----------|-------|-------------|
 | Breadcrumbs | `<x-aura::breadcrumbs>` | Items array, responsive |
 | Pagination | `<x-aura::pagination>` | Laravel paginator, per-page |
-| Tabs | `<x-aura::tabs>` | Default, pills, bordered, vertical |
-| Accordion | `<x-aura::accordion>` | Multiple mode, bordered |
-| Steps | `<x-aura::steps>` | Horizontal/vertical, sizes |
-| Sidebar | `<x-aura::sidebar>` | Collapsible, brand, sections, items |
 
 ### Data Display
 | Component | Usage | Description |
@@ -118,66 +115,20 @@ Import the CSS in your app:
 | Stats Card | `<x-aura::stats-card>` | Value, change, icon |
 | Description List | `<x-aura::description-list>` | Label/value pairs |
 
-### Forms (Advanced)
+### Form Layout
 | Component | Usage | Description |
 |-----------|-------|-------------|
-| Date Picker | `<x-aura::date-picker>` | Date/datetime, range, locale |
-| Time Picker | `<x-aura::time-picker>` | Time selection, step |
-| File Upload | `<x-aura::file-upload>` | Drag-drop, preview, progress |
-| Autocomplete | `<x-aura::autocomplete>` | Search, multiple, create new |
-| Tags Input | `<x-aura::tags-input>` | Suggestions, max, removable |
-| Color Picker | `<x-aura::color-picker>` | Hex/RGB, swatches |
-| Slider | `<x-aura::slider>` | Min/max, step, range mode |
-| OTP Input | `<x-aura::otp-input>` | Fixed length, auto-focus |
-| Editor | `<x-aura::editor>` | Rich text, customizable toolbar |
-| Form Layout | `<x-aura::form>` | Sections, grid, actions |
+| Form | `<x-aura::form>` | Sections, grid, actions |
 
-### Interactive
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Command Palette | `<x-aura::command-palette>` | Cmd+K, groups, fuzzy search |
-| Confirmation Dialog | `<x-aura::confirmation-dialog>` | Title, confirm/cancel |
-| Toasts | `<x-aura::toasts>` | 6 positions, auto-dismiss |
+## Aura UI Pro
 
-### Visualization
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Chart | `<x-aura::chart>` | Chart.js wrapper, 6 types |
-| Calendar | `<x-aura::calendar>` | Month/week/day, events |
-| Kanban | `<x-aura::kanban>` | Columns, cards, drag-drop |
-| Tree View | `<x-aura::tree>` | Nested items, selectable |
+Unlock 19 additional components and a powerful DataTable system with [Aura UI Pro](https://aura-ui.com):
 
-## DataTable (Livewire)
-
-Aura UI includes a powerful DataTable system with 5 Livewire traits:
-
-```php
-use BlueStarSystem\AuraUI\Traits\WithAuraDataTable;
-use BlueStarSystem\AuraUI\Traits\WithAuraFilters;
-use BlueStarSystem\AuraUI\Traits\WithAuraBulkActions;
-use BlueStarSystem\AuraUI\DataTable\Column;
-
-class UserList extends Component
-{
-    use WithAuraDataTable, WithAuraFilters, WithAuraBulkActions;
-
-    public function columns(): array
-    {
-        return [
-            Column::make('name', 'Name')->sortable()->searchable(),
-            Column::make('email', 'Email')->searchable(),
-            Column::make('created_at', 'Joined')->date('M d, Y')->sortable(),
-            Column::make('status', 'Status')
-                ->filterable(['active' => 'Active', 'inactive' => 'Inactive']),
-        ];
-    }
-
-    public function query(): Builder
-    {
-        return User::query();
-    }
-}
-```
+- **Advanced Forms**: Date picker, time picker, file upload, autocomplete, tags input, color picker, slider, OTP input, rich text editor
+- **Navigation**: Tabs, accordion, steps wizard, sidebar
+- **Interactive**: Command palette (Cmd+K), confirmation dialog, toast notifications
+- **Visualization**: Charts (Chart.js), calendar, kanban board, tree view
+- **DataTable**: 5 Livewire traits, column builder, bulk actions, filters, inline editing
 
 ## Design System
 
