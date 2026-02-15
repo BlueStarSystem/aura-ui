@@ -1,0 +1,40 @@
+/* Aura UI — Steps / Wizard */
+
+.aura-steps { width: 100%; }
+.aura-steps-list { display: flex; align-items: flex-start; }
+.aura-steps-horizontal .aura-steps-list { flex-direction: row; }
+.aura-steps-vertical .aura-steps-list { flex-direction: column; }
+.aura-steps-item {
+    display: flex; align-items: center; gap: 10px; flex: 1; position: relative;
+}
+.aura-steps-horizontal .aura-steps-item:not(:last-child)::after {
+    content: ''; flex: 1; height: 2px; background: var(--aura-border-light);
+    margin: 0 12px;
+}
+.dark .aura-steps-horizontal .aura-steps-item:not(:last-child)::after { background: var(--aura-surface-700); }
+.aura-steps-vertical .aura-steps-item { flex: none; padding-bottom: 24px; }
+.aura-steps-indicator {
+    width: 32px; height: 32px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
+    font-size: 0.8rem; font-weight: 600; border: 2px solid var(--aura-border-light);
+    color: var(--aura-text-secondary); background: var(--aura-surface-0);
+    transition: all var(--aura-duration-normal) var(--aura-ease-out);
+}
+.dark .aura-steps-indicator { border-color: var(--aura-surface-600); color: var(--aura-surface-400); background: var(--aura-surface-800); }
+.aura-steps-sm .aura-steps-indicator { width: 24px; height: 24px; font-size: 0.7rem; }
+.aura-steps-lg .aura-steps-indicator { width: 40px; height: 40px; font-size: 0.9rem; }
+.aura-steps-number { line-height: 1; }
+.aura-steps-check { display: flex; align-items: center; justify-content: center; }
+.aura-steps-completed .aura-steps-indicator {
+    background: var(--aura-primary-500); border-color: var(--aura-primary-500); color: white;
+}
+.aura-steps-active .aura-steps-indicator {
+    border-color: var(--aura-primary-500); color: var(--aura-primary-600);
+    box-shadow: var(--aura-glow-primary);
+}
+.dark .aura-steps-active .aura-steps-indicator { color: var(--aura-primary-400); }
+.aura-steps-content { display: flex; flex-direction: column; gap: 2px; }
+.aura-steps-label { font-size: 0.85rem; font-weight: 500; color: var(--aura-text-primary); }
+.dark .aura-steps-label { color: var(--aura-surface-200); }
+.aura-steps-pending .aura-steps-label { color: var(--aura-text-tertiary); }
+.aura-steps-description { font-size: 0.75rem; color: var(--aura-text-tertiary); }

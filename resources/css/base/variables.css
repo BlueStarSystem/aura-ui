@@ -1,0 +1,139 @@
+/*
+ * Aura UI — Design System Variables
+ * "Vibrant Depth" design language
+ */
+
+:root {
+    /* ============================================
+       PRIMARY (Deep Blue → Indigo)
+       ============================================ */
+    --aura-primary-50:  239 246 255;   /* #eef6ff */
+    --aura-primary-100: 219 234 254;   /* #dbeafe */
+    --aura-primary-200: 191 219 254;   /* #bfdbfe */
+    --aura-primary-300: 147 197 253;   /* #93c5fd */
+    --aura-primary-400: 96 165 250;    /* #60a5fa */
+    --aura-primary-500: 99 102 241;    /* #6366f1 — Base */
+    --aura-primary-600: 79 70 229;     /* #4f46e5 */
+    --aura-primary-700: 67 56 202;     /* #4338ca */
+    --aura-primary-800: 55 48 163;     /* #3730a3 */
+    --aura-primary-900: 49 46 129;     /* #312e81 */
+    --aura-primary-950: 30 27 75;      /* #1e1b4b */
+
+    /* ============================================
+       SECONDARY (Teal/Cyan)
+       ============================================ */
+    --aura-secondary-50:  236 254 255; /* #ecfeff */
+    --aura-secondary-100: 207 250 254; /* #cffafe */
+    --aura-secondary-200: 165 243 252; /* #a5f3fc */
+    --aura-secondary-300: 103 232 249; /* #67e8f9 */
+    --aura-secondary-400: 34 211 238;  /* #22d3ee */
+    --aura-secondary-500: 6 182 212;   /* #06b6d4 — Base */
+    --aura-secondary-600: 8 145 178;   /* #0891b2 */
+    --aura-secondary-700: 14 116 144;  /* #0e7490 */
+    --aura-secondary-800: 21 94 117;   /* #155e75 */
+    --aura-secondary-900: 22 78 99;    /* #164e63 */
+
+    /* ============================================
+       SUCCESS (Emerald vivo)
+       ============================================ */
+    --aura-success-50:  236 253 245;   /* #ecfdf5 */
+    --aura-success-100: 209 250 229;   /* #d1fae5 */
+    --aura-success-200: 167 243 208;   /* #a7f3d0 */
+    --aura-success-300: 110 231 183;   /* #6ee7b7 */
+    --aura-success-400: 52 211 153;    /* #34d399 */
+    --aura-success-500: 16 185 129;    /* #10b981 — Base */
+    --aura-success-600: 5 150 105;     /* #059669 */
+    --aura-success-700: 4 120 87;      /* #047857 */
+
+    /* ============================================
+       WARNING (Amber caldo)
+       ============================================ */
+    --aura-warning-50:  255 251 235;   /* #fffbeb */
+    --aura-warning-100: 254 243 199;   /* #fef3c7 */
+    --aura-warning-200: 253 230 138;   /* #fde68a */
+    --aura-warning-300: 252 211 77;    /* #fcd34d */
+    --aura-warning-400: 251 191 36;    /* #fbbf24 */
+    --aura-warning-500: 245 158 11;    /* #f59e0b — Base */
+    --aura-warning-600: 217 119 6;     /* #d97706 */
+    --aura-warning-700: 180 83 9;      /* #b45309 */
+
+    /* ============================================
+       DANGER (Coral/Red)
+       ============================================ */
+    --aura-danger-50:  254 242 242;    /* #fef2f2 */
+    --aura-danger-100: 254 226 226;    /* #fee2e2 */
+    --aura-danger-200: 254 202 202;    /* #fecaca */
+    --aura-danger-300: 252 165 165;    /* #fca5a5 */
+    --aura-danger-400: 248 113 113;    /* #f87171 */
+    --aura-danger-500: 239 68 68;      /* #ef4444 — Base */
+    --aura-danger-600: 220 38 38;      /* #dc2626 */
+    --aura-danger-700: 185 28 28;      /* #b91c1c */
+
+    /* ============================================
+       INFO (Sky luminoso)
+       ============================================ */
+    --aura-info-50:  240 249 255;      /* #f0f9ff */
+    --aura-info-100: 224 242 254;      /* #e0f2fe */
+    --aura-info-200: 186 230 253;      /* #bae6fd */
+    --aura-info-300: 125 211 252;      /* #7dd3fc */
+    --aura-info-400: 56 189 248;       /* #38bdf8 */
+    --aura-info-500: 14 165 233;       /* #0ea5e9 — Base */
+    --aura-info-600: 2 132 199;        /* #0284c7 */
+    --aura-info-700: 3 105 161;        /* #0369a1 */
+
+    /* ============================================
+       SURFACES (Light mode — warm whites)
+       ============================================ */
+    --aura-surface-0:   255 255 255;   /* #ffffff — bg */
+    --aura-surface-50:  248 250 252;   /* #f8fafc — card bg */
+    --aura-surface-100: 241 245 249;   /* #f1f5f9 — input bg */
+    --aura-surface-200: 226 232 240;   /* #e2e8f0 — border */
+    --aura-surface-300: 203 213 225;   /* #cbd5e1 — border hover */
+    --aura-surface-400: 148 163 184;   /* #94a3b8 — placeholder */
+    --aura-surface-500: 100 116 139;   /* #64748b — muted text */
+    --aura-surface-600: 71 85 105;     /* #475569 — secondary text */
+    --aura-surface-700: 51 65 85;      /* #334155 — body text */
+    --aura-surface-800: 30 41 59;      /* #1e293b — heading */
+    --aura-surface-900: 15 23 42;      /* #0f172a — strongest text */
+
+    /* ============================================
+       GRADIENTS
+       ============================================ */
+    --aura-gradient-primary:   linear-gradient(135deg, rgb(var(--aura-primary-500)), rgb(var(--aura-primary-700)));
+    --aura-gradient-secondary: linear-gradient(135deg, rgb(var(--aura-secondary-500)), rgb(var(--aura-info-500)));
+    --aura-gradient-success:   linear-gradient(135deg, rgb(var(--aura-success-500)), rgb(var(--aura-success-600)));
+    --aura-gradient-danger:    linear-gradient(135deg, rgb(var(--aura-danger-500)), rgb(var(--aura-danger-600)));
+    --aura-gradient-warning:   linear-gradient(135deg, rgb(var(--aura-warning-400)), rgb(var(--aura-warning-600)));
+    --aura-gradient-surface:   linear-gradient(135deg, rgb(var(--aura-surface-50)), rgb(var(--aura-surface-100)));
+
+    /* ============================================
+       GLOW INTENSITY
+       ============================================ */
+    --aura-glow-intensity: 0.15;
+}
+
+/* ============================================
+   DARK MODE — Rich, never pure black
+   ============================================ */
+.dark {
+    --aura-surface-0:   15 23 42;      /* #0f172a — deep blue-black */
+    --aura-surface-50:  30 41 59;      /* #1e293b */
+    --aura-surface-100: 51 65 85;      /* #334155 */
+    --aura-surface-200: 71 85 105;     /* #475569 */
+    --aura-surface-300: 100 116 139;   /* #64748b */
+    --aura-surface-400: 148 163 184;   /* #94a3b8 */
+    --aura-surface-500: 148 163 184;   /* #94a3b8 */
+    --aura-surface-600: 203 213 225;   /* #cbd5e1 */
+    --aura-surface-700: 226 232 240;   /* #e2e8f0 */
+    --aura-surface-800: 241 245 249;   /* #f1f5f9 */
+    --aura-surface-900: 248 250 252;   /* #f8fafc */
+
+    /* Accent colors GLOW brighter in dark mode */
+    --aura-primary-500: 129 140 248;   /* #818cf8 — brighter */
+    --aura-success-500: 52 211 153;    /* #34d399 */
+    --aura-warning-500: 251 191 36;    /* #fbbf24 */
+    --aura-danger-500:  251 113 133;   /* #fb7185 */
+    --aura-info-500:    56 189 248;    /* #38bdf8 */
+
+    --aura-glow-intensity: 0.25;
+}

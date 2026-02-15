@@ -1,0 +1,91 @@
+/* Aura UI — Stats Card */
+
+.aura-stats-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: var(--aura-surface-0);
+    border: 1px solid var(--aura-border-light);
+    border-radius: var(--aura-radius-lg);
+    box-shadow: var(--aura-shadow-sm);
+    text-decoration: none;
+    transition: all var(--aura-duration-slow) var(--aura-ease-out);
+}
+
+.aura-stats-card:hover {
+    box-shadow: var(--aura-shadow-md);
+}
+
+a.aura-stats-card:hover {
+    box-shadow: var(--aura-shadow-xl);
+    transform: translateY(-2px);
+    border-color: var(--aura-border-default);
+}
+
+.aura-stats-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.aura-stats-title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--aura-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.aura-stats-value {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--aura-text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.aura-stats-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 550;
+}
+
+.aura-stats-change-positive {
+    color: var(--aura-success-600);
+}
+.dark .aura-stats-change-positive {
+    color: var(--aura-success-400);
+}
+
+.aura-stats-change-negative {
+    color: var(--aura-danger-600);
+}
+.dark .aura-stats-change-negative {
+    color: var(--aura-danger-400);
+}
+
+.aura-stats-change-neutral {
+    color: var(--aura-text-tertiary);
+}
+
+.aura-stats-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--aura-primary-50);
+    border-radius: var(--aura-radius-lg);
+    color: var(--aura-primary-500);
+    flex-shrink: 0;
+}
+
+.dark .aura-stats-icon {
+    background: rgba(129, 140, 248, 0.12);
+}

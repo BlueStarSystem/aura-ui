@@ -1,0 +1,148 @@
+/* Aura UI — DataTable */
+
+.aura-datatable {
+    width: 100%;
+}
+
+.aura-datatable-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--aura-border-light);
+}
+
+.aura-datatable-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aura-datatable-bulk-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    background: var(--aura-primary-50);
+    border-bottom: 1px solid var(--aura-primary-100);
+    font-size: 13px;
+    color: var(--aura-primary-700);
+    font-weight: 500;
+}
+
+.dark .aura-datatable-bulk-bar {
+    background: rgba(129, 140, 248, 0.08);
+    border-color: rgba(129, 140, 248, 0.15);
+    color: var(--aura-primary-300);
+}
+
+.aura-datatable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.aura-datatable thead th {
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--aura-text-tertiary);
+    text-align: left;
+    border-bottom: 1px solid var(--aura-border-light);
+    background: var(--aura-surface-50);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.aura-datatable tbody td {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--aura-text-primary);
+    border-bottom: 1px solid var(--aura-border-light);
+    vertical-align: middle;
+}
+
+.aura-datatable tbody tr:hover {
+    background: var(--aura-surface-50);
+}
+
+.dark .aura-datatable tbody tr:hover {
+    background: var(--aura-surface-100);
+}
+
+.aura-datatable tbody tr.aura-row-selected {
+    background: var(--aura-primary-50);
+}
+.dark .aura-datatable tbody tr.aura-row-selected {
+    background: rgba(129, 140, 248, 0.06);
+}
+
+.aura-datatable-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--aura-border-light);
+    font-size: 13px;
+    color: var(--aura-text-tertiary);
+}
+
+.aura-datatable-pagination {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.aura-datatable-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--aura-text-secondary);
+    background: transparent;
+    border: 1px solid var(--aura-border-light);
+    border-radius: var(--aura-radius-sm);
+    cursor: pointer;
+    transition: all var(--aura-duration-fast) var(--aura-ease-out);
+}
+
+.aura-datatable-page-btn:hover {
+    background: var(--aura-surface-100);
+    border-color: var(--aura-border-default);
+}
+
+.aura-datatable-page-btn.active {
+    background: var(--aura-primary-500);
+    color: white;
+    border-color: var(--aura-primary-500);
+}
+
+.aura-datatable-per-page {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aura-datatable-per-page select {
+    padding: 4px 28px 4px 8px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--aura-text-primary);
+    background: var(--aura-surface-0);
+    border: 1px solid var(--aura-border-light);
+    border-radius: var(--aura-radius-sm);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    cursor: pointer;
+}

@@ -1,0 +1,77 @@
+/* Aura UI — Skeleton */
+
+.aura-skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--aura-surface-200);
+    border-radius: var(--aura-radius-md);
+}
+
+.aura-skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+    );
+    animation: aura-shimmer 1.8s ease-in-out infinite;
+}
+
+.dark .aura-skeleton {
+    background: var(--aura-surface-200);
+}
+
+.dark .aura-skeleton::after {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 50%,
+        transparent 100%
+    );
+}
+
+/* Skeleton shapes */
+.aura-skeleton-text {
+    height: 14px;
+    margin-bottom: 8px;
+}
+
+.aura-skeleton-text:last-child {
+    width: 75%;
+}
+
+.aura-skeleton-title {
+    height: 20px;
+    width: 60%;
+    margin-bottom: 16px;
+}
+
+.aura-skeleton-circle {
+    border-radius: 50%;
+}
+
+.aura-skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.aura-skeleton-button {
+    height: 38px;
+    width: 100px;
+    border-radius: var(--aura-radius-md);
+}
+
+.aura-skeleton-image {
+    height: 200px;
+    border-radius: var(--aura-radius-lg);
+}
+
+@keyframes aura-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}

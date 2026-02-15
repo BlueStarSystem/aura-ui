@@ -1,0 +1,77 @@
+/*
+ * Aura UI — Multi-layered Shadow System
+ * Each level adds physical depth perception
+ */
+
+:root {
+    --aura-shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.04);
+
+    --aura-shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.06),
+                       0 1px 3px rgba(0, 0, 0, 0.1);
+
+    --aura-shadow-md:  0 4px 6px rgba(0, 0, 0, 0.04),
+                       0 2px 4px rgba(0, 0, 0, 0.06),
+                       0 0 0 1px rgba(0, 0, 0, 0.02);
+
+    --aura-shadow-lg:  0 10px 15px rgba(0, 0, 0, 0.08),
+                       0 4px 6px rgba(0, 0, 0, 0.04),
+                       0 0 0 1px rgba(0, 0, 0, 0.02);
+
+    --aura-shadow-xl:  0 20px 25px rgba(0, 0, 0, 0.1),
+                       0 8px 10px rgba(0, 0, 0, 0.04);
+
+    --aura-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+    /* Colored glow shadows for focus/active states */
+    --aura-glow-primary: 0 0 0 3px rgba(99, 102, 241, var(--aura-glow-intensity, 0.15)),
+                         0 0 15px rgba(99, 102, 241, calc(var(--aura-glow-intensity, 0.15) * 0.5));
+
+    --aura-glow-secondary: 0 0 0 3px rgba(6, 182, 212, var(--aura-glow-intensity, 0.15)),
+                           0 0 15px rgba(6, 182, 212, calc(var(--aura-glow-intensity, 0.15) * 0.5));
+
+    --aura-glow-success: 0 0 0 3px rgba(16, 185, 129, var(--aura-glow-intensity, 0.15)),
+                         0 0 15px rgba(16, 185, 129, calc(var(--aura-glow-intensity, 0.15) * 0.5));
+
+    --aura-glow-danger: 0 0 0 3px rgba(239, 68, 68, var(--aura-glow-intensity, 0.15)),
+                        0 0 15px rgba(239, 68, 68, calc(var(--aura-glow-intensity, 0.15) * 0.5));
+
+    --aura-glow-warning: 0 0 0 3px rgba(245, 158, 11, var(--aura-glow-intensity, 0.15)),
+                         0 0 15px rgba(245, 158, 11, calc(var(--aura-glow-intensity, 0.15) * 0.5));
+
+    --aura-glow-info: 0 0 0 3px rgba(14, 165, 233, var(--aura-glow-intensity, 0.15)),
+                      0 0 15px rgba(14, 165, 233, calc(var(--aura-glow-intensity, 0.15) * 0.5));
+}
+
+/* Dark mode — stronger glows, lighter shadows */
+.dark {
+    --aura-shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.2);
+
+    --aura-shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.3),
+                       0 1px 3px rgba(0, 0, 0, 0.2);
+
+    --aura-shadow-md:  0 4px 6px rgba(0, 0, 0, 0.2),
+                       0 2px 4px rgba(0, 0, 0, 0.15),
+                       0 0 0 1px rgba(255, 255, 255, 0.05);
+
+    --aura-shadow-lg:  0 10px 15px rgba(0, 0, 0, 0.25),
+                       0 4px 6px rgba(0, 0, 0, 0.15),
+                       0 0 0 1px rgba(255, 255, 255, 0.05);
+
+    --aura-shadow-xl:  0 20px 25px rgba(0, 0, 0, 0.3),
+                       0 8px 10px rgba(0, 0, 0, 0.15);
+
+    --aura-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.4);
+
+    /* Brighter glows in dark mode */
+    --aura-glow-primary: 0 0 0 3px rgba(129, 140, 248, var(--aura-glow-intensity, 0.25)),
+                         0 0 20px rgba(129, 140, 248, calc(var(--aura-glow-intensity, 0.25) * 0.5));
+
+    --aura-glow-success: 0 0 0 3px rgba(52, 211, 153, var(--aura-glow-intensity, 0.25)),
+                         0 0 20px rgba(52, 211, 153, calc(var(--aura-glow-intensity, 0.25) * 0.5));
+
+    --aura-glow-danger: 0 0 0 3px rgba(251, 113, 133, var(--aura-glow-intensity, 0.25)),
+                        0 0 20px rgba(251, 113, 133, calc(var(--aura-glow-intensity, 0.25) * 0.5));
+
+    --aura-glow-warning: 0 0 0 3px rgba(251, 191, 36, var(--aura-glow-intensity, 0.25)),
+                         0 0 20px rgba(251, 191, 36, calc(var(--aura-glow-intensity, 0.25) * 0.5));
+}

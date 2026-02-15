@@ -1,0 +1,100 @@
+/* Aura UI — Avatar */
+
+.aura-avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--aura-gradient-primary);
+    color: white;
+    font-weight: 600;
+    flex-shrink: 0;
+    transition: all var(--aura-duration-normal) var(--aura-ease-out);
+}
+
+.aura-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Avatar Sizes */
+.aura-avatar-xs {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+.aura-avatar-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+}
+
+.aura-avatar-md {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+}
+
+.aura-avatar-lg {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+}
+
+.aura-avatar-xl {
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+}
+
+/* Avatar Status Indicator */
+.aura-avatar-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 25%;
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--aura-surface-0);
+    box-sizing: content-box;
+}
+
+.aura-avatar-status-online {
+    background: var(--aura-success-500);
+}
+
+.aura-avatar-status-offline {
+    background: var(--aura-surface-400);
+}
+
+.aura-avatar-status-busy {
+    background: var(--aura-danger-500);
+}
+
+/* Avatar Group (overlap) */
+.aura-avatar-group {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.aura-avatar-group .aura-avatar {
+    margin-left: -8px;
+    border: 2px solid var(--aura-surface-0);
+    box-sizing: content-box;
+}
+
+.aura-avatar-group .aura-avatar:last-child {
+    margin-left: 0;
+}
+
+.aura-avatar-group .aura-avatar:hover {
+    z-index: 1;
+    transform: translateY(-2px);
+}

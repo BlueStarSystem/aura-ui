@@ -1,0 +1,33 @@
+/* Aura UI — Tree View */
+
+.aura-tree { width: 100%; }
+.aura-tree-list { list-style: none; margin: 0; padding: 0; }
+.aura-tree-children { list-style: none; margin: 0; padding: 0; padding-left: 20px; }
+.aura-tree-connectors .aura-tree-children {
+    border-left: 1px solid var(--aura-border-light); margin-left: 10px; padding-left: 10px;
+}
+.dark .aura-tree-connectors .aura-tree-children { border-left-color: var(--aura-surface-700); }
+.aura-tree-node { margin: 0; }
+.aura-tree-node-content {
+    display: flex; align-items: center; gap: 4px; padding: 4px 8px;
+    border-radius: var(--aura-radius-sm); cursor: default;
+    transition: background var(--aura-duration-fast) var(--aura-ease-out);
+}
+.aura-tree-node-content:hover { background: var(--aura-surface-100); }
+.dark .aura-tree-node-content:hover { background: var(--aura-surface-800); }
+.aura-tree-node-selected { background: var(--aura-primary-50); }
+.dark .aura-tree-node-selected { background: rgba(99, 102, 241, 0.1); }
+.aura-tree-node-toggle {
+    background: none; border: none; cursor: pointer; padding: 2px;
+    color: var(--aura-text-tertiary); display: flex; align-items: center;
+}
+.aura-tree-node-spacer { width: 16px; flex-shrink: 0; }
+.aura-tree-chevron {
+    transition: transform var(--aura-duration-fast) var(--aura-ease-out);
+}
+.aura-tree-chevron-open { transform: rotate(90deg); }
+.aura-tree-node-icon { flex-shrink: 0; color: var(--aura-text-tertiary); display: flex; }
+.aura-tree-node-label {
+    font-size: 0.875rem; color: var(--aura-text-primary); cursor: pointer; user-select: none;
+}
+.dark .aura-tree-node-label { color: var(--aura-surface-200); }

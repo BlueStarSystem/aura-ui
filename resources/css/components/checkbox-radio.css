@@ -1,0 +1,156 @@
+/* Aura UI — Checkbox & Radio */
+
+/* --- Checkbox --- */
+
+.aura-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.aura-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.aura-checkbox-box {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    border: 2px solid var(--aura-border-default);
+    border-radius: 5px;
+    background: var(--aura-surface-0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--aura-duration-normal) var(--aura-ease-spring);
+}
+
+.aura-checkbox-box svg {
+    width: 12px;
+    height: 12px;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    opacity: 0;
+    transform: scale(0);
+    transition: all var(--aura-duration-normal) var(--aura-ease-spring);
+}
+
+.aura-checkbox:hover .aura-checkbox-box {
+    border-color: var(--aura-primary-400);
+}
+
+.aura-checkbox input:checked + .aura-checkbox-box {
+    background: var(--aura-primary-500);
+    border-color: var(--aura-primary-500);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.aura-checkbox input:checked + .aura-checkbox-box svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.aura-checkbox input:focus-visible + .aura-checkbox-box {
+    box-shadow: var(--aura-glow-primary);
+}
+
+.aura-checkbox-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.aura-checkbox-label {
+    font-size: 14px;
+    font-weight: 450;
+    color: var(--aura-text-primary);
+    line-height: 1.4;
+}
+
+.aura-checkbox-description {
+    font-size: 12px;
+    color: var(--aura-text-tertiary);
+    line-height: 1.4;
+}
+
+/* --- Radio --- */
+
+.aura-radio {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.aura-radio input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.aura-radio-circle {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    border: 2px solid var(--aura-border-default);
+    border-radius: 50%;
+    background: var(--aura-surface-0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--aura-duration-normal) var(--aura-ease-spring);
+}
+
+.aura-radio-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0;
+    transform: scale(0);
+    transition: all var(--aura-duration-normal) var(--aura-ease-spring);
+}
+
+.aura-radio:hover .aura-radio-circle {
+    border-color: var(--aura-primary-400);
+}
+
+.aura-radio input:checked + .aura-radio-circle {
+    background: var(--aura-primary-500);
+    border-color: var(--aura-primary-500);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.aura-radio input:checked + .aura-radio-circle .aura-radio-dot {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.aura-radio input:focus-visible + .aura-radio-circle {
+    box-shadow: var(--aura-glow-primary);
+}
+
+.aura-radio-label {
+    font-size: 14px;
+    font-weight: 450;
+    color: var(--aura-text-primary);
+    line-height: 1.4;
+}
+
+.aura-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

@@ -1,0 +1,102 @@
+/* Aura UI — Alert */
+
+.aura-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--aura-radius-lg);
+    border-left: 4px solid;
+    position: relative;
+    transition: all var(--aura-duration-normal) var(--aura-ease-out);
+}
+
+.aura-alert-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+}
+
+.aura-alert-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.aura-alert-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.aura-alert-message {
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.85;
+}
+
+.aura-alert-dismiss {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: var(--aura-radius-sm);
+    color: inherit;
+    opacity: 0.5;
+    transition: all var(--aura-duration-fast) var(--aura-ease-out);
+}
+
+.aura-alert-dismiss:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.05);
+}
+.dark .aura-alert-dismiss:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Alert Variants */
+.aura-alert-info {
+    background: var(--aura-info-50);
+    border-color: var(--aura-info-500);
+    color: var(--aura-info-800);
+}
+.dark .aura-alert-info {
+    background: rgba(14, 165, 233, 0.08);
+    color: var(--aura-info-200);
+}
+
+.aura-alert-success {
+    background: var(--aura-success-50);
+    border-color: var(--aura-success-500);
+    color: var(--aura-success-800);
+}
+.dark .aura-alert-success {
+    background: rgba(16, 185, 129, 0.08);
+    color: var(--aura-success-200);
+}
+
+.aura-alert-warning {
+    background: var(--aura-warning-50);
+    border-color: var(--aura-warning-500);
+    color: var(--aura-warning-800);
+}
+.dark .aura-alert-warning {
+    background: rgba(245, 158, 11, 0.08);
+    color: var(--aura-warning-200);
+}
+
+.aura-alert-danger {
+    background: var(--aura-danger-50);
+    border-color: var(--aura-danger-500);
+    color: var(--aura-danger-800);
+}
+.dark .aura-alert-danger {
+    background: rgba(239, 68, 68, 0.08);
+    color: var(--aura-danger-200);
+}

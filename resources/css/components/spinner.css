@@ -1,0 +1,59 @@
+/* Aura UI — Spinner */
+
+.aura-spinner {
+    display: inline-block;
+    border-radius: 50%;
+    border: 3px solid var(--aura-surface-200);
+    border-top-color: var(--aura-primary-500);
+    animation: aura-spin 0.7s linear infinite;
+}
+
+/* Spinner with gradient stroke effect */
+.aura-spinner-gradient {
+    border-color: transparent;
+    background:
+        linear-gradient(var(--aura-surface-0), var(--aura-surface-0)) padding-box,
+        conic-gradient(
+            from 0deg,
+            transparent 0%,
+            var(--aura-primary-500) 75%,
+            transparent 100%
+        ) border-box;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    animation: aura-spin 0.8s linear infinite;
+}
+
+.dark .aura-spinner-gradient {
+    background:
+        linear-gradient(var(--aura-surface-0), var(--aura-surface-0)) padding-box,
+        conic-gradient(
+            from 0deg,
+            transparent 0%,
+            var(--aura-primary-500) 75%,
+            transparent 100%
+        ) border-box;
+}
+
+/* Spinner Sizes */
+.aura-spinner-sm {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+}
+
+.aura-spinner-md {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+}
+
+.aura-spinner-lg {
+    width: 36px;
+    height: 36px;
+    border-width: 3px;
+}
+
+@keyframes aura-spin {
+    to { transform: rotate(360deg); }
+}

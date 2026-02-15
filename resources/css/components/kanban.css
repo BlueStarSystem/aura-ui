@@ -1,0 +1,38 @@
+/* Aura UI — Kanban Board */
+
+.aura-kanban { width: 100%; overflow-x: auto; }
+.aura-kanban-board {
+    display: flex; gap: 16px; min-width: min-content; padding: 4px;
+}
+.aura-kanban-column {
+    min-width: 280px; max-width: 320px; flex-shrink: 0;
+    background: var(--aura-surface-50); border-radius: var(--aura-radius-lg);
+    display: flex; flex-direction: column;
+}
+.dark .aura-kanban-column { background: var(--aura-surface-800); }
+.aura-kanban-column-over { outline: 2px dashed var(--aura-primary-400); outline-offset: -2px; }
+.aura-kanban-column-header {
+    display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+    font-weight: 600; font-size: 0.875rem; color: var(--aura-text-primary);
+}
+.dark .aura-kanban-column-header { color: var(--aura-surface-200); }
+.aura-kanban-column-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.aura-kanban-column-title { flex: 1; }
+.aura-kanban-column-count {
+    font-size: 0.75rem; font-weight: 500; color: var(--aura-text-tertiary);
+    background: var(--aura-surface-200); padding: 1px 8px; border-radius: var(--aura-radius-full);
+}
+.dark .aura-kanban-column-count { background: var(--aura-surface-700); color: var(--aura-surface-400); }
+.aura-kanban-column-body {
+    flex: 1; padding: 0 8px 8px; display: flex; flex-direction: column; gap: 8px;
+    min-height: 100px;
+}
+.aura-kanban-card {
+    background: var(--aura-surface-0); border-radius: var(--aura-radius-md);
+    padding: 12px; box-shadow: var(--aura-shadow-sm); border: 1px solid var(--aura-border-light);
+    cursor: grab; font-size: 0.875rem; color: var(--aura-text-primary);
+    transition: box-shadow var(--aura-duration-fast) var(--aura-ease-out);
+}
+.aura-kanban-card:hover { box-shadow: var(--aura-shadow-md); }
+.dark .aura-kanban-card { background: var(--aura-surface-900); border-color: var(--aura-surface-700); color: var(--aura-surface-200); }
+.aura-kanban-card-dragging { opacity: 0.5; }

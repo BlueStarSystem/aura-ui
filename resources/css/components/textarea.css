@@ -1,0 +1,43 @@
+/* Aura UI — Textarea */
+
+.aura-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--aura-text-primary);
+    background: var(--aura-surface-100);
+    border: 1px solid var(--aura-border-light);
+    border-radius: var(--aura-radius-md);
+    outline: none;
+    resize: vertical;
+    transition: all var(--aura-duration-normal) var(--aura-ease-out);
+    box-sizing: border-box;
+}
+
+.aura-textarea::placeholder {
+    color: var(--aura-text-tertiary);
+}
+
+.aura-textarea:hover {
+    border-color: var(--aura-border-default);
+    background: var(--aura-surface-50);
+}
+
+.aura-textarea:focus {
+    border-color: var(--aura-primary-500);
+    background: var(--aura-surface-0);
+    box-shadow: var(--aura-glow-primary);
+}
+
+.aura-input-wrapper.aura-has-error .aura-textarea {
+    border-color: var(--aura-danger-500);
+    background: var(--aura-danger-50);
+}
+
+.aura-input-wrapper.aura-has-error .aura-textarea:focus {
+    box-shadow: var(--aura-glow-danger);
+    background: var(--aura-surface-0);
+}

@@ -1,0 +1,72 @@
+/* Aura UI — Command Palette */
+
+.aura-command-overlay {
+    position: fixed; inset: 0; z-index: var(--aura-z-command, 75);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 15vh; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px);
+}
+.aura-command-dialog {
+    background: var(--aura-surface-0); border-radius: var(--aura-radius-xl);
+    box-shadow: var(--aura-shadow-2xl); max-width: 560px; width: 90%;
+    overflow: hidden;
+}
+.dark .aura-command-dialog { background: var(--aura-surface-800); }
+.aura-command-input-wrapper {
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+    border-bottom: 1px solid var(--aura-border-light);
+}
+.dark .aura-command-input-wrapper { border-bottom-color: var(--aura-surface-700); }
+.aura-command-input-icon { flex-shrink: 0; color: var(--aura-text-tertiary); }
+.aura-command-input {
+    flex: 1; border: none; outline: none; font-size: 0.95rem;
+    background: transparent; color: var(--aura-text-primary);
+}
+.dark .aura-command-input { color: var(--aura-surface-100); }
+.aura-command-input::placeholder { color: var(--aura-text-tertiary); }
+.aura-command-kbd {
+    font-size: 0.7rem; padding: 2px 6px; border-radius: var(--aura-radius-sm);
+    background: var(--aura-surface-100); color: var(--aura-text-tertiary);
+    border: 1px solid var(--aura-border-light); font-family: inherit;
+}
+.dark .aura-command-kbd { background: var(--aura-surface-700); border-color: var(--aura-surface-600); color: var(--aura-surface-400); }
+.aura-command-list { max-height: 300px; overflow-y: auto; padding: 8px; }
+.aura-command-group { margin-bottom: 8px; }
+.aura-command-group:last-child { margin-bottom: 0; }
+.aura-command-group-heading {
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--aura-text-tertiary); padding: 6px 8px;
+}
+.aura-command-item {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    padding: 10px 12px; border-radius: var(--aura-radius-md);
+    background: none; border: none; cursor: pointer; text-align: left;
+    color: var(--aura-text-primary); font-size: 0.875rem;
+    transition: background var(--aura-duration-fast) var(--aura-ease-out);
+}
+.aura-command-item:hover { background: var(--aura-surface-100); }
+.dark .aura-command-item { color: var(--aura-surface-200); }
+.dark .aura-command-item:hover { background: var(--aura-surface-700); }
+.aura-command-item-icon { flex-shrink: 0; color: var(--aura-text-tertiary); display: flex; }
+.aura-command-item-content { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+.aura-command-item-label { font-weight: 500; }
+.aura-command-item-description { font-size: 0.75rem; color: var(--aura-text-tertiary); }
+.aura-command-item-shortcut {
+    font-size: 0.7rem; padding: 2px 6px; border-radius: var(--aura-radius-sm);
+    background: var(--aura-surface-100); color: var(--aura-text-tertiary);
+    border: 1px solid var(--aura-border-light); font-family: inherit;
+}
+.dark .aura-command-item-shortcut { background: var(--aura-surface-700); border-color: var(--aura-surface-600); }
+.aura-command-empty {
+    padding: 24px; text-align: center; font-size: 0.875rem; color: var(--aura-text-tertiary);
+}
+.aura-command-footer {
+    display: flex; gap: 16px; padding: 10px 16px; justify-content: center;
+    border-top: 1px solid var(--aura-border-light); font-size: 0.75rem; color: var(--aura-text-tertiary);
+}
+.dark .aura-command-footer { border-top-color: var(--aura-surface-700); }
+.aura-command-hint { display: flex; align-items: center; gap: 4px; }
+.aura-command-hint kbd {
+    font-size: 0.65rem; padding: 1px 4px; border-radius: 3px;
+    background: var(--aura-surface-100); border: 1px solid var(--aura-border-light); font-family: inherit;
+}
+.dark .aura-command-hint kbd { background: var(--aura-surface-700); border-color: var(--aura-surface-600); }

@@ -1,0 +1,27 @@
+/* Aura UI — Form Layout */
+
+.aura-form { display: flex; flex-direction: column; gap: 24px; }
+.aura-form-section {
+    padding-bottom: 24px; border-bottom: 1px solid var(--aura-surface-200, #e2e8f0);
+}
+.aura-form-section:last-of-type { border-bottom: none; padding-bottom: 0; }
+.aura-form-section-aside {
+    display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: start;
+}
+@media (max-width: 768px) { .aura-form-section-aside { grid-template-columns: 1fr; gap: 16px; } }
+.aura-form-section-header { margin-bottom: 16px; }
+.aura-form-section-title { font-size: 1rem; font-weight: 600; color: var(--aura-surface-900, #0f172a); }
+.dark .aura-form-section-title { color: var(--aura-surface-900, #f8fafc); }
+.aura-form-section-description { font-size: 0.85rem; color: var(--aura-surface-500, #64748b); margin-top: 2px; }
+.aura-form-section-content { display: flex; flex-direction: column; gap: 16px; }
+.aura-form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.aura-form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+@media (max-width: 640px) { .aura-form-grid-2, .aura-form-grid-3 { grid-template-columns: 1fr; } }
+.aura-form-actions {
+    display: flex; gap: 12px; padding-top: 20px;
+    border-top: 1px solid var(--aura-surface-200, #e2e8f0);
+}
+.aura-form-actions-end { justify-content: flex-end; }
+.aura-form-actions-start { justify-content: flex-start; }
+.aura-form-actions-center { justify-content: center; }
+.aura-form-actions-between { justify-content: space-between; }

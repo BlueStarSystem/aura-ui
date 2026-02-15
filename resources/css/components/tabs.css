@@ -1,0 +1,61 @@
+/* Aura UI — Tabs */
+
+.aura-tabs { width: 100%; }
+.aura-tabs-list {
+    display: flex; gap: 0; border-bottom: 2px solid var(--aura-border-light);
+    margin-bottom: 16px; overflow-x: auto;
+}
+.dark .aura-tabs-list { border-bottom-color: var(--aura-surface-700); }
+.aura-tabs-trigger {
+    display: flex; align-items: center; gap: 6px; padding: 10px 16px;
+    font-size: 0.875rem; font-weight: 500; color: var(--aura-text-secondary);
+    background: none; border: none; border-bottom: 2px solid transparent;
+    margin-bottom: -2px; cursor: pointer; white-space: nowrap;
+    transition: all var(--aura-duration-fast) var(--aura-ease-out);
+}
+.aura-tabs-trigger:hover { color: var(--aura-primary-500); }
+.aura-tabs-trigger.aura-tabs-active {
+    color: var(--aura-primary-600); border-bottom-color: var(--aura-primary-500);
+}
+.aura-tabs-trigger:disabled { opacity: 0.5; cursor: not-allowed; }
+.dark .aura-tabs-trigger { color: var(--aura-surface-400); }
+.dark .aura-tabs-trigger:hover { color: var(--aura-primary-400); }
+.dark .aura-tabs-trigger.aura-tabs-active { color: var(--aura-primary-400); border-bottom-color: var(--aura-primary-400); }
+.aura-tabs-badge {
+    background: var(--aura-primary-100); color: var(--aura-primary-700);
+    font-size: 0.7rem; font-weight: 600; padding: 1px 6px; border-radius: var(--aura-radius-full);
+}
+.dark .aura-tabs-badge { background: var(--aura-primary-900); color: var(--aura-primary-300); }
+.aura-tabs-panel { padding: 4px 0; }
+
+/* Pills variant */
+.aura-tabs-pills .aura-tabs-list { border-bottom: none; gap: 4px; margin-bottom: 16px; }
+.aura-tabs-pills .aura-tabs-trigger {
+    border-bottom: none; margin-bottom: 0; border-radius: var(--aura-radius-md);
+    padding: 8px 14px;
+}
+.aura-tabs-pills .aura-tabs-trigger.aura-tabs-active {
+    background: var(--aura-primary-500); color: white; border-bottom: none;
+}
+.dark .aura-tabs-pills .aura-tabs-trigger.aura-tabs-active { background: var(--aura-primary-600); }
+
+/* Bordered variant */
+.aura-tabs-bordered .aura-tabs-list { border: 1px solid var(--aura-border-light); border-radius: var(--aura-radius-md); padding: 4px; gap: 4px; border-bottom-width: 1px; }
+.aura-tabs-bordered .aura-tabs-trigger { border-bottom: none; margin-bottom: 0; border-radius: var(--aura-radius-sm); }
+.aura-tabs-bordered .aura-tabs-trigger.aura-tabs-active { background: var(--aura-surface-100); border-bottom: none; }
+.dark .aura-tabs-bordered .aura-tabs-list { border-color: var(--aura-surface-700); }
+.dark .aura-tabs-bordered .aura-tabs-trigger.aura-tabs-active { background: var(--aura-surface-700); }
+
+/* Vertical variant */
+.aura-tabs-vertical { display: flex; gap: 16px; }
+.aura-tabs-vertical .aura-tabs-list {
+    flex-direction: column; border-bottom: none; border-right: 2px solid var(--aura-border-light);
+    margin-bottom: 0; padding-right: 0; min-width: 160px;
+}
+.aura-tabs-vertical .aura-tabs-trigger {
+    border-bottom: none; border-right: 2px solid transparent; margin-bottom: 0; margin-right: -2px;
+    text-align: left; justify-content: flex-start;
+}
+.aura-tabs-vertical .aura-tabs-trigger.aura-tabs-active { border-right-color: var(--aura-primary-500); border-bottom: none; }
+.aura-tabs-vertical .aura-tabs-panels { flex: 1; }
+.dark .aura-tabs-vertical .aura-tabs-list { border-right-color: var(--aura-surface-700); }

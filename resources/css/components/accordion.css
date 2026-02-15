@@ -1,0 +1,27 @@
+/* Aura UI — Accordion */
+
+.aura-accordion { width: 100%; }
+.aura-accordion-bordered .aura-accordion-item {
+    border: 1px solid var(--aura-border-light); border-radius: var(--aura-radius-md);
+    margin-bottom: 8px; overflow: hidden;
+}
+.dark .aura-accordion-bordered .aura-accordion-item { border-color: var(--aura-surface-700); }
+.aura-accordion-trigger {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 12px 16px; font-size: 0.9rem; font-weight: 500;
+    color: var(--aura-text-primary); background: var(--aura-surface-50);
+    border: none; cursor: pointer;
+    transition: background var(--aura-duration-fast) var(--aura-ease-out);
+}
+.aura-accordion-trigger:hover { background: var(--aura-surface-100); }
+.aura-accordion-trigger:disabled { opacity: 0.5; cursor: not-allowed; }
+.dark .aura-accordion-trigger { color: var(--aura-surface-100); background: var(--aura-surface-800); }
+.dark .aura-accordion-trigger:hover { background: var(--aura-surface-700); }
+.aura-accordion-trigger-text { display: flex; align-items: center; gap: 8px; }
+.aura-accordion-chevron {
+    transition: transform var(--aura-duration-normal) var(--aura-ease-out);
+    flex-shrink: 0;
+}
+.aura-accordion-chevron-open { transform: rotate(180deg); }
+.aura-accordion-body { padding: 12px 16px; font-size: 0.875rem; color: var(--aura-text-secondary); }
+.dark .aura-accordion-body { color: var(--aura-surface-400); }
