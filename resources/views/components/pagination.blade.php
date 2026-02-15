@@ -6,7 +6,7 @@
     'showPerPage' => true,
 ])
 
-@if($paginator && $paginator->hasPages())
+@if($paginator && $paginator->total() > 0)
 <nav class="aura-pagination" role="navigation" aria-label="Navigazione pagine">
     <div class="aura-pagination-info-row">
         @if($showInfo)
@@ -28,6 +28,7 @@
         @endif
     </div>
 
+    @if($paginator->hasPages())
     <div class="aura-pagination-buttons">
         {{-- Previous --}}
         @if($paginator->onFirstPage())
@@ -64,5 +65,6 @@
             </span>
         @endif
     </div>
+    @endif
 </nav>
 @endif

@@ -11,6 +11,9 @@
         'lg' => 'width="24" height="24"',
         'xl' => 'width="32" height="32"',
     ];
+    $name = is_string($name) ? $name : trim((string) $name);
+    $size = is_string($size) ? $size : trim((string) $size);
+
     $sizeAttr = $sizes[$size] ?? $sizes['md'];
 
     $icons = [

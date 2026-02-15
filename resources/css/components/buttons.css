@@ -55,6 +55,13 @@
     box-shadow: none !important;
 }
 
+/* Slot span — flex so inline icons + text align */
+.aura-btn > span {
+    display: inline-flex;
+    align-items: center;
+    gap: inherit;
+}
+
 /* Icon inside button */
 .aura-btn svg,
 .aura-btn .aura-btn-icon {

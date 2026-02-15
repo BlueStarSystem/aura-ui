@@ -114,9 +114,9 @@
 .aura-animate-shimmer {
     background: linear-gradient(
         90deg,
-        rgb(var(--aura-surface-100)) 25%,
-        rgb(var(--aura-surface-200)) 50%,
-        rgb(var(--aura-surface-100)) 75%
+        var(--aura-surface-100) 25%,
+        var(--aura-surface-200) 50%,
+        var(--aura-surface-100) 75%
     );
     background-size: 200% 100%;
     animation: aura-shimmer 1.5s ease-in-out infinite;

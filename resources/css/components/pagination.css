@@ -1,0 +1,120 @@
+/* Aura UI — Pagination */
+
+.aura-pagination {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+}
+
+.aura-pagination-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.aura-pagination-info {
+    font-size: 13px;
+    color: var(--aura-text-secondary);
+}
+
+.aura-pagination-info strong {
+    font-weight: 600;
+    color: var(--aura-text-primary);
+}
+
+.aura-pagination-per-page {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aura-pagination-per-page-label {
+    font-size: 13px;
+    color: var(--aura-text-secondary);
+    white-space: nowrap;
+}
+
+.aura-pagination-per-page-select {
+    padding: 4px 28px 4px 8px !important;
+    font-size: 13px !important;
+    min-width: 64px;
+    height: 32px;
+}
+
+.aura-pagination-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.aura-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--aura-text-secondary);
+    background: var(--aura-surface-0);
+    border: 1px solid var(--aura-border-light);
+    border-radius: var(--aura-radius-sm);
+    cursor: pointer;
+    transition: all var(--aura-duration-fast) var(--aura-ease-out);
+    user-select: none;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.aura-pagination-btn:hover:not(.aura-pagination-btn-disabled):not(.aura-pagination-btn-active) {
+    background: var(--aura-surface-100);
+    border-color: var(--aura-border-default);
+    color: var(--aura-text-primary);
+}
+
+.aura-pagination-btn-active {
+    background: var(--aura-primary-500);
+    color: var(--aura-text-inverse);
+    border-color: var(--aura-primary-500);
+    cursor: default;
+    font-weight: 600;
+}
+
+.aura-pagination-btn-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.aura-pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    font-size: 13px;
+    color: var(--aura-text-muted);
+    user-select: none;
+    letter-spacing: 2px;
+}
+
+/* Dark mode */
+.dark .aura-pagination-btn {
+    background: var(--aura-surface-50);
+    border-color: var(--aura-surface-200);
+}
+
+.dark .aura-pagination-btn:hover:not(.aura-pagination-btn-disabled):not(.aura-pagination-btn-active) {
+    background: var(--aura-surface-100);
+}
+
+.dark .aura-pagination-btn-active {
+    background: var(--aura-primary-500);
+    border-color: var(--aura-primary-500);
+}
