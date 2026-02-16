@@ -1,0 +1,50 @@
+/*
+ * Aura UI — Dark Mode Overrides
+ * Rich, never pure black — surfaces swap, accents glow brighter
+ */
+
+.dark {
+    --color-aura-surface-0:   #0f172a;
+    --color-aura-surface-50:  #1e293b;
+    --color-aura-surface-100: #334155;
+    --color-aura-surface-200: #475569;
+    --color-aura-surface-300: #64748b;
+    --color-aura-surface-400: #94a3b8;
+    --color-aura-surface-500: #94a3b8;
+    --color-aura-surface-600: #cbd5e1;
+    --color-aura-surface-700: #e2e8f0;
+    --color-aura-surface-800: #f1f5f9;
+    --color-aura-surface-900: #f8fafc;
+
+    /* Accents glow brighter in dark mode */
+    --color-aura-primary-500: #818cf8;
+    --color-aura-success-500: #34d399;
+    --color-aura-warning-500: #fbbf24;
+    --color-aura-danger-500:  #fb7185;
+    --color-aura-info-500:    #38bdf8;
+
+    /* Semantic overrides */
+    --aura-text-inverse: #0f172a;
+    --aura-text-link:    var(--color-aura-primary-400);
+
+    /* Stronger glows */
+    --aura-glow-intensity: 0.25;
+
+    /* Darker shadows */
+    --shadow-aura-xs:  0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-aura-sm:  0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-aura-md:  0 4px 6px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    --shadow-aura-lg:  0 10px 15px rgba(0, 0, 0, 0.25), 0 4px 6px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    --shadow-aura-xl:  0 20px 25px rgba(0, 0, 0, 0.3), 0 8px 10px rgba(0, 0, 0, 0.15);
+    --shadow-aura-2xl: 0 25px 50px rgba(0, 0, 0, 0.4);
+
+    /* Brighter glows */
+    --aura-glow-primary: 0 0 0 3px rgba(129, 140, 248, var(--aura-glow-intensity)),
+                         0 0 20px rgba(129, 140, 248, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-success: 0 0 0 3px rgba(52, 211, 153, var(--aura-glow-intensity)),
+                         0 0 20px rgba(52, 211, 153, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-danger: 0 0 0 3px rgba(251, 113, 133, var(--aura-glow-intensity)),
+                        0 0 20px rgba(251, 113, 133, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-warning: 0 0 0 3px rgba(251, 191, 36, var(--aura-glow-intensity)),
+                         0 0 20px rgba(251, 191, 36, calc(var(--aura-glow-intensity) * 0.5));
+}

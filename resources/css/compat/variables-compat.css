@@ -1,0 +1,162 @@
+/*
+ * Aura UI — Legacy Variable Compatibility Layer
+ * Maps Tailwind 4 @theme variables (--color-aura-*) → legacy --aura-* variables
+ * Required by Pro package sidebar and any custom CSS referencing --aura-* vars
+ */
+
+:root {
+    /* Primary */
+    --aura-primary-50:  var(--color-aura-primary-50);
+    --aura-primary-100: var(--color-aura-primary-100);
+    --aura-primary-200: var(--color-aura-primary-200);
+    --aura-primary-300: var(--color-aura-primary-300);
+    --aura-primary-400: var(--color-aura-primary-400);
+    --aura-primary-500: var(--color-aura-primary-500);
+    --aura-primary-600: var(--color-aura-primary-600);
+    --aura-primary-700: var(--color-aura-primary-700);
+    --aura-primary-800: var(--color-aura-primary-800);
+    --aura-primary-900: var(--color-aura-primary-900);
+    --aura-primary-950: var(--color-aura-primary-950);
+
+    /* Secondary */
+    --aura-secondary-50:  var(--color-aura-secondary-50);
+    --aura-secondary-100: var(--color-aura-secondary-100);
+    --aura-secondary-200: var(--color-aura-secondary-200);
+    --aura-secondary-300: var(--color-aura-secondary-300);
+    --aura-secondary-400: var(--color-aura-secondary-400);
+    --aura-secondary-500: var(--color-aura-secondary-500);
+    --aura-secondary-600: var(--color-aura-secondary-600);
+    --aura-secondary-700: var(--color-aura-secondary-700);
+    --aura-secondary-800: var(--color-aura-secondary-800);
+    --aura-secondary-900: var(--color-aura-secondary-900);
+
+    /* Success */
+    --aura-success-50:  var(--color-aura-success-50);
+    --aura-success-100: var(--color-aura-success-100);
+    --aura-success-200: var(--color-aura-success-200);
+    --aura-success-300: var(--color-aura-success-300);
+    --aura-success-400: var(--color-aura-success-400);
+    --aura-success-500: var(--color-aura-success-500);
+    --aura-success-600: var(--color-aura-success-600);
+    --aura-success-700: var(--color-aura-success-700);
+
+    /* Warning */
+    --aura-warning-50:  var(--color-aura-warning-50);
+    --aura-warning-100: var(--color-aura-warning-100);
+    --aura-warning-200: var(--color-aura-warning-200);
+    --aura-warning-300: var(--color-aura-warning-300);
+    --aura-warning-400: var(--color-aura-warning-400);
+    --aura-warning-500: var(--color-aura-warning-500);
+    --aura-warning-600: var(--color-aura-warning-600);
+    --aura-warning-700: var(--color-aura-warning-700);
+
+    /* Danger */
+    --aura-danger-50:  var(--color-aura-danger-50);
+    --aura-danger-100: var(--color-aura-danger-100);
+    --aura-danger-200: var(--color-aura-danger-200);
+    --aura-danger-300: var(--color-aura-danger-300);
+    --aura-danger-400: var(--color-aura-danger-400);
+    --aura-danger-500: var(--color-aura-danger-500);
+    --aura-danger-600: var(--color-aura-danger-600);
+    --aura-danger-700: var(--color-aura-danger-700);
+
+    /* Info */
+    --aura-info-50:  var(--color-aura-info-50);
+    --aura-info-100: var(--color-aura-info-100);
+    --aura-info-200: var(--color-aura-info-200);
+    --aura-info-300: var(--color-aura-info-300);
+    --aura-info-400: var(--color-aura-info-400);
+    --aura-info-500: var(--color-aura-info-500);
+    --aura-info-600: var(--color-aura-info-600);
+    --aura-info-700: var(--color-aura-info-700);
+
+    /* Surfaces */
+    --aura-surface-0:   var(--color-aura-surface-0);
+    --aura-surface-50:  var(--color-aura-surface-50);
+    --aura-surface-100: var(--color-aura-surface-100);
+    --aura-surface-200: var(--color-aura-surface-200);
+    --aura-surface-300: var(--color-aura-surface-300);
+    --aura-surface-400: var(--color-aura-surface-400);
+    --aura-surface-500: var(--color-aura-surface-500);
+    --aura-surface-600: var(--color-aura-surface-600);
+    --aura-surface-700: var(--color-aura-surface-700);
+    --aura-surface-800: var(--color-aura-surface-800);
+    --aura-surface-900: var(--color-aura-surface-900);
+
+    /* Semantic text tokens */
+    --aura-text-primary:    var(--color-aura-surface-900);
+    --aura-text-secondary:  var(--color-aura-surface-500);
+    --aura-text-tertiary:   var(--color-aura-surface-400);
+    --aura-text-muted:      var(--color-aura-surface-400);
+    --aura-text-inverse:    #ffffff;
+    --aura-text-link:       var(--color-aura-primary-600);
+    --aura-text-on-primary: #ffffff;
+
+    /* Semantic border tokens */
+    --aura-border-light:   var(--color-aura-surface-200);
+    --aura-border-default: var(--color-aura-surface-300);
+    --aura-border-strong:  var(--color-aura-surface-400);
+    --aura-border-focus:   var(--color-aura-primary-500);
+
+    /* Border radius */
+    --aura-radius-xs:   var(--radius-aura-xs);
+    --aura-radius-sm:   var(--radius-aura-sm);
+    --aura-radius-md:   var(--radius-aura-md);
+    --aura-radius-lg:   var(--radius-aura-lg);
+    --aura-radius-xl:   var(--radius-aura-xl);
+    --aura-radius-2xl:  var(--radius-aura-2xl);
+    --aura-radius-full: var(--radius-aura-full);
+
+    /* Shadows */
+    --aura-shadow-xs:  var(--shadow-aura-xs);
+    --aura-shadow-sm:  var(--shadow-aura-sm);
+    --aura-shadow-md:  var(--shadow-aura-md);
+    --aura-shadow-lg:  var(--shadow-aura-lg);
+    --aura-shadow-xl:  var(--shadow-aura-xl);
+    --aura-shadow-2xl: var(--shadow-aura-2xl);
+
+    /* Z-index */
+    --aura-z-dropdown: var(--z-aura-dropdown);
+    --aura-z-sticky:   var(--z-aura-sticky);
+    --aura-z-overlay:  var(--z-aura-overlay);
+    --aura-z-modal:    var(--z-aura-modal);
+    --aura-z-tooltip:  var(--z-aura-tooltip);
+    --aura-z-toast:    var(--z-aura-toast);
+
+    /* Fonts */
+    --aura-font-sans: var(--font-aura-sans);
+    --aura-font-mono: var(--font-aura-mono);
+
+    /* Durations */
+    --aura-duration-fast:   var(--animate-duration-fast);
+    --aura-duration-normal: var(--animate-duration-normal);
+    --aura-duration-slow:   var(--animate-duration-slow);
+
+    /* Easing */
+    --aura-ease-out:    var(--ease-aura-out);
+    --aura-ease-spring: var(--ease-aura-spring);
+    --aura-ease-bounce: var(--ease-aura-bounce);
+
+    /* Gradients */
+    --aura-gradient-primary:   linear-gradient(135deg, var(--color-aura-primary-500), var(--color-aura-primary-700));
+    --aura-gradient-secondary: linear-gradient(135deg, var(--color-aura-secondary-500), var(--color-aura-info-500));
+    --aura-gradient-success:   linear-gradient(135deg, var(--color-aura-success-500), var(--color-aura-success-600));
+    --aura-gradient-danger:    linear-gradient(135deg, var(--color-aura-danger-500), var(--color-aura-danger-600));
+    --aura-gradient-warning:   linear-gradient(135deg, var(--color-aura-warning-400), var(--color-aura-warning-600));
+    --aura-gradient-surface:   linear-gradient(135deg, var(--color-aura-surface-50), var(--color-aura-surface-100));
+
+    /* Glow shadows */
+    --aura-glow-intensity: 0.15;
+    --aura-glow-primary: 0 0 0 3px rgba(99, 102, 241, var(--aura-glow-intensity)),
+                         0 0 15px rgba(99, 102, 241, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-secondary: 0 0 0 3px rgba(6, 182, 212, var(--aura-glow-intensity)),
+                           0 0 15px rgba(6, 182, 212, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-success: 0 0 0 3px rgba(16, 185, 129, var(--aura-glow-intensity)),
+                         0 0 15px rgba(16, 185, 129, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-danger: 0 0 0 3px rgba(239, 68, 68, var(--aura-glow-intensity)),
+                        0 0 15px rgba(239, 68, 68, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-warning: 0 0 0 3px rgba(245, 158, 11, var(--aura-glow-intensity)),
+                         0 0 15px rgba(245, 158, 11, calc(var(--aura-glow-intensity) * 0.5));
+    --aura-glow-info: 0 0 0 3px rgba(14, 165, 233, var(--aura-glow-intensity)),
+                      0 0 15px rgba(14, 165, 233, calc(var(--aura-glow-intensity) * 0.5));
+}

@@ -1,92 +1,27 @@
-<section id="toggle" class="aura-playground-section">
-    <h2 class="aura-section-title">Toggle</h2>
+<section id="toggle" class="playground-section space-y-6">
+    <h2 class="text-xl font-bold text-aura-surface-900 dark:text-aura-surface-100 pb-3 border-b border-aura-surface-200 dark:border-aura-surface-700">Toggle</h2>
 
-    <h3 class="aura-section-subtitle">Default</h3>
-    <div class="aura-component-row">
-        <label class="aura-toggle">
-            <input type="checkbox">
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Default</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::toggle />
+        </div>
     </div>
 
-    <h3 class="aura-section-subtitle">With Label</h3>
-    <div class="aura-component-col">
-        <label class="aura-toggle">
-            <input type="checkbox">
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Modalita' scura</span>
-        </label>
-        <label class="aura-toggle">
-            <input type="checkbox" checked>
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Notifiche attive</span>
-        </label>
-        <label class="aura-toggle">
-            <input type="checkbox">
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Manutenzione programmata</span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">With Label</h3>
+        <div class="flex flex-col gap-3">
+            <x-aura::toggle label="Modalita' scura" />
+            <x-aura::toggle label="Notifiche attive" checked />
+            <x-aura::toggle label="Manutenzione programmata" />
+        </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Sizes</h3>
-    <div class="aura-component-row aura-items-center">
-        <label class="aura-toggle aura-toggle-sm">
-            <input type="checkbox" checked>
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Small</span>
-        </label>
-        <label class="aura-toggle">
-            <input type="checkbox" checked>
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Medium</span>
-        </label>
-        <label class="aura-toggle aura-toggle-lg">
-            <input type="checkbox" checked>
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Large</span>
-        </label>
-    </div>
-
-    <h3 class="aura-section-subtitle">Disabled</h3>
-    <div class="aura-component-row">
-        <label class="aura-toggle" aria-disabled="true">
-            <input type="checkbox" disabled>
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Disabilitato (off)</span>
-        </label>
-        <label class="aura-toggle" aria-disabled="true">
-            <input type="checkbox" checked disabled>
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Disabilitato (on)</span>
-        </label>
-    </div>
-
-    <h3 class="aura-section-subtitle">Checked by Default</h3>
-    <div class="aura-component-row">
-        <label class="aura-toggle">
-            <input type="checkbox" checked>
-            <span class="aura-toggle-track">
-                <span class="aura-toggle-knob"></span>
-            </span>
-            <span class="aura-toggle-label">Attivo per default</span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Disabled</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::toggle label="Disabilitato (off)" disabled />
+            <x-aura::toggle label="Disabilitato (on)" disabled checked />
+        </div>
     </div>
 </section>

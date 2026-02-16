@@ -1,84 +1,66 @@
-<section id="select" class="aura-playground-section">
-    <h2 class="aura-section-title">Select</h2>
+<section id="select" class="playground-section space-y-6">
+    <h2 class="text-xl font-bold text-aura-surface-900 dark:text-aura-surface-100 pb-3 border-b border-aura-surface-200 dark:border-aura-surface-700">Select</h2>
 
-    <h3 class="aura-section-subtitle">Default</h3>
-    <div class="aura-component-row">
-        <div class="aura-input-wrapper">
-            <select class="aura-select">
-                <option value="" disabled selected>Seleziona un paese...</option>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Default</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::select placeholder="Seleziona un paese...">
                 <option value="it">Italia</option>
                 <option value="de">Germania</option>
                 <option value="fr">Francia</option>
                 <option value="es">Spagna</option>
-            </select>
+            </x-aura::select>
         </div>
     </div>
 
-    <h3 class="aura-section-subtitle">With Label</h3>
-    <div class="aura-component-row">
-        <div class="aura-input-wrapper">
-            <label class="aura-input-label">Paese <span class="aura-required">*</span></label>
-            <select class="aura-select">
-                <option value="" disabled selected>Seleziona...</option>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">With Label</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::select label="Paese" placeholder="Seleziona..." hint="Seleziona il paese di residenza.">
                 <option value="it">Italia</option>
                 <option value="de">Germania</option>
                 <option value="fr">Francia</option>
                 <option value="es">Spagna</option>
-            </select>
-            <span class="aura-input-hint">Seleziona il paese di residenza.</span>
+            </x-aura::select>
         </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Error State</h3>
-    <div class="aura-component-row">
-        <div class="aura-input-wrapper aura-has-error">
-            <label class="aura-input-label">Categoria <span class="aura-required">*</span></label>
-            <select class="aura-select">
-                <option value="" disabled selected>Seleziona...</option>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Error State</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::select label="Categoria" placeholder="Seleziona..." error="Seleziona una categoria.">
                 <option value="1">Elettronica</option>
                 <option value="2">Abbigliamento</option>
                 <option value="3">Casa e Giardino</option>
-            </select>
-            <span class="aura-input-error">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                Seleziona una categoria.
-            </span>
+            </x-aura::select>
         </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Disabled</h3>
-    <div class="aura-component-row">
-        <div class="aura-input-wrapper">
-            <label class="aura-input-label">Lingua</label>
-            <select class="aura-select" disabled>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Disabled</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::select label="Lingua" disabled>
                 <option value="it" selected>Italiano</option>
                 <option value="en">English</option>
-            </select>
+            </x-aura::select>
         </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Sizes</h3>
-    <div class="aura-component-row aura-items-center">
-        <div class="aura-input-wrapper aura-input-sm">
-            <select class="aura-select">
-                <option value="" disabled selected>Small</option>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Sizes</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::select size="sm" placeholder="Small">
                 <option value="it">Italia</option>
                 <option value="de">Germania</option>
-            </select>
-        </div>
-        <div class="aura-input-wrapper">
-            <select class="aura-select">
-                <option value="" disabled selected>Medium (default)</option>
+            </x-aura::select>
+            <x-aura::select size="md" placeholder="Medium (default)">
                 <option value="it">Italia</option>
                 <option value="de">Germania</option>
-            </select>
-        </div>
-        <div class="aura-input-wrapper aura-input-lg">
-            <select class="aura-select">
-                <option value="" disabled selected>Large</option>
+            </x-aura::select>
+            <x-aura::select size="lg" placeholder="Large">
                 <option value="it">Italia</option>
                 <option value="de">Germania</option>
-            </select>
+            </x-aura::select>
         </div>
     </div>
 </section>

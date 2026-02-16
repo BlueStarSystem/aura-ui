@@ -1,5 +1,5 @@
 @props([])
 
-<div {{ $attributes->class(['aura-avatar-group']) }}>
+<div {{ $attributes->class(['aura-avatar-group', 'flex items-center']) }}>
     {{ $slot }}
 </div>

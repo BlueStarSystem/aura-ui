@@ -10,16 +10,16 @@
 
 @php
     $maxWidthClass = match($maxWidth) {
-        'sm' => 'aura-modal-sm',
-        'md' => 'aura-modal-md',
-        'lg' => 'aura-modal-lg',
-        'xl' => 'aura-modal-xl',
-        '2xl' => 'aura-modal-2xl',
-        'full' => 'aura-modal-full',
-        default => 'aura-modal-lg',
+        'sm' => 'aura-modal-sm max-w-sm',
+        'md' => 'aura-modal-md max-w-md',
+        'lg' => 'aura-modal-lg max-w-lg',
+        'xl' => 'aura-modal-xl max-w-xl',
+        '2xl' => 'aura-modal-2xl max-w-3xl',
+        'full' => 'aura-modal-full max-w-full',
+        default => 'aura-modal-lg max-w-lg',
     };
-    $contentClass = ['aura-modal-content', $maxWidthClass];
-    if ($glass) $contentClass[] = 'aura-glass';
+    $contentClasses = ['aura-modal-content', $maxWidthClass, 'relative w-full max-h-[calc(100vh-48px)] bg-aura-surface-0 border border-aura-surface-200 rounded-aura-xl shadow-aura-2xl overflow-hidden flex flex-col'];
+    if ($glass) $contentClasses[] = 'aura-glass';
 @endphp
 
 <div
@@ -37,7 +37,7 @@
 
     <template x-teleport="body">
         <div
-            class="aura-modal-overlay aura-glass-overlay"
+            class="aura-modal-overlay aura-glass-overlay fixed inset-0 z-aura-modal flex items-center justify-center p-6"
             x-show="open"
             x-transition:enter="aura-transition-slow"
             x-transition:enter-start="opacity-0"
@@ -49,7 +49,7 @@
             style="display: none;"
         >
             <div
-                class="{{ implode(' ', $contentClass) }}"
+                class="{{ implode(' ', $contentClasses) }}"
                 x-show="open"
                 x-transition:enter="aura-transition"
                 x-transition:enter-start="opacity-0 transform scale-95"
@@ -60,22 +60,22 @@
                 x-on:click.stop
             >
                 @if(isset($title))
-                    <div class="aura-modal-header">
-                        <h3 class="aura-modal-title">{{ $title }}</h3>
+                    <div class="aura-modal-header px-6 pt-5 pb-4 border-b border-aura-surface-200 flex items-center justify-between gap-4">
+                        <h3 class="aura-modal-title text-[17px] font-bold text-aura-surface-900 m-0 tracking-tight">{{ $title }}</h3>
                         @if($closeable)
-                            <button type="button" class="aura-modal-close" x-on:click="open = false" aria-label="Chiudi">
+                            <button type="button" class="aura-modal-close shrink-0 w-8 h-8 flex items-center justify-center border-none bg-transparent text-aura-surface-400 rounded-aura-sm cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="open = false" aria-label="Chiudi">
                                 <x-aura::icon name="x" size="md" />
                             </button>
                         @endif
                     </div>
                 @endif
 
-                <div class="aura-modal-body">
+                <div class="aura-modal-body px-6 py-5 overflow-y-auto text-sm text-aura-surface-500 leading-relaxed">
                     {{ $slot }}
                 </div>
 
                 @if(isset($footer))
-                    <div class="aura-modal-footer">
+                    <div class="aura-modal-footer px-6 py-4 border-t border-aura-surface-200 bg-aura-surface-50 flex items-center justify-end gap-2">
                         {{ $footer }}
                     </div>
                 @endif

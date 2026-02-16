@@ -1,0 +1,142 @@
+/*
+ * Aura UI — Keyframes & Animation Utilities
+ */
+
+@keyframes aura-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes aura-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+@keyframes aura-slide-up {
+    from { transform: translateY(8px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes aura-slide-down {
+    from { transform: translateY(-8px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes aura-slide-left {
+    from { transform: translateX(8px); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes aura-slide-right {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0); }
+}
+
+@keyframes aura-scale-in {
+    from { transform: scale(0.95); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes aura-scale-out {
+    from { transform: scale(1); opacity: 1; }
+    to   { transform: scale(0.95); opacity: 0; }
+}
+
+@keyframes aura-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes aura-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes aura-pulse-glow {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.7; }
+}
+
+@keyframes aura-shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+@keyframes aura-check-bounce {
+    0%   { transform: scale(0); }
+    50%  { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes aura-ripple {
+    0%   { transform: scale(0); opacity: 0.5; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes aura-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+}
+
+@keyframes aura-tooltip-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes aura-progress-stripes {
+    from { background-position: 20px 0; }
+    to   { background-position: 0 0; }
+}
+
+/* Utility classes for animations */
+@utility aura-animate-spin {
+    animation: aura-spin 0.8s linear infinite;
+}
+
+@utility aura-animate-shimmer {
+    animation: aura-shimmer 1.8s ease-in-out infinite;
+}
+
+@utility aura-animate-fade-in {
+    animation: aura-fade-in var(--animate-duration-slow) var(--ease-aura-out) both;
+}
+
+@utility aura-animate-slide-up {
+    animation: aura-slide-up var(--animate-duration-slow) var(--ease-aura-out) both;
+}
+
+@utility aura-animate-scale-in {
+    animation: aura-scale-in var(--animate-duration-slow) var(--ease-aura-spring) both;
+}
+
+@utility aura-animate-shake {
+    animation: aura-shake 0.4s var(--ease-aura-out);
+}
+
+/* Transition presets */
+@utility aura-transition {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: var(--animate-duration-normal);
+    transition-timing-function: var(--ease-aura-out);
+}
+
+@utility aura-transition-fast {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: var(--animate-duration-fast);
+    transition-timing-function: var(--ease-aura-out);
+}
+
+@utility aura-transition-slow {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: var(--animate-duration-slow);
+    transition-timing-function: var(--ease-aura-out);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

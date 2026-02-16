@@ -5,17 +5,17 @@
 ])
 
 @php
-    $menuClass = 'aura-dropdown-menu';
-    if ($glass) $menuClass .= ' aura-glass';
+    $menuClasses = ['aura-dropdown-menu', 'absolute top-[calc(100%+4px)] left-0 z-aura-dropdown min-w-[200px] p-1.5 bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-xl origin-top-left'];
+    if ($glass) $menuClasses[] = 'aura-glass';
 @endphp
 
-<div class="aura-dropdown" x-data="{ open: false }" {{ $attributes }}>
+<div class="aura-dropdown relative inline-block" x-data="{ open: false }" {{ $attributes }}>
     <div x-on:click="open = !open" class="aura-dropdown-trigger">
         {{ $trigger }}
     </div>
 
     <div
-        class="{{ $menuClass }}"
+        class="{{ implode(' ', $menuClasses) }}"
         x-show="open"
         x-on:click.away="open = false"
         x-on:keydown.escape.window="open = false"

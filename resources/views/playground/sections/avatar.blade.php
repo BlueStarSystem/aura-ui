@@ -1,95 +1,64 @@
-<section id="avatar" class="aura-playground-section">
-    <h2 class="aura-section-title">Avatar</h2>
+<section id="avatar" class="playground-section space-y-6">
+    <h2 class="text-xl font-bold text-aura-surface-900 dark:text-aura-surface-100 pb-3 border-b border-aura-surface-200 dark:border-aura-surface-700">Avatar</h2>
 
-    <h3 class="aura-section-subtitle">With Image</h3>
-    <div class="aura-component-row aura-items-center">
-        <div class="aura-avatar aura-avatar-sm">
-            <img src="https://i.pravatar.cc/150?img=1" alt="Avatar 1">
-        </div>
-        <div class="aura-avatar aura-avatar-md">
-            <img src="https://i.pravatar.cc/150?img=2" alt="Avatar 2">
-        </div>
-        <div class="aura-avatar aura-avatar-lg">
-            <img src="https://i.pravatar.cc/150?img=3" alt="Avatar 3">
-        </div>
-        <div class="aura-avatar aura-avatar-xl">
-            <img src="https://i.pravatar.cc/150?img=4" alt="Avatar 4">
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">With Image</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=1" name="User 1" size="sm" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=2" name="User 2" size="md" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=3" name="User 3" size="lg" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=4" name="User 4" size="xl" />
         </div>
     </div>
 
-    <h3 class="aura-section-subtitle">With Initials</h3>
-    <div class="aura-component-row aura-items-center">
-        <div class="aura-avatar aura-avatar-md">MR</div>
-        <div class="aura-avatar aura-avatar-md" style="background: var(--aura-gradient-success);">JK</div>
-        <div class="aura-avatar aura-avatar-md" style="background: var(--aura-gradient-danger);">AB</div>
-        <div class="aura-avatar aura-avatar-md" style="background: var(--aura-gradient-warning); color: var(--aura-surface-900);">LT</div>
-        <div class="aura-avatar aura-avatar-md" style="background: var(--aura-gradient-secondary);">FS</div>
-    </div>
-
-    <h3 class="aura-section-subtitle">Sizes</h3>
-    <div class="aura-component-row aura-items-center">
-        <div class="aura-avatar aura-avatar-xs">
-            <img src="https://i.pravatar.cc/150?img=5" alt="Avatar XS">
-        </div>
-        <div class="aura-avatar aura-avatar-sm">
-            <img src="https://i.pravatar.cc/150?img=5" alt="Avatar SM">
-        </div>
-        <div class="aura-avatar aura-avatar-md">
-            <img src="https://i.pravatar.cc/150?img=5" alt="Avatar MD">
-        </div>
-        <div class="aura-avatar aura-avatar-lg">
-            <img src="https://i.pravatar.cc/150?img=5" alt="Avatar LG">
-        </div>
-        <div class="aura-avatar aura-avatar-xl">
-            <img src="https://i.pravatar.cc/150?img=5" alt="Avatar XL">
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">With Initials</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::avatar name="Mario Rossi" />
+            <x-aura::avatar name="Juri Kraft" />
+            <x-aura::avatar name="Anna Bianchi" />
+            <x-aura::avatar name="Luca Terni" />
+            <x-aura::avatar name="Francesca Sera" />
         </div>
     </div>
 
-    <h3 class="aura-section-subtitle">With Status Dot</h3>
-    <div class="aura-component-row aura-items-center">
-        <div class="aura-avatar aura-avatar-lg">
-            <img src="https://i.pravatar.cc/150?img=6" alt="Online">
-            <span class="aura-avatar-status aura-avatar-status-online"></span>
-        </div>
-        <div class="aura-avatar aura-avatar-lg">
-            <img src="https://i.pravatar.cc/150?img=7" alt="Busy">
-            <span class="aura-avatar-status aura-avatar-status-busy"></span>
-        </div>
-        <div class="aura-avatar aura-avatar-lg">
-            <img src="https://i.pravatar.cc/150?img=8" alt="Offline">
-            <span class="aura-avatar-status aura-avatar-status-offline"></span>
-        </div>
-        <div class="aura-avatar aura-avatar-lg">
-            MR
-            <span class="aura-avatar-status aura-avatar-status-online"></span>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Sizes</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=5" name="User XS" size="xs" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=5" name="User SM" size="sm" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=5" name="User MD" size="md" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=5" name="User LG" size="lg" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=5" name="User XL" size="xl" />
         </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Avatar Group</h3>
-    <div class="aura-component-row">
-        <div class="aura-avatar-group">
-            <div class="aura-avatar aura-avatar-md">
-                <img src="https://i.pravatar.cc/150?img=10" alt="User 5">
-            </div>
-            <div class="aura-avatar aura-avatar-md">
-                <img src="https://i.pravatar.cc/150?img=9" alt="User 4">
-            </div>
-            <div class="aura-avatar aura-avatar-md">
-                <img src="https://i.pravatar.cc/150?img=3" alt="User 3">
-            </div>
-            <div class="aura-avatar aura-avatar-md">
-                <img src="https://i.pravatar.cc/150?img=2" alt="User 2">
-            </div>
-            <div class="aura-avatar aura-avatar-md">
-                <img src="https://i.pravatar.cc/150?img=1" alt="User 1">
-            </div>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">With Status Dot</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=6" name="Online User" size="lg" status="online" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=7" name="Busy User" size="lg" status="busy" />
+            <x-aura::avatar src="https://i.pravatar.cc/150?img=8" name="Offline User" size="lg" status="offline" />
+            <x-aura::avatar name="Mario Rossi" size="lg" status="online" />
         </div>
+    </div>
 
-        <div class="aura-avatar-group">
-            <div class="aura-avatar aura-avatar-md" style="background: var(--aura-gradient-secondary);">+3</div>
-            <div class="aura-avatar aura-avatar-md" style="background: var(--aura-gradient-danger);">AB</div>
-            <div class="aura-avatar aura-avatar-md" style="background: var(--aura-gradient-success);">JK</div>
-            <div class="aura-avatar aura-avatar-md">MR</div>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Avatar Group</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+            <x-aura::avatar.group>
+                <x-aura::avatar src="https://i.pravatar.cc/150?img=10" name="User 5" />
+                <x-aura::avatar src="https://i.pravatar.cc/150?img=9" name="User 4" />
+                <x-aura::avatar src="https://i.pravatar.cc/150?img=3" name="User 3" />
+                <x-aura::avatar src="https://i.pravatar.cc/150?img=2" name="User 2" />
+                <x-aura::avatar src="https://i.pravatar.cc/150?img=1" name="User 1" />
+            </x-aura::avatar.group>
+
+            <x-aura::avatar.group>
+                <x-aura::avatar name="Mario Rossi" />
+                <x-aura::avatar name="Juri Kraft" />
+                <x-aura::avatar name="Anna Bianchi" />
+            </x-aura::avatar.group>
         </div>
     </div>
 </section>

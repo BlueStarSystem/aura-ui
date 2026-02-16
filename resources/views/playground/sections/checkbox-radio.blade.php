@@ -1,129 +1,46 @@
-<section id="checkbox-radio" class="aura-playground-section">
-    <h2 class="aura-section-title">Checkbox & Radio</h2>
+<section id="checkbox-radio" class="playground-section space-y-6">
+    <h2 class="text-xl font-bold text-aura-surface-900 dark:text-aura-surface-100 pb-3 border-b border-aura-surface-200 dark:border-aura-surface-700">Checkbox & Radio</h2>
 
-    <h3 class="aura-section-subtitle">Single Checkbox</h3>
-    <div class="aura-component-col">
-        <label class="aura-checkbox">
-            <input type="checkbox">
-            <span class="aura-checkbox-box">
-                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="aura-checkbox-label">Accetto i termini e le condizioni</span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Single Checkbox</h3>
+        <div class="flex flex-col gap-3">
+            <x-aura::checkbox label="Accetto i termini e le condizioni" />
+        </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Checkbox with Description</h3>
-    <div class="aura-component-col">
-        <label class="aura-checkbox">
-            <input type="checkbox" checked>
-            <span class="aura-checkbox-box">
-                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="aura-checkbox-content">
-                <span class="aura-checkbox-label">Notifiche email</span>
-                <span class="aura-checkbox-description">Ricevi aggiornamenti e promozioni via email.</span>
-            </span>
-        </label>
-        <label class="aura-checkbox">
-            <input type="checkbox">
-            <span class="aura-checkbox-box">
-                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="aura-checkbox-content">
-                <span class="aura-checkbox-label">Notifiche SMS</span>
-                <span class="aura-checkbox-description">Ricevi avvisi importanti tramite SMS.</span>
-            </span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Checkbox with Description</h3>
+        <div class="flex flex-col gap-3">
+            <x-aura::checkbox label="Notifiche email" description="Ricevi aggiornamenti e promozioni via email." checked />
+            <x-aura::checkbox label="Notifiche SMS" description="Ricevi avvisi importanti tramite SMS." />
+        </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Checkbox Group</h3>
-    <div class="aura-component-col">
-        <label class="aura-checkbox">
-            <input type="checkbox" checked>
-            <span class="aura-checkbox-box">
-                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="aura-checkbox-label">Design</span>
-        </label>
-        <label class="aura-checkbox">
-            <input type="checkbox" checked>
-            <span class="aura-checkbox-box">
-                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="aura-checkbox-label">Sviluppo</span>
-        </label>
-        <label class="aura-checkbox">
-            <input type="checkbox">
-            <span class="aura-checkbox-box">
-                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="aura-checkbox-label">Marketing</span>
-        </label>
-        <label class="aura-checkbox">
-            <input type="checkbox">
-            <span class="aura-checkbox-box">
-                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="aura-checkbox-label">Vendite</span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Checkbox Group</h3>
+        <div class="flex flex-col gap-3">
+            <x-aura::checkbox label="Design" checked />
+            <x-aura::checkbox label="Sviluppo" checked />
+            <x-aura::checkbox label="Marketing" />
+            <x-aura::checkbox label="Vendite" />
+        </div>
     </div>
 
-    <h3 class="aura-section-subtitle">Radio Group</h3>
-    <div class="aura-radio-group">
-        <label class="aura-radio">
-            <input type="radio" name="plan" checked>
-            <span class="aura-radio-circle">
-                <span class="aura-radio-dot"></span>
-            </span>
-            <span class="aura-radio-label">Free</span>
-        </label>
-        <label class="aura-radio">
-            <input type="radio" name="plan">
-            <span class="aura-radio-circle">
-                <span class="aura-radio-dot"></span>
-            </span>
-            <span class="aura-radio-label">Pro</span>
-        </label>
-        <label class="aura-radio">
-            <input type="radio" name="plan">
-            <span class="aura-radio-circle">
-                <span class="aura-radio-dot"></span>
-            </span>
-            <span class="aura-radio-label">Enterprise</span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Radio Group</h3>
+        <x-aura::radio-group label="Piano">
+            <x-aura::radio name="plan" value="free" label="Free" checked />
+            <x-aura::radio name="plan" value="pro" label="Pro" />
+            <x-aura::radio name="plan" value="enterprise" label="Enterprise" />
+        </x-aura::radio-group>
     </div>
 
-    <h3 class="aura-section-subtitle">Radio with Descriptions</h3>
-    <div class="aura-radio-group">
-        <label class="aura-radio">
-            <input type="radio" name="plan-desc" checked>
-            <span class="aura-radio-circle">
-                <span class="aura-radio-dot"></span>
-            </span>
-            <span class="aura-checkbox-content">
-                <span class="aura-checkbox-label">Free</span>
-                <span class="aura-checkbox-description">Fino a 5 progetti, 1 GB di spazio.</span>
-            </span>
-        </label>
-        <label class="aura-radio">
-            <input type="radio" name="plan-desc">
-            <span class="aura-radio-circle">
-                <span class="aura-radio-dot"></span>
-            </span>
-            <span class="aura-checkbox-content">
-                <span class="aura-checkbox-label">Pro &mdash; 9,99 &euro;/mese</span>
-                <span class="aura-checkbox-description">Progetti illimitati, 100 GB, supporto prioritario.</span>
-            </span>
-        </label>
-        <label class="aura-radio">
-            <input type="radio" name="plan-desc">
-            <span class="aura-radio-circle">
-                <span class="aura-radio-dot"></span>
-            </span>
-            <span class="aura-checkbox-content">
-                <span class="aura-checkbox-label">Enterprise &mdash; Personalizzato</span>
-                <span class="aura-checkbox-description">SLA dedicato, spazio illimitato, account manager.</span>
-            </span>
-        </label>
+    <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Radio with Descriptions</h3>
+        <x-aura::radio-group label="Piano">
+            <x-aura::radio name="plan-desc" value="free" label="Free" description="Fino a 5 progetti, 1 GB di spazio." checked />
+            <x-aura::radio name="plan-desc" value="pro" label="Pro &mdash; 9,99 &euro;/mese" description="Progetti illimitati, 100 GB, supporto prioritario." />
+            <x-aura::radio name="plan-desc" value="enterprise" label="Enterprise &mdash; Personalizzato" description="SLA dedicato, spazio illimitato, account manager." />
+        </x-aura::radio-group>
     </div>
 </section>

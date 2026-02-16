@@ -1,0 +1,378 @@
+/*
+ * Aura UI — Residual CSS
+ * Styles that cannot be expressed with Tailwind utilities alone:
+ * pseudo-elements, sibling selectors, SVG backgrounds, complex animations
+ */
+
+/* ============================================
+   BUTTON — ::before gradient, ::after loader, hover transform
+   ============================================ */
+.aura-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.aura-btn:hover {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.aura-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.aura-btn:disabled,
+.aura-btn[disabled] {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.aura-btn-secondary::before,
+.aura-btn-ghost::before,
+.aura-btn-link::before,
+.aura-btn-outline::before {
+    display: none;
+}
+
+.aura-btn-link:hover {
+    transform: none;
+}
+
+.aura-btn-ghost:hover {
+    transform: translateY(-1px);
+}
+
+/* Loading spinner pseudo-element */
+.aura-btn-loading {
+    pointer-events: none;
+    color: transparent !important;
+}
+
+.aura-btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: aura-spin 0.6s linear infinite;
+}
+
+.aura-btn-loading.aura-btn-secondary::after,
+.aura-btn-loading.aura-btn-ghost::after,
+.aura-btn-loading.aura-btn-outline::after {
+    border-color: rgba(100, 116, 139, 0.2);
+    border-top-color: var(--color-aura-surface-500);
+}
+
+/* Gradient button filter */
+.aura-btn-gradient:hover {
+    filter: brightness(1.1);
+}
+
+/* ============================================
+   CHECKBOX — hidden input + sibling :checked selectors
+   ============================================ */
+.aura-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.aura-checkbox-box svg {
+    opacity: 0;
+    transform: scale(0);
+    transition: all var(--animate-duration-normal) var(--ease-aura-spring);
+}
+
+.aura-checkbox input:checked + .aura-checkbox-box {
+    background: var(--color-aura-primary-500);
+    border-color: var(--color-aura-primary-500);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.aura-checkbox input:checked + .aura-checkbox-box svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.aura-checkbox input:focus-visible + .aura-checkbox-box {
+    box-shadow: var(--aura-glow-primary);
+}
+
+.aura-checkbox:hover .aura-checkbox-box {
+    border-color: var(--color-aura-primary-400);
+}
+
+/* ============================================
+   RADIO — hidden input + sibling :checked selectors
+   ============================================ */
+.aura-radio input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.aura-radio-dot {
+    opacity: 0;
+    transform: scale(0);
+    transition: all var(--animate-duration-normal) var(--ease-aura-spring);
+}
+
+.aura-radio input:checked + .aura-radio-circle {
+    background: var(--color-aura-primary-500);
+    border-color: var(--color-aura-primary-500);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.aura-radio input:checked + .aura-radio-circle .aura-radio-dot {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.aura-radio input:focus-visible + .aura-radio-circle {
+    box-shadow: var(--aura-glow-primary);
+}
+
+.aura-radio:hover .aura-radio-circle {
+    border-color: var(--color-aura-primary-400);
+}
+
+/* ============================================
+   TOGGLE — hidden input + track/knob :checked
+   ============================================ */
+.aura-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.aura-toggle-input:checked + .aura-toggle {
+    background: var(--color-aura-primary-500);
+}
+
+.aura-toggle-input:checked + .aura-toggle .aura-toggle-knob {
+    transform: translateX(20px);
+}
+
+.aura-toggle-input:checked + .aura-toggle-sm .aura-toggle-knob {
+    transform: translateX(16px);
+}
+
+.aura-toggle-input:checked + .aura-toggle-lg .aura-toggle-knob {
+    transform: translateX(24px);
+}
+
+.aura-toggle-input:focus-visible + .aura-toggle {
+    box-shadow: var(--aura-glow-primary);
+}
+
+/* ============================================
+   SELECT — dropdown arrow SVG background-image
+   ============================================ */
+.aura-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+/* ============================================
+   SKELETON — ::after shimmer overlay
+   ============================================ */
+.aura-skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+    animation: aura-shimmer 1.8s ease-in-out infinite;
+}
+
+.dark .aura-skeleton::after {
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%);
+}
+
+/* ============================================
+   TOOLTIP — ::after arrow triangle
+   ============================================ */
+.aura-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--color-aura-surface-900);
+}
+
+.dark .aura-tooltip::after {
+    border-top-color: var(--color-aura-surface-700);
+}
+
+/* ============================================
+   PROGRESS — striped/animated background-image
+   ============================================ */
+.aura-progress-striped,
+.aura-progress-animated {
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 20px 20px;
+}
+
+.aura-progress-animated {
+    animation: aura-progress-stripes 1s linear infinite;
+}
+
+/* ============================================
+   SPINNER — conic-gradient variant
+   ============================================ */
+.aura-spinner-gradient {
+    border-color: transparent;
+    background:
+        linear-gradient(var(--color-aura-surface-0), var(--color-aura-surface-0)) padding-box,
+        conic-gradient(from 0deg, transparent 0%, var(--color-aura-primary-500) 75%, transparent 100%) border-box;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    animation: aura-spin 0.8s linear infinite;
+}
+
+/* ============================================
+   AVATAR — color gradient variants
+   ============================================ */
+.aura-avatar-color-primary { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+.aura-avatar-color-success { background: linear-gradient(135deg, #10b981, #059669); }
+.aura-avatar-color-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.aura-avatar-color-danger  { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.aura-avatar-color-info    { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
+.aura-avatar-color-purple  { background: linear-gradient(135deg, #a855f7, #9333ea); }
+.aura-avatar-color-pink    { background: linear-gradient(135deg, #ec4899, #db2777); }
+.aura-avatar-color-teal    { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+.aura-avatar-color-orange  { background: linear-gradient(135deg, #f97316, #ea580c); }
+.aura-avatar-color-indigo  { background: linear-gradient(135deg, #818cf8, #6366f1); }
+
+/* Avatar status indicator */
+.aura-avatar-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: 25%;
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--color-aura-surface-0);
+    box-sizing: content-box;
+}
+
+.aura-avatar-status-online { background: var(--color-aura-success-500); }
+.aura-avatar-status-offline { background: var(--color-aura-surface-400); }
+.aura-avatar-status-busy { background: var(--color-aura-danger-500); }
+
+/* Avatar group overlap */
+.aura-avatar-group .aura-avatar {
+    margin-left: -8px;
+    border: 2px solid var(--color-aura-surface-0);
+    box-sizing: content-box;
+}
+
+.aura-avatar-group .aura-avatar:last-child {
+    margin-left: 0;
+}
+
+.aura-avatar-group .aura-avatar:hover {
+    z-index: 1;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   BADGE — dot ::before
+   ============================================ */
+.aura-badge-dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+}
+
+.aura-badge-sm.aura-badge-dot::before {
+    width: 5px;
+    height: 5px;
+}
+
+/* ============================================
+   INPUT — error nested selector with aura-has-error
+   ============================================ */
+.aura-has-error .aura-input,
+.aura-has-error .aura-textarea,
+.aura-has-error .aura-select {
+    border-color: var(--color-aura-danger-500);
+    background: var(--color-aura-danger-50);
+}
+
+.aura-has-error .aura-input:focus,
+.aura-has-error .aura-textarea:focus,
+.aura-has-error .aura-select:focus {
+    box-shadow: var(--aura-glow-danger);
+    background: var(--color-aura-surface-0);
+}
+
+.dark .aura-has-error .aura-input,
+.dark .aura-has-error .aura-textarea {
+    background: rgba(248, 113, 113, 0.06);
+}
+
+/* ============================================
+   INPUT GROUP — prefix/suffix border-radius reset
+   ============================================ */
+.aura-input-group .aura-input {
+    border-radius: 0;
+    flex: 1;
+}
+
+.aura-input-prefix {
+    border-right: none;
+    border-radius: var(--radius-aura-md) 0 0 var(--radius-aura-md);
+}
+
+.aura-input-suffix {
+    border-left: none;
+    border-radius: 0 var(--radius-aura-md) var(--radius-aura-md) 0;
+}
+
+/* ============================================
+   DARK MODE — alert dismiss hover
+   ============================================ */
+.dark .aura-alert-dismiss:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================
+   DARK MODE — dropdown danger item
+   ============================================ */
+.dark .aura-dropdown-item-danger {
+    color: var(--color-aura-danger-400);
+}
+
+.dark .aura-dropdown-item-danger:hover {
+    background: rgba(248, 113, 113, 0.1);
+    color: var(--color-aura-danger-300);
+}

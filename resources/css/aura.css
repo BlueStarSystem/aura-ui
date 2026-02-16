@@ -1,48 +1,163 @@
 /*
  * Aura UI — Main Entry Point (Free)
- * "Vibrant Depth" Design System
+ * "Vibrant Depth" Design System — Tailwind CSS 4
  *
- * Import this in your app:
+ * Import this in your app CSS AFTER Tailwind:
+ *   @import "tailwindcss";
  *   @import "vendor/aura-ui/aura.css";
  *
  * For Pro components, also import:
  *   @import "vendor/aura-ui-pro/aura-pro.css";
  */
 
-/* Base */
-@import "./base/variables.css";
-@import "./base/typography.css";
+@theme {
+    /* ============================================
+       PRIMARY (Deep Blue → Indigo)
+       ============================================ */
+    --color-aura-primary-50:  #eef6ff;
+    --color-aura-primary-100: #dbeafe;
+    --color-aura-primary-200: #bfdbfe;
+    --color-aura-primary-300: #93c5fd;
+    --color-aura-primary-400: #60a5fa;
+    --color-aura-primary-500: #6366f1;
+    --color-aura-primary-600: #4f46e5;
+    --color-aura-primary-700: #4338ca;
+    --color-aura-primary-800: #3730a3;
+    --color-aura-primary-900: #312e81;
+    --color-aura-primary-950: #1e1b4b;
 
-/* Utilities */
-@import "./utilities/shadows.css";
-@import "./utilities/animations.css";
-@import "./utilities/glass.css";
+    /* ============================================
+       SECONDARY (Teal/Cyan)
+       ============================================ */
+    --color-aura-secondary-50:  #ecfeff;
+    --color-aura-secondary-100: #cffafe;
+    --color-aura-secondary-200: #a5f3fc;
+    --color-aura-secondary-300: #67e8f9;
+    --color-aura-secondary-400: #22d3ee;
+    --color-aura-secondary-500: #06b6d4;
+    --color-aura-secondary-600: #0891b2;
+    --color-aura-secondary-700: #0e7490;
+    --color-aura-secondary-800: #155e75;
+    --color-aura-secondary-900: #164e63;
 
-/* Components — Primitives */
-@import "./components/buttons.css";
-@import "./components/inputs.css";
-@import "./components/textarea.css";
-@import "./components/select.css";
-@import "./components/checkbox-radio.css";
-@import "./components/toggle.css";
-@import "./components/badge.css";
-@import "./components/alert.css";
-@import "./components/card.css";
-@import "./components/modal.css";
-@import "./components/dropdown.css";
-@import "./components/tooltip.css";
-@import "./components/avatar.css";
-@import "./components/spinner.css";
-@import "./components/skeleton.css";
+    /* ============================================
+       SUCCESS (Emerald)
+       ============================================ */
+    --color-aura-success-50:  #ecfdf5;
+    --color-aura-success-100: #d1fae5;
+    --color-aura-success-200: #a7f3d0;
+    --color-aura-success-300: #6ee7b7;
+    --color-aura-success-400: #34d399;
+    --color-aura-success-500: #10b981;
+    --color-aura-success-600: #059669;
+    --color-aura-success-700: #047857;
 
-/* Components — Data Display */
-@import "./components/empty-state.css";
-@import "./components/stats-card.css";
-@import "./components/progress.css";
-@import "./components/pagination.css";
+    /* ============================================
+       WARNING (Amber)
+       ============================================ */
+    --color-aura-warning-50:  #fffbeb;
+    --color-aura-warning-100: #fef3c7;
+    --color-aura-warning-200: #fde68a;
+    --color-aura-warning-300: #fcd34d;
+    --color-aura-warning-400: #fbbf24;
+    --color-aura-warning-500: #f59e0b;
+    --color-aura-warning-600: #d97706;
+    --color-aura-warning-700: #b45309;
 
-/* Components — Navigation */
-@import "./components/breadcrumbs.css";
+    /* ============================================
+       DANGER (Red/Coral)
+       ============================================ */
+    --color-aura-danger-50:  #fef2f2;
+    --color-aura-danger-100: #fee2e2;
+    --color-aura-danger-200: #fecaca;
+    --color-aura-danger-300: #fca5a5;
+    --color-aura-danger-400: #f87171;
+    --color-aura-danger-500: #ef4444;
+    --color-aura-danger-600: #dc2626;
+    --color-aura-danger-700: #b91c1c;
 
-/* Components — Form Layout */
-@import "./components/form-layout.css";
+    /* ============================================
+       INFO (Sky)
+       ============================================ */
+    --color-aura-info-50:  #f0f9ff;
+    --color-aura-info-100: #e0f2fe;
+    --color-aura-info-200: #bae6fd;
+    --color-aura-info-300: #7dd3fc;
+    --color-aura-info-400: #38bdf8;
+    --color-aura-info-500: #0ea5e9;
+    --color-aura-info-600: #0284c7;
+    --color-aura-info-700: #0369a1;
+
+    /* ============================================
+       SURFACES (Light mode — warm whites)
+       ============================================ */
+    --color-aura-surface-0:   #ffffff;
+    --color-aura-surface-50:  #f8fafc;
+    --color-aura-surface-100: #f1f5f9;
+    --color-aura-surface-200: #e2e8f0;
+    --color-aura-surface-300: #cbd5e1;
+    --color-aura-surface-400: #94a3b8;
+    --color-aura-surface-500: #64748b;
+    --color-aura-surface-600: #475569;
+    --color-aura-surface-700: #334155;
+    --color-aura-surface-800: #1e293b;
+    --color-aura-surface-900: #0f172a;
+
+    /* ============================================
+       BORDER RADIUS
+       ============================================ */
+    --radius-aura-xs:   4px;
+    --radius-aura-sm:   6px;
+    --radius-aura-md:   8px;
+    --radius-aura-lg:   12px;
+    --radius-aura-xl:   16px;
+    --radius-aura-2xl:  24px;
+    --radius-aura-full: 9999px;
+
+    /* ============================================
+       SHADOWS
+       ============================================ */
+    --shadow-aura-xs:  0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-aura-sm:  0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-aura-md:  0 4px 6px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    --shadow-aura-lg:  0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    --shadow-aura-xl:  0 20px 25px rgba(0, 0, 0, 0.1), 0 8px 10px rgba(0, 0, 0, 0.04);
+    --shadow-aura-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+    /* ============================================
+       Z-INDEX SCALE
+       ============================================ */
+    --z-aura-dropdown:  50;
+    --z-aura-sticky:    100;
+    --z-aura-overlay:   400;
+    --z-aura-modal:     500;
+    --z-aura-tooltip:   600;
+    --z-aura-toast:     700;
+
+    /* ============================================
+       FONTS
+       ============================================ */
+    --font-aura-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-aura-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+    /* ============================================
+       ANIMATION DURATIONS
+       ============================================ */
+    --animate-duration-fast:   100ms;
+    --animate-duration-normal: 150ms;
+    --animate-duration-slow:   250ms;
+
+    /* ============================================
+       EASING
+       ============================================ */
+    --ease-aura-out:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-aura-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-aura-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Internal imports */
+@import "./compat/variables-compat.css";
+@import "./base/dark-mode.css";
+@import "./base/keyframes.css";
+@import "./base/glass.css";
+@import "./components/residual.css";
