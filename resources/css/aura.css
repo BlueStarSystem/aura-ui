@@ -8,7 +8,12 @@
  *
  * For Pro components, also import:
  *   @import "vendor/aura-ui-pro/aura-pro.css";
+ *
+ * Dark mode: class-based (.dark on <html>), not media query.
  */
+
+/* Override Tailwind 4 dark variant: use .dark class instead of prefers-color-scheme */
+@custom-variant dark (&:is(.dark *));
 
 @theme {
     /* ============================================
