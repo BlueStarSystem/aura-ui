@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    overflow: hidden;
+    overflow: visible;
     background: var(--aura-gradient-primary);
     color: white;
     font-weight: 600;

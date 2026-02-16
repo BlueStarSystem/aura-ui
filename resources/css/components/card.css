@@ -5,7 +5,7 @@
     border: 1px solid var(--aura-border-light);
     border-radius: var(--aura-radius-lg);
     box-shadow: var(--aura-shadow-md);
-    overflow: hidden;
+    overflow: visible;
     transition: all var(--aura-duration-slow) var(--aura-ease-out);
 }
 
