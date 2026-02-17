@@ -23,7 +23,7 @@
         "illuminate/view": "^12.0"
     },
     "require-dev": {
-        "livewire/livewire": "^3.6",
+        "livewire/livewire": "^3.6 || ^4.0",
         "orchestra/testbench": "^10.0",
         "pestphp/pest": "^3.0"
     },

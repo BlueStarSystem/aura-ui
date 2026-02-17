@@ -4,8 +4,6 @@
     'maxWidth' => 'lg',
     'glass' => false,
     'closeable' => true,
-    'slideOver' => false,
-    'position' => 'right',
 ])
 
 @php
@@ -63,7 +61,7 @@
                     <div class="aura-modal-header px-6 pt-5 pb-4 border-b border-aura-surface-200 flex items-center justify-between gap-4">
                         <h3 class="aura-modal-title text-[17px] font-bold text-aura-surface-900 m-0 tracking-tight">{{ $title }}</h3>
                         @if($closeable)
-                            <button type="button" class="aura-modal-close shrink-0 w-8 h-8 flex items-center justify-center border-none bg-transparent text-aura-surface-400 rounded-aura-sm cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="open = false" aria-label="Chiudi">
+                            <button type="button" class="aura-modal-close shrink-0 w-8 h-8 flex items-center justify-center border-none bg-transparent text-aura-surface-400 rounded-aura-sm cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="open = false" aria-label="Close">
                                 <x-aura::icon name="x" size="md" />
                             </button>
                         @endif

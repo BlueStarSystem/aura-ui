@@ -51,7 +51,7 @@
     </div>
 
     @if($dismissible)
-        <button type="button" class="aura-alert-dismiss shrink-0 w-7 h-7 flex items-center justify-center border-none bg-transparent cursor-pointer rounded-aura-sm text-current opacity-50 hover:opacity-100 hover:bg-black/5 aura-transition-fast" x-on:click="show = false" aria-label="Chiudi">
+        <button type="button" class="aura-alert-dismiss shrink-0 w-7 h-7 flex items-center justify-center border-none bg-transparent cursor-pointer rounded-aura-sm text-current opacity-50 hover:opacity-100 hover:bg-black/5 aura-transition-fast" x-on:click="show = false" aria-label="Close">
             <x-aura::icon name="x" size="sm" />
         </button>
     @endif

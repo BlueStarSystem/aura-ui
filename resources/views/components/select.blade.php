@@ -17,7 +17,7 @@
     $selectClasses = [
         'aura-select',
         "aura-input-{$size}",
-        'w-full font-inherit leading-normal text-aura-surface-900 bg-aura-surface-100 border border-aura-surface-200 rounded-aura-md outline-none cursor-pointer aura-transition box-border',
+        'w-full font-[inherit] leading-normal text-aura-surface-900 bg-aura-surface-100 border border-aura-surface-200 rounded-aura-md outline-none cursor-pointer aura-transition box-border',
         'hover:border-aura-surface-300 hover:bg-aura-surface-50',
         'focus:border-aura-primary-500 focus:bg-aura-surface-0 focus:shadow-[var(--aura-glow-primary)]',
         $sizeClasses,

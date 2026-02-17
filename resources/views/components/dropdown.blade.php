@@ -17,7 +17,7 @@
     <div
         class="{{ implode(' ', $menuClasses) }}"
         x-show="open"
-        x-on:click.away="open = false"
+        x-on:click.outside="open = false"
         x-on:keydown.escape.window="open = false"
         x-transition:enter="aura-transition"
         x-transition:enter-start="opacity-0 transform scale-95 -translate-y-1"

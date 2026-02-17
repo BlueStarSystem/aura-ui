@@ -4,7 +4,7 @@ it('renders with default props', function () {
     $view = $this->blade('<x-aura::empty-state />');
 
     $view->assertSee('aura-empty-state', false);
-    $view->assertSee('Nessun risultato');
+    $view->assertSee('No results');
 });
 
 it('renders with custom title', function () {

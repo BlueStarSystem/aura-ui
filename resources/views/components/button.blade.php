@@ -44,7 +44,7 @@
         'aura-btn',
         "aura-btn-{$variant}",
         "aura-btn-{$size}",
-        'inline-flex items-center justify-center font-inherit font-medium leading-none border border-transparent rounded-aura-md cursor-pointer select-none whitespace-nowrap no-underline aura-transition relative overflow-hidden',
+        'inline-flex items-center justify-center font-[inherit] font-medium leading-none border border-transparent rounded-aura-md cursor-pointer select-none whitespace-nowrap no-underline aura-transition relative overflow-hidden',
         'hover:shadow-aura-lg',
         'active:shadow-aura-xs',
         'focus-visible:outline-none',
@@ -70,7 +70,7 @@
     @elseif($icon)
         <x-aura::icon :name="$icon" size="sm" />
     @endif
-    <span class="inline-flex items-center gap-inherit">{{ $slot }}</span>
+    <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
     @if($iconRight)
         <x-aura::icon :name="$iconRight" size="sm" />
     @endif
@@ -82,7 +82,7 @@
     @elseif($icon)
         <x-aura::icon :name="$icon" size="sm" />
     @endif
-    <span class="inline-flex items-center gap-inherit">{{ $slot }}</span>
+    <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
     @if($iconRight)
         <x-aura::icon :name="$iconRight" size="sm" />
     @endif

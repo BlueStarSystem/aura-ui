@@ -15,6 +15,8 @@ it('registers playground route when enabled', function () {
 });
 
 it('playground returns 200', function () {
+    $this->withoutVite();
+
     $response = $this->get('/aura/playground');
 
     $response->assertStatus(200);
