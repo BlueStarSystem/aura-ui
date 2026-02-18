@@ -5,6 +5,43 @@ All notable changes to Aura UI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-02-17
+
+### Fixed
+- Livewire 4 compatibility (support `^3.6 || ^4.0`)
+- Alpine.js 3 migration updates
+- Internationalization: all strings now in English, locale prop available where needed
+- Additional Tailwind CSS 4 refinements
+
+## [2.0.0] - 2026-02-16
+
+### Changed
+- **BREAKING**: Tailwind CSS 4 is now required (uses `@theme` tokens and `@custom-variant`)
+- Minimum Tailwind version bumped from v3 to v4
+
+## [1.1.1] - 2026-02-16
+
+### Fixed
+- Added `@custom-variant dark` for class-based dark mode support in Tailwind CSS 4
+
+## [1.1.0] - 2026-02-16
+
+### Changed
+- Migrated all 26 components and CSS to Tailwind CSS 4
+- CSS now uses `@theme` tokens instead of legacy CSS custom properties
+- Component styles updated for Tailwind 4 compatibility
+
+## [1.0.2] - 2026-02-16
+
+### Fixed
+- Changed overflow from hidden to visible on card and avatar containers
+
+## [1.0.1] - 2026-02-15
+
+### Fixed
+- Aligned modal CSS class names with Blade template
+- Aligned checkbox and radio Blade templates with CSS class names
+
 ## [1.0.0] - 2026-02-15
 
 ### Changed
@@ -19,6 +56,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Navigation components: tabs, accordion, steps, sidebar (moved to Pro)
 - Interactive components: command palette, confirmation dialog, toasts (moved to Pro)
 - Visualization components: chart, calendar, kanban, tree (moved to Pro)
+
+## [0.1.2] - 2026-02-15
+
+### Added
+- Avatar auto-initials and color variants generated from name
+
+## [0.1.1] - 2026-02-15
+
+### Fixed
+- Resolved CSS variable naming inconsistencies
+- Fixed pagination alignment issues
+- Fixed button alignment issues
 
 ## [0.1.0] - 2026-02-15
 
