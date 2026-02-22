@@ -5,6 +5,15 @@ All notable changes to Aura UI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-02-22
+
+### Added
+- Publishable JS vendor assets (Alpine.js, Chart.js) via `aura-ui-assets` tag
+- CDN fallback in playground when self-hosted JS files are unavailable
+
+### Fixed
+- Playground now loads Alpine.js and Chart.js reliably with local-first + CDN fallback
+
 ## [2.1.0] - 2026-02-17
 
 ### Fixed

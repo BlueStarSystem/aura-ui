@@ -26,6 +26,12 @@ class InstallCommand extends Command
         ]);
         $this->components->info('CSS files published.');
 
+        // Publish JS vendor assets (Alpine.js, Chart.js for playground)
+        $this->callSilently('vendor:publish', [
+            '--tag' => 'aura-ui-assets',
+        ]);
+        $this->components->info('JS vendor assets published.');
+
         $this->newLine();
         $this->components->info('Aura UI installed successfully!');
         $this->newLine();

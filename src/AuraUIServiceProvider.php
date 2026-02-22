@@ -66,6 +66,10 @@ class AuraUIServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/views/components' => resource_path('views/vendor/aura/components'),
         ], 'aura-ui-views');
+
+        $this->publishes([
+            __DIR__ . '/../resources/js/vendor' => public_path('js/vendor'),
+        ], 'aura-ui-assets');
     }
 
     protected function registerCommands(): void

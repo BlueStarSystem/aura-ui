@@ -4,9 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura UI — Playground</title>
-    <script src="/js/vendor/chart.umd.min.js"></script>
+    <script>
+        function loadScript(src, fallback, opts) {
+            return new Promise(function(resolve) {
+                var s = document.createElement('script');
+                if (opts && opts.defer) s.defer = true;
+                s.src = src;
+                s.onload = resolve;
+                s.onerror = function() {
+                    var f = document.createElement('script');
+                    if (opts && opts.defer) f.defer = true;
+                    f.src = fallback;
+                    f.onload = resolve;
+                    document.head.appendChild(f);
+                };
+                document.head.appendChild(s);
+            });
+        }
+        loadScript('/js/vendor/chart.umd.min.js', 'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js');
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="/js/vendor/alpine.min.js"></script>
+    <script>
+        loadScript('/js/vendor/alpine.min.js', 'https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js', { defer: true });
+    </script>
     @include('aura::playground.styles')
 </head>
 <body class="min-h-screen bg-aura-surface-50 dark:bg-aura-surface-900 text-aura-surface-900 dark:text-aura-surface-100 font-aura-sans">
