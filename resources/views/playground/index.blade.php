@@ -47,7 +47,7 @@
 
     <div class="flex min-h-screen">
         {{-- Sidebar Navigation --}}
-        <nav class="playground-nav fixed top-0 left-0 bottom-0 w-[260px] bg-aura-surface-0 dark:bg-aura-surface-800 border-r border-aura-surface-200 dark:border-aura-surface-700 overflow-y-auto p-4 flex flex-col gap-1">
+        <nav class="playground-nav fixed top-0 left-0 bottom-0 w-[260px] bg-aura-surface-0 dark:bg-aura-surface-800 border-r border-aura-surface-200 dark:border-aura-surface-700 overflow-y-auto p-4 flex flex-col gap-1" style="z-index: 20">
             {{-- Brand --}}
             <div class="flex items-center gap-3 px-2 py-4 mb-2">
                 <svg class="w-8 h-8 shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,7 +120,7 @@
         </nav>
 
         {{-- Main Content --}}
-        <main class="flex-1 ml-[260px] pt-14 p-8">
+        <main class="flex-1 ml-[260px] pt-14 p-8 overflow-x-hidden">
             {{-- Primitives --}}
             @include('aura::playground.sections.buttons')
             @include('aura::playground.sections.inputs')
