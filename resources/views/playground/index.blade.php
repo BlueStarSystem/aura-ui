@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura UI — Playground</title>
+    <script src="/js/vendor/chart.umd.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="/js/vendor/alpine.min.js"></script>
     @include('aura::playground.styles')
 </head>
 <body class="min-h-screen bg-aura-surface-50 dark:bg-aura-surface-900 text-aura-surface-900 dark:text-aura-surface-100 font-aura-sans">
