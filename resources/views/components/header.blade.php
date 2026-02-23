@@ -13,7 +13,7 @@
     };
 @endphp
 
-<div {{ $attributes->class(['aura-header flex items-start justify-between gap-4']) }}>
+<div {{ $attributes->class(['aura-header flex items-start justify-between gap-4 pb-4 border-b border-aura-surface-200']) }}>
     <div class="aura-header-content flex-1 min-w-0">
         <h2 class="aura-header-title font-semibold text-aura-surface-900 tracking-tight {{ $titleClass }}">{{ $title }}</h2>
         @if($description)

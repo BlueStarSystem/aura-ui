@@ -29,6 +29,7 @@
         dragging: false,
         files: [],
         error: '',
+        _syncing: false,
         maxBytes: {{ $maxBytes ?? 'null' }},
         accept: '{{ $accept ?? '' }}',
         multiple: {{ $multiple ? 'true' : 'false' }},
@@ -40,6 +41,7 @@
         },
 
         handleSelect(e) {
+            if (this._syncing) return;
             this.addFiles(e.target.files);
         },
 
@@ -63,11 +65,13 @@
             }
 
             // Dispatch to wire:model via native input
+            this._syncing = true;
             let input = this.$refs.fileInput;
             let dt = new DataTransfer();
             for (let f of fileList) dt.items.add(f);
             input.files = dt.files;
             input.dispatchEvent(new Event('change', { bubbles: true }));
+            this._syncing = false;
         },
 
         matchesAccept(file) {

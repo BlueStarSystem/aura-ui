@@ -11,6 +11,6 @@
     };
 @endphp
 
-<div {{ $attributes->class(['aura-form-actions', 'flex items-center gap-2 pt-4 border-t border-aura-surface-200', $alignClass]) }}>
+<div {{ $attributes->class(['aura-form-actions', 'flex items-center gap-2 pt-4', $alignClass]) }}>
     {{ $slot }}
 </div>

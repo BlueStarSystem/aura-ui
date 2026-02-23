@@ -69,6 +69,13 @@
     border-top-color: var(--color-aura-surface-500);
 }
 
+/* Icon-only button: equal padding on all sides */
+.aura-btn-icon-only.aura-btn-xs { padding: 0.375rem !important; }
+.aura-btn-icon-only.aura-btn-sm { padding: 0.5rem !important; }
+.aura-btn-icon-only { padding: 0.625rem !important; }
+.aura-btn-icon-only.aura-btn-lg { padding: 0.75rem !important; }
+.aura-btn-icon-only.aura-btn-xl { padding: 1rem !important; }
+
 /* Gradient button filter */
 .aura-btn-gradient:hover {
     filter: brightness(1.1);
@@ -467,13 +474,20 @@
 }
 
 /* ============================================
-   EDITOR — placeholder via data attribute
+   EDITOR — placeholder via data attribute + content headings
    ============================================ */
 .aura-editor-content:empty::before {
     content: attr(data-placeholder);
     color: var(--color-aura-surface-400);
     pointer-events: none;
 }
+
+.aura-editor-content h1 { font-size: 1.75em; font-weight: 700; margin: 0.5em 0; }
+.aura-editor-content h2 { font-size: 1.5em; font-weight: 700; margin: 0.5em 0; }
+.aura-editor-content h3 { font-size: 1.25em; font-weight: 600; margin: 0.4em 0; }
+.aura-editor-content h4 { font-size: 1.1em; font-weight: 600; margin: 0.3em 0; }
+.aura-editor-content ul { list-style: disc; padding-left: 1.5em; margin: 0.5em 0; }
+.aura-editor-content ol { list-style: decimal; padding-left: 1.5em; margin: 0.5em 0; }
 
 /* ============================================
    FILE UPLOAD — drag zone border animation
