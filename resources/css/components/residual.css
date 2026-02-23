@@ -376,3 +376,37 @@
     background: rgba(248, 113, 113, 0.1);
     color: var(--color-aura-danger-300);
 }
+
+/* ============================================
+   ACCORDION — chevron rotation
+   ============================================ */
+.aura-accordion-chevron {
+    transition: transform 0.2s ease;
+}
+.aura-accordion-chevron-open {
+    transform: rotate(180deg);
+}
+
+/* ============================================
+   TOAST — progress bar smooth transition
+   ============================================ */
+.aura-toast-progress-bar {
+    transition: width 50ms linear;
+}
+
+/* ============================================
+   EDITOR — placeholder via data attribute
+   ============================================ */
+.aura-editor-content:empty::before {
+    content: attr(data-placeholder);
+    color: var(--color-aura-surface-400);
+    pointer-events: none;
+}
+
+/* ============================================
+   FILE UPLOAD — drag zone border animation
+   ============================================ */
+.aura-file-upload-dragging {
+    border-color: var(--color-aura-primary-500) !important;
+    background: rgba(99, 102, 241, 0.04) !important;
+}
