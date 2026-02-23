@@ -160,6 +160,14 @@
     --ease-aura-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
+/* Z-index utility classes */
+@utility z-aura-dropdown { z-index: var(--z-aura-dropdown); }
+@utility z-aura-sticky   { z-index: var(--z-aura-sticky); }
+@utility z-aura-overlay  { z-index: var(--z-aura-overlay); }
+@utility z-aura-modal    { z-index: var(--z-aura-modal); }
+@utility z-aura-tooltip  { z-index: var(--z-aura-tooltip); }
+@utility z-aura-toast    { z-index: var(--z-aura-toast); }
+
 /* Internal imports */
 @import "./compat/variables-compat.css";
 @import "./base/dark-mode.css";
