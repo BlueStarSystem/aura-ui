@@ -1,7 +1,7 @@
 @props([
     'title' => '',
     'icon' => null,
-    'defaultOpen' => false,
+    'open' => false,
     'disabled' => false,
     'name' => null,
 ])
@@ -12,7 +12,7 @@
 
 <div
     class="aura-accordion-item"
-    @if($defaultOpen) x-init="openItems.push('{{ $itemName }}')" @endif
+    @if($open) x-init="openItems.push('{{ $itemName }}')" @endif
     {{ $attributes }}
 >
     <button
