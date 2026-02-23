@@ -19,7 +19,7 @@
         default => null,
     };
     $tag = $href ? 'a' : 'div';
-    $baseClasses = 'aura-stats-card flex items-start justify-between py-5 px-6 bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-sm no-underline aura-transition-slow hover:shadow-aura-md';
+    $baseClasses = 'aura-stats-card flex items-start justify-between gap-4 py-5 px-6 bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-sm no-underline aura-transition-slow hover:shadow-aura-md overflow-hidden';
 @endphp
 
 <{{ $tag }} @if($href) href="{{ $href }}" @endif {{ $attributes->class([$baseClasses, $href ? 'aura-card-hover hover:shadow-aura-xl hover:-translate-y-0.5 hover:border-aura-surface-300' : '']) }}>
