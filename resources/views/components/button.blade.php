@@ -13,6 +13,12 @@
 ])
 
 @php
+    // Treat variant="outline" as outline prop on primary
+    if ($variant === 'outline') {
+        $outline = true;
+        $variant = 'primary';
+    }
+
     $variantClasses = match($variant) {
         'primary' => 'bg-aura-primary-500 text-white hover:bg-aura-primary-600 focus-visible:shadow-[var(--aura-glow-primary)]',
         'secondary' => 'bg-aura-surface-100 text-aura-surface-900 border-aura-surface-300 hover:bg-aura-surface-200 hover:border-aura-surface-400 hover:shadow-aura-md focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.2)]',
@@ -23,6 +29,18 @@
         'link' => 'bg-transparent text-aura-primary-600 dark:text-aura-primary-400 border-transparent px-1 underline underline-offset-[3px] hover:text-aura-primary-700 dark:hover:text-aura-primary-300 hover:shadow-none',
         default => 'bg-aura-primary-500 text-white hover:bg-aura-primary-600',
     };
+
+    // Override variant classes when outline mode is active
+    if ($outline) {
+        $variantClasses = match($variant) {
+            'primary' => 'bg-transparent text-aura-primary-600 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
+            'secondary' => 'bg-transparent text-aura-surface-700 border-aura-surface-300 hover:bg-aura-surface-50 hover:border-aura-surface-400 focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.2)]',
+            'success' => 'bg-transparent text-aura-success-600 border-aura-success-300 hover:bg-aura-success-50 hover:border-aura-success-500 focus-visible:shadow-[var(--aura-glow-success)]',
+            'warning' => 'bg-transparent text-aura-warning-600 border-aura-warning-300 hover:bg-aura-warning-50 hover:border-aura-warning-500 focus-visible:shadow-[var(--aura-glow-warning)]',
+            'danger' => 'bg-transparent text-aura-danger-600 border-aura-danger-300 hover:bg-aura-danger-50 hover:border-aura-danger-500 focus-visible:shadow-[var(--aura-glow-danger)]',
+            default => 'bg-transparent text-aura-primary-600 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
+        };
+    }
 
     $sizeClasses = match($size) {
         'xs' => 'aura-btn-xs py-1 px-2.5 text-xs gap-1 rounded-aura-sm',
@@ -55,7 +73,7 @@
         '[&_svg]:shrink-0',
     ];
 
-    if ($outline) $classes[] = 'aura-btn-outline bg-transparent border-[1.5px]';
+    if ($outline) $classes[] = 'aura-btn-outline border-[1.5px]';
     if ($gradient) $classes[] = 'aura-btn-gradient border-none';
     if ($loading) $classes[] = 'aura-btn-loading';
     if ($iconOnly) $classes[] = 'aura-btn-icon-only';
