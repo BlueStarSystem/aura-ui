@@ -158,6 +158,18 @@
     background: var(--color-aura-primary-500);
 }
 
+.aura-toggle-input:checked + .aura-toggle-secondary {
+    background: var(--color-aura-secondary-500);
+}
+
+.aura-toggle-input:checked + .aura-toggle-success {
+    background: var(--color-aura-success-500);
+}
+
+.aura-toggle-input:checked + .aura-toggle-danger {
+    background: var(--color-aura-danger-500);
+}
+
 .aura-toggle-input:checked + .aura-toggle .aura-toggle-knob {
     transform: translateX(20px);
 }
@@ -202,20 +214,80 @@
 }
 
 /* ============================================
-   TOOLTIP — ::after arrow triangle
+   TOOLTIP — position + ::after arrow triangle
    ============================================ */
+.aura-tooltip-top {
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.aura-tooltip-bottom {
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.aura-tooltip-left {
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.aura-tooltip-right {
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .aura-tooltip::after {
     content: '';
     position: absolute;
+    border: 5px solid transparent;
+}
+
+.aura-tooltip-top::after {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    border: 5px solid transparent;
     border-top-color: var(--color-aura-surface-900);
 }
 
-.dark .aura-tooltip::after {
+.aura-tooltip-bottom::after {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: var(--color-aura-surface-900);
+}
+
+.aura-tooltip-left::after {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left-color: var(--color-aura-surface-900);
+}
+
+.aura-tooltip-right::after {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-right-color: var(--color-aura-surface-900);
+}
+
+.dark .aura-tooltip-top::after {
     border-top-color: var(--color-aura-surface-700);
+}
+
+.dark .aura-tooltip-bottom::after {
+    border-bottom-color: var(--color-aura-surface-700);
+}
+
+.dark .aura-tooltip-left::after {
+    border-left-color: var(--color-aura-surface-700);
+}
+
+.dark .aura-tooltip-right::after {
+    border-right-color: var(--color-aura-surface-700);
 }
 
 /* ============================================
