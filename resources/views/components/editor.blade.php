@@ -38,14 +38,23 @@
 
         exec(cmd) {
             if (cmd === 'link') {
-                let url = prompt('URL:');
+                let sel = window.getSelection();
+                let url = prompt('URL:', 'https://');
                 if (url) document.execCommand('createLink', false, url);
             } else if (cmd === 'heading') {
-                document.execCommand('formatBlock', false, '<h3>');
+                let sel = window.getSelection();
+                let block = sel.anchorNode?.parentElement?.closest('h2, h3, h4, p, div');
+                let tag = block?.tagName;
+                if (tag === 'H2') {
+                    document.execCommand('formatBlock', false, '<h3>');
+                } else if (tag === 'H3') {
+                    document.execCommand('formatBlock', false, '<p>');
+                } else {
+                    document.execCommand('formatBlock', false, '<h2>');
+                }
             } else {
                 document.execCommand(cmd, false, null);
             }
-            this.$refs.editable.focus();
             this.sync();
         },
 
@@ -67,6 +76,7 @@
                     <button
                         type="button"
                         class="aura-editor-btn inline-flex items-center justify-center w-8 h-8 rounded-aura-sm bg-transparent border-none text-aura-surface-500 cursor-pointer aura-transition-fast hover:bg-aura-surface-200 hover:text-aura-surface-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                        x-on:mousedown.prevent
                         x-on:click="exec('{{ $btn['cmd'] }}')"
                         title="{{ $btn['label'] }}"
                         @if($disabled) disabled @endif

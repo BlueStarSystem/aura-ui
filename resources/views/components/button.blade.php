@@ -88,7 +88,9 @@
     @elseif($icon)
         <x-aura::icon :name="$icon" size="sm" />
     @endif
-    <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
+    @if(!$iconOnly)
+        <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
+    @endif
     @if($iconRight)
         <x-aura::icon :name="$iconRight" size="sm" />
     @endif
@@ -100,7 +102,9 @@
     @elseif($icon)
         <x-aura::icon :name="$icon" size="sm" />
     @endif
-    <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
+    @if(!$iconOnly)
+        <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
+    @endif
     @if($iconRight)
         <x-aura::icon :name="$iconRight" size="sm" />
     @endif

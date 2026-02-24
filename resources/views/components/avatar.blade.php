@@ -45,7 +45,7 @@
         'aura-avatar',
         "aura-avatar-{$size}",
         "aura-avatar-rounded-{$rounded}",
-        "relative inline-flex items-center justify-center {$roundedClass} overflow-hidden text-white font-semibold shrink-0 aura-transition",
+        "relative inline-flex items-center justify-center {$roundedClass} text-white font-semibold shrink-0 aura-transition",
         $sizeClasses,
     ];
     if (!$src) $classes[] = "aura-avatar-color-{$color}";
@@ -53,7 +53,7 @@
 
 <div {{ $attributes->class($classes) }}>
     @if($src)
-        <img src="{{ $src }}" alt="{{ $alt ?? $name }}" class="aura-avatar-img w-full h-full object-cover {{ $roundedClass }}" />
+        <img src="{{ $src }}" alt="{{ $alt ?? $name }}" class="aura-avatar-img absolute inset-0 w-full h-full object-cover {{ $roundedClass }}" />
     @elseif($initials)
         <span class="aura-avatar-initials">{{ $initials }}</span>
     @else
