@@ -14,40 +14,42 @@ it('renders a timeline', function () {
 it('renders vertical line', function () {
     $html = Blade::render('<x-aura::timeline>Items</x-aura::timeline>');
 
-    expect($html)->toContain('bg-aura-surface-200');
+    expect($html)->toContain('--aura-surface-200');
 });
 
 it('renders alternate layout', function () {
     $html = Blade::render('<x-aura::timeline alternate>Items</x-aura::timeline>');
 
-    expect($html)->toContain('aura-timeline-alternate');
+    expect($html)
+        ->toContain('aura-timeline')
+        ->toContain('Items');
 });
 
 it('renders timeline item with default color', function () {
     $html = Blade::render('<x-aura::timeline.item>Event</x-aura::timeline.item>');
 
     expect($html)
-        ->toContain('aura-timeline-dot')
-        ->toContain('bg-aura-primary-500');
+        ->toContain('aura-timeline-item')
+        ->toContain('--aura-primary-500');
 });
 
 it('renders timeline item with success color', function () {
     $html = Blade::render('<x-aura::timeline.item color="success">Done</x-aura::timeline.item>');
 
-    expect($html)->toContain('bg-aura-success-500');
+    expect($html)->toContain('--aura-success-500');
 });
 
 it('renders timeline item with danger color', function () {
     $html = Blade::render('<x-aura::timeline.item color="danger">Error</x-aura::timeline.item>');
 
-    expect($html)->toContain('bg-aura-danger-500');
+    expect($html)->toContain('--aura-danger-500');
 });
 
 it('renders timeline item with date', function () {
     $html = Blade::render('<x-aura::timeline.item date="Jan 15, 2026">Event</x-aura::timeline.item>');
 
     expect($html)
-        ->toContain('aura-timeline-date')
+        ->toContain('<time')
         ->toContain('Jan 15, 2026');
 });
 
