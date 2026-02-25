@@ -5,6 +5,26 @@ All notable changes to Aura UI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-02-25
+
+### Added
+- **Drawer** component — slide-out panel from any edge with overlay, sizes, and footer slot
+- **Timeline** component with item sub-component — vertical timeline with colored dots, icons, and dates
+- **Rating** component — interactive star rating with hover, click, readonly mode, and color variants
+- **Kbd** component — keyboard key display with mono font and sizes
+- **Collapsible** component — show/hide content with trigger slot and Alpine.js transitions
+- **Radial Progress** component — SVG circular progress with value, sizes, colors, and custom labels
+- **Indicator** component — badge overlay for notification dots, counts, and ping animation
+- **List** component with item sub-component — styled lists with divided, bordered, and icon support
+- **Countdown** component — Alpine.js countdown timer with days/hours/min/sec display
+- **Diff** component — side-by-side or stacked before/after comparison
+- **Swap** component — Alpine.js toggle between two states with rotate/flip effects
+- **FAB** component — floating action button with expandable actions menu
+
+### Changed
+- Free component count: 30 → 44 (14 new components)
+- Test count: 450 → 555+ (105 new tests)
+
 ## [3.1.0] - 2026-02-25
 
 ### Added

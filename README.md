@@ -2,14 +2,14 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/bluestarsystem/aura-ui.svg?style=flat-square)](https://packagist.org/packages/bluestarsystem/aura-ui)
 [![License](https://img.shields.io/packagist/l/bluestarsystem/aura-ui.svg?style=flat-square)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-450%20passing-brightgreen?style=flat-square)]()
+[![Tests](https://img.shields.io/badge/tests-555%20passing-brightgreen?style=flat-square)]()
 [![PHP](https://img.shields.io/badge/php-8.3%2B-8892BF?style=flat-square)]()
 [![Laravel](https://img.shields.io/badge/laravel-12-FF2D20?style=flat-square)]()
 [![Tailwind CSS](https://img.shields.io/badge/tailwind-4-38BDF8?style=flat-square)]()
 
 **"Vibrant Depth" UI component library for Laravel 12 + Livewire 4 + Alpine.js + Tailwind CSS 4.**
 
-Aura UI provides **30 production-ready Blade components** with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support. Unlike flat/minimal UI libraries, Aura UI intentionally goes in a different direction while staying professional.
+Aura UI provides **44 production-ready Blade components** with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support. Unlike flat/minimal UI libraries, Aura UI intentionally goes in a different direction while staying professional.
 
 **Looking for advanced components?** Check out [Aura UI Pro](https://aura-ui.com) for DataTable, charts, calendar, kanban, advanced forms, and more.
 
