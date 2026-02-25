@@ -121,21 +121,23 @@
     animation: aura-shake 0.4s var(--ease-aura-out);
 }
 
-/* Transition presets */
+/* Transition presets — include individual transform properties (rotate, scale, translate)
+   because Tailwind CSS 4 compiles rotate-*, scale-*, translate-* to individual CSS properties
+   rather than the combined `transform` property. */
 @utility aura-transition {
-    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity, rotate, scale, translate;
     transition-duration: var(--animate-duration-normal);
     transition-timing-function: var(--ease-aura-out);
 }
 
 @utility aura-transition-fast {
-    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity, rotate, scale, translate;
     transition-duration: var(--animate-duration-fast);
     transition-timing-function: var(--ease-aura-out);
 }
 
 @utility aura-transition-slow {
-    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity, rotate, scale, translate;
     transition-duration: var(--animate-duration-slow);
     transition-timing-function: var(--ease-aura-out);
 }

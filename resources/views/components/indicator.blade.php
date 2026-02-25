@@ -42,7 +42,7 @@
 <div {{ $attributes->class(['aura-indicator relative inline-flex']) }}>
     {{ $slot }}
     @if($ping)
-        <span class="absolute {{ $positionClass }} flex items-center justify-center rounded-full {{ $sizeClass }} {{ $pingColorClass }} aura-animate-ping"></span>
+        <span class="absolute {{ $positionClass }} flex items-center justify-center rounded-full {{ $sizeClass }} {{ $pingColorClass }} aura-animate-ping" style="animation:aura-ping 1s cubic-bezier(0,0,0.2,1) infinite"></span>
     @endif
     <span class="aura-indicator-badge absolute {{ $positionClass }} flex items-center justify-center rounded-full font-semibold {{ $colorClass }} {{ $sizeClass }} ring-2 ring-aura-surface-0">
         @if($label){{ $label }}@endif

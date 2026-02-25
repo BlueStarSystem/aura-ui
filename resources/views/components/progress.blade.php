@@ -17,13 +17,23 @@
         default => 'h-2.5',
     };
 
-    $colorClass = match($color) {
-        'secondary' => 'bg-gradient-to-r from-aura-secondary-500 to-aura-info-500',
-        'success' => 'bg-gradient-to-r from-aura-success-500 to-aura-success-600',
-        'warning' => 'bg-gradient-to-r from-aura-warning-400 to-aura-warning-600',
-        'danger' => 'bg-gradient-to-r from-aura-danger-500 to-aura-danger-600',
-        default => 'bg-gradient-to-r from-aura-primary-500 to-aura-primary-700',
-    };
+    // When striped/animated, use solid background-color instead of gradient
+    // because both gradient and stripes use background-image and conflict.
+    $colorClass = ($striped || $animated)
+        ? match($color) {
+            'secondary' => 'bg-aura-secondary-500',
+            'success' => 'bg-aura-success-500',
+            'warning' => 'bg-aura-warning-500',
+            'danger' => 'bg-aura-danger-500',
+            default => 'bg-aura-primary-600',
+        }
+        : match($color) {
+            'secondary' => 'bg-gradient-to-r from-aura-secondary-500 to-aura-info-500',
+            'success' => 'bg-gradient-to-r from-aura-success-500 to-aura-success-600',
+            'warning' => 'bg-gradient-to-r from-aura-warning-400 to-aura-warning-600',
+            'danger' => 'bg-gradient-to-r from-aura-danger-500 to-aura-danger-600',
+            default => 'bg-gradient-to-r from-aura-primary-500 to-aura-primary-700',
+        };
 
     $barClasses = ['aura-progress-bar', "aura-progress-{$color}", $colorClass, 'h-full rounded-aura-full transition-[width] duration-[600ms] ease-aura-out flex items-center justify-end pr-2 min-w-0'];
     if ($striped) $barClasses[] = 'aura-progress-striped';
