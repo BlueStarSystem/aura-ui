@@ -58,7 +58,7 @@
     @if($overlay)
     <div x-show="drawerOpen"
          x-cloak
-         style="position:fixed;inset:0;z-index:70;background:rgba(0,0,0,0.5);"
+         style="position:fixed;inset:0;z-index:var(--z-aura-overlay, 400);background:rgba(0,0,0,0.5);"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -72,7 +72,7 @@
     {{-- Panel: uses visibility+transform instead of x-show for smooth slide animation --}}
     <div x-cloak
          x-on:click.stop
-         style="position:fixed;z-index:71;{{ $positionStyle }}{{ $panelSize }}background:var(--aura-surface-0, #fff);box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);transition:transform 0.3s ease,visibility 0.3s;overflow:hidden;"
+         style="position:fixed;z-index:var(--z-aura-modal, 500);{{ $positionStyle }}{{ $panelSize }}background:var(--aura-surface-0, #fff);box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);transition:transform 0.3s ease,visibility 0.3s;overflow:hidden;"
          :style="{ transform: drawerOpen ? 'translate(0,0)' : '{{ $translateHidden }}', visibility: drawerOpen ? 'visible' : 'hidden' }">
 
         @if($title || $closeable)
