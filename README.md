@@ -2,14 +2,14 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/bluestarsystem/aura-ui.svg?style=flat-square)](https://packagist.org/packages/bluestarsystem/aura-ui)
 [![License](https://img.shields.io/packagist/l/bluestarsystem/aura-ui.svg?style=flat-square)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-138%20passing-brightgreen?style=flat-square)]()
+[![Tests](https://img.shields.io/badge/tests-450%20passing-brightgreen?style=flat-square)]()
 [![PHP](https://img.shields.io/badge/php-8.3%2B-8892BF?style=flat-square)]()
 [![Laravel](https://img.shields.io/badge/laravel-12-FF2D20?style=flat-square)]()
 [![Tailwind CSS](https://img.shields.io/badge/tailwind-4-38BDF8?style=flat-square)]()
 
 **"Vibrant Depth" UI component library for Laravel 12 + Livewire 4 + Alpine.js + Tailwind CSS 4.**
 
-Aura UI provides **26 production-ready Blade components** with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support. Unlike flat/minimal UI libraries, Aura UI intentionally goes in a different direction while staying professional.
+Aura UI provides **30 production-ready Blade components** with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support. Unlike flat/minimal UI libraries, Aura UI intentionally goes in a different direction while staying professional.
 
 **Looking for advanced components?** Check out [Aura UI Pro](https://aura-ui.com) for DataTable, charts, calendar, kanban, advanced forms, and more.
 
@@ -104,6 +104,10 @@ Import the CSS in your app:
 | Component | Usage | Description |
 |-----------|-------|-------------|
 | Card | `<x-aura::card>` | Header/body/footer slots, glass, hover |
+| Container | `<x-aura::container>` | Max-width centered wrapper (sm/md/lg/xl/full) |
+| Layout | `<x-aura::layout>` | Flex wrapper for main + aside |
+| Main | `<x-aura::main>` | Semantic primary content area |
+| Aside | `<x-aura::aside>` | Sidebar with width and sticky options |
 | Modal | `<x-aura::modal>` | Overlay, slide-over, glass, sizes |
 | Dropdown | `<x-aura::dropdown>` | Items, separators, keyboard nav |
 | Tooltip | `<x-aura::tooltip>` | Positions, delay |
@@ -121,6 +125,14 @@ Import the CSS in your app:
 | Empty State | `<x-aura::empty-state>` | Icon, title, description, actions |
 | Stats Card | `<x-aura::stats-card>` | Value, change, icon |
 | Description List | `<x-aura::description-list>` | Label/value pairs |
+| Table | `<x-aura::table>` | Composable table with striped, hoverable, bordered, compact |
+
+### Typography
+| Component | Usage | Description |
+|-----------|-------|-------------|
+| Heading | `<x-aura::heading>` | Semantic h1-h6 with auto sizing |
+| Subheading | `<x-aura::subheading>` | Secondary descriptive text |
+| Text | `<x-aura::text>` | Paragraph text with size, color, weight |
 
 ### Form Layout
 | Component | Usage | Description |

@@ -5,6 +5,21 @@ All notable changes to Aura UI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2026-02-25
+
+### Added
+- **Table** component with composable sub-components (head, body, row, header, cell) — striped, hoverable, bordered, compact variants
+- **Container** component — max-width centered wrapper with responsive padding (sm/md/lg/xl/full)
+- **Layout** component — flex wrapper for main + aside arrangement
+- **Main** component — semantic `<main>` content area
+- **Aside** component — sidebar with configurable width (sm/md/lg) and sticky option
+- **Subheading** component — secondary descriptive text with size and tag props
+- Table CSS styles in residual.css (striped, hoverable, bordered, compact + dark mode)
+
+### Changed
+- Free component count: 26 → 30 (4 new logical components + Table sub-components)
+- Test count: 389 → 450 (42 new tests, 84 new assertions)
+
 ## [2.1.1] - 2026-02-22
 
 ### Added

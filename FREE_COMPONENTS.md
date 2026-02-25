@@ -2,7 +2,7 @@
 
 Package: `bluestarsystem/aura-ui` (public, Packagist)
 
-## Blade Components (26 components, 35 files)
+## Blade Components (30 components, 46 files)
 
 ### Primitives
 | Component | Files |
@@ -29,6 +29,10 @@ Package: `bluestarsystem/aura-ui` (public, Packagist)
 | Component | Files |
 |-----------|-------|
 | Card | `card.blade.php`, `card/title.blade.php`, `card/description.blade.php` |
+| Container | `container.blade.php` |
+| Layout | `layout.blade.php` |
+| Main | `main.blade.php` |
+| Aside | `aside.blade.php` |
 | Modal | `modal.blade.php` |
 | Dropdown | `dropdown.blade.php`, `dropdown/item.blade.php`, `dropdown/separator.blade.php` |
 | Tooltip | `tooltip.blade.php` |
@@ -46,6 +50,15 @@ Package: `bluestarsystem/aura-ui` (public, Packagist)
 | Empty State | `empty-state.blade.php` |
 | Stats Card | `stats-card.blade.php` |
 | Description List | `description-list.blade.php`, `description-list/item.blade.php` |
+| Table | `table.blade.php`, `table/head.blade.php`, `table/body.blade.php`, `table/row.blade.php`, `table/header.blade.php`, `table/cell.blade.php` |
+
+### Typography
+| Component | Files |
+|-----------|-------|
+| Heading | `heading.blade.php` |
+| Subheading | `subheading.blade.php` |
+| Text | `text.blade.php` |
+| Brand | `brand.blade.php` |
 
 ### Form Layout
 | Component | Files |
