@@ -500,3 +500,33 @@
     border-color: var(--color-aura-primary-500) !important;
     background: rgba(99, 102, 241, 0.04) !important;
 }
+
+/* ============================================
+   TABLE — striped, hoverable, bordered, compact
+   ============================================ */
+.aura-table-striped tbody tr:nth-child(even) {
+    background: var(--color-aura-surface-50);
+}
+
+.aura-table-hoverable tbody tr:hover {
+    background: var(--color-aura-surface-100);
+}
+
+.aura-table-bordered th,
+.aura-table-bordered td {
+    border: 1px solid var(--color-aura-surface-200);
+}
+
+.aura-table-compact th,
+.aura-table-compact td {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+}
+
+.dark .aura-table-striped tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.dark .aura-table-hoverable tbody tr:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
