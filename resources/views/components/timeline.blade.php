@@ -2,7 +2,8 @@
     'alternate' => false,
 ])
 
-<div {{ $attributes->class(['aura-timeline relative', $alternate ? 'aura-timeline-alternate' : '']) }}>
-    <div class="absolute left-4 top-0 bottom-0 w-px bg-aura-surface-200 {{ $alternate ? 'lg:left-1/2' : '' }}"></div>
+<div {{ $attributes->class(['aura-timeline']) }} style="position:relative;">
+    {{-- Vertical line --}}
+    <div style="position:absolute;left:1.125rem;top:0;bottom:0;width:2px;background:var(--aura-surface-200, #e5e7eb);"></div>
     {{ $slot }}
 </div>

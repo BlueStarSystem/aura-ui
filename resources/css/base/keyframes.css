@@ -68,6 +68,10 @@
     100% { transform: scale(1); }
 }
 
+@keyframes aura-ping {
+    75%, 100% { transform: scale(2); opacity: 0; }
+}
+
 @keyframes aura-ripple {
     0%   { transform: scale(0); opacity: 0.5; }
     100% { transform: scale(2.5); opacity: 0; }
@@ -107,6 +111,10 @@
 
 @utility aura-animate-scale-in {
     animation: aura-scale-in var(--animate-duration-slow) var(--ease-aura-spring) both;
+}
+
+@utility aura-animate-ping {
+    animation: aura-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @utility aura-animate-shake {

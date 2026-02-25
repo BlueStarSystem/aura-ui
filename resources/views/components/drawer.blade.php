@@ -8,93 +8,96 @@
 ])
 
 @php
-    $sizeClass = match($size) {
-        'sm' => 'max-w-xs',
-        'lg' => 'max-w-xl',
-        'xl' => 'max-w-2xl',
-        'full' => 'max-w-full',
-        default => 'max-w-md',
-    };
-
-    $positionClasses = match($position) {
-        'left' => 'left-0 top-0 bottom-0',
-        'top' => 'top-0 left-0 right-0',
-        'bottom' => 'bottom-0 left-0 right-0',
-        default => 'right-0 top-0 bottom-0',
+    $sizeMap = match($size) {
+        'sm' => '320px',
+        'lg' => '576px',
+        'xl' => '672px',
+        'full' => '100%',
+        default => '448px',
     };
 
     $isHorizontal = in_array($position, ['top', 'bottom']);
 
-    $translateEnter = match($position) {
-        'left' => '-translate-x-full',
-        'top' => '-translate-y-full',
-        'bottom' => 'translate-y-full',
-        default => 'translate-x-full',
+    $translateHidden = match($position) {
+        'left' => 'translateX(-100%)',
+        'top' => 'translateY(-100%)',
+        'bottom' => 'translateY(100%)',
+        default => 'translateX(100%)',
     };
+
+    $positionStyle = match($position) {
+        'left' => 'left:0;top:0;bottom:0;',
+        'top' => 'top:0;left:0;right:0;',
+        'bottom' => 'bottom:0;left:0;right:0;',
+        default => 'right:0;top:0;bottom:0;',
+    };
+
+    $panelSize = $isHorizontal ? "width:100%;max-height:{$sizeMap};" : "height:100%;max-width:{$sizeMap};";
 @endphp
 
-<div x-data="{ open: false }"
-     @if($name) x-on:open-drawer.window="if ($event.detail === '{{ $name }}') open = true"
-     x-on:close-drawer.window="if ($event.detail === '{{ $name }}') open = false" @endif
-     x-on:keydown.escape.window="open = false"
+<div x-data="{
+        drawerOpen: false,
+        openDrawer() { this.drawerOpen = true; },
+        closeDrawer() { this.drawerOpen = false; }
+     }"
+     @if($name)
+     x-on:open-drawer.window="if ($event.detail === '{{ $name }}') openDrawer()"
+     x-on:close-drawer.window="if ($event.detail === '{{ $name }}') closeDrawer()"
+     @endif
+     x-on:keydown.escape.window="closeDrawer()"
      {{ $attributes }}>
 
+    {{-- Trigger slot --}}
     @if(isset($trigger))
-        <div x-on:click="open = true">
+        <div x-on:click="openDrawer()">
             {{ $trigger }}
         </div>
     @endif
 
-    <template x-teleport="body">
-        @if($overlay)
-        <div class="aura-drawer-overlay fixed inset-0 z-aura-modal bg-black/50 aura-transition"
-             x-show="open"
-             x-transition:enter="aura-transition-slow"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="aura-transition-fast"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             @if($closeable) x-on:click="open = false" @endif
-             x-cloak>
+    {{-- Overlay --}}
+    @if($overlay)
+    <div x-show="drawerOpen"
+         x-cloak
+         style="position:fixed;inset:0;z-index:50;background:rgba(0,0,0,0.5);"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @if($closeable) x-on:click="closeDrawer()" @endif>
+    </div>
+    @endif
+
+    {{-- Panel: uses visibility+transform instead of x-show for smooth slide animation --}}
+    <div x-cloak
+         x-on:click.stop
+         style="position:fixed;z-index:51;{{ $positionStyle }}{{ $panelSize }}background:var(--aura-surface-0, #fff);box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);transition:transform 0.3s ease,visibility 0.3s;overflow:hidden;"
+         :style="{ transform: drawerOpen ? 'translate(0,0)' : '{{ $translateHidden }}', visibility: drawerOpen ? 'visible' : 'hidden' }">
+
+        @if($title || $closeable)
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aura-surface-200, #e5e7eb);padding:1rem 1.5rem;">
+            @if($title)
+                <h3 style="font-size:1.125rem;font-weight:600;color:var(--aura-surface-900, #111827);margin:0;">{{ $title }}</h3>
+            @else
+                <div></div>
+            @endif
+            @if($closeable)
+                <button x-on:click="closeDrawer()" type="button" style="padding:0.25rem;color:var(--aura-surface-400, #9ca3af);cursor:pointer;border:none;background:none;line-height:0;" aria-label="Close">
+                    <svg style="width:1.25rem;height:1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            @endif
         </div>
         @endif
 
-        <div class="aura-drawer aura-drawer-{{ $position }} fixed z-aura-modal {{ $positionClasses }} {{ $isHorizontal ? 'w-full' : 'h-full ' . $sizeClass }} bg-aura-surface-0 shadow-aura-2xl aura-transition"
-             x-show="open"
-             x-transition:enter="transform transition ease-out duration-300"
-             x-transition:enter-start="{{ $translateEnter }}"
-             x-transition:enter-end="translate-x-0 translate-y-0"
-             x-transition:leave="transform transition ease-in duration-200"
-             x-transition:leave-start="translate-x-0 translate-y-0"
-             x-transition:leave-end="{{ $translateEnter }}"
-             x-on:click.stop
-             x-cloak>
-
-            @if($title || $closeable)
-            <div class="aura-drawer-header flex items-center justify-between border-b border-aura-surface-200 px-6 py-4">
-                @if($title)
-                    <h3 class="text-lg font-semibold text-aura-surface-900">{{ $title }}</h3>
-                @else
-                    <div></div>
-                @endif
-                @if($closeable)
-                    <button x-on:click="open = false" class="rounded-aura-sm p-1 text-aura-surface-400 hover:text-aura-surface-600 aura-transition">
-                        <x-aura::icon name="x" size="sm" />
-                    </button>
-                @endif
-            </div>
-            @endif
-
-            <div class="aura-drawer-body overflow-y-auto p-6" style="{{ $isHorizontal ? 'max-height: 80vh' : 'height: calc(100% - 65px)' }}">
-                {{ $slot }}
-            </div>
-
-            @if(isset($footer))
-                <div class="aura-drawer-footer border-t border-aura-surface-200 px-6 py-4 flex items-center justify-end gap-2">
-                    {{ $footer }}
-                </div>
-            @endif
+        <div style="overflow-y:auto;padding:1.5rem;{{ $isHorizontal ? 'max-height:80vh' : 'height:calc(100% - 65px)' }}">
+            {{ $slot }}
         </div>
-    </template>
+
+        @if(isset($footer))
+            <div style="border-top:1px solid var(--aura-surface-200, #e5e7eb);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:flex-end;gap:0.5rem;">
+                {{ $footer }}
+            </div>
+        @endif
+    </div>
 </div>

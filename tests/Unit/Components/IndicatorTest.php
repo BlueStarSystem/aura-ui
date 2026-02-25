@@ -56,11 +56,11 @@ it('renders a label', function () {
 it('renders ping animation', function () {
     $html = Blade::render('<x-aura::indicator ping>X</x-aura::indicator>');
 
-    expect($html)->toContain('animate-ping');
+    expect($html)->toContain('aura-animate-ping');
 });
 
 it('renders without ping by default', function () {
     $html = Blade::render('<x-aura::indicator>X</x-aura::indicator>');
 
-    expect($html)->not->toContain('animate-ping');
+    expect($html)->not->toContain('aura-animate-ping');
 });

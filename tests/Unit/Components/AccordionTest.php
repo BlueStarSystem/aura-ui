@@ -79,7 +79,7 @@ it('renders content with x-show', function () {
 });
 
 it('sets default open via x-init', function () {
-    $html = Blade::render('<x-aura::accordion><x-aura::accordion.item title="Test" :defaultOpen="true">Body</x-aura::accordion.item></x-aura::accordion>');
+    $html = Blade::render('<x-aura::accordion><x-aura::accordion.item title="Test" :open="true">Body</x-aura::accordion.item></x-aura::accordion>');
 
     expect($html)->toContain('x-init');
 });
