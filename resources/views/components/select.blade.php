@@ -7,6 +7,8 @@
     'size' => 'md',
 ])
 
+@php $inputId = $attributes->get('id') ?? 'aura-input-' . uniqid(); @endphp
+
 @php
     $sizeClasses = match($size) {
         'sm' => 'aura-input-sm py-1.5 pl-2.5 pr-[38px] text-[13px]',
@@ -30,12 +32,13 @@
 
 <div class="{{ implode(' ', $wrapperClasses) }}">
     @if($label)
-        <label class="aura-label text-[13px] font-semibold text-aura-surface-900 tracking-tight">{{ $label }}</label>
+        <label for="{{ $inputId }}" class="aura-label text-[13px] font-semibold text-aura-surface-900 tracking-tight">{{ $label }}</label>
     @endif
 
     <select
+        id="{{ $inputId }}"
         @if($disabled) disabled @endif
-        {{ $attributes->class($selectClasses) }}
+        {{ $attributes->except('id')->class($selectClasses) }}
     >
         @if($placeholder)
             <option value="" disabled selected>{{ $placeholder }}</option>

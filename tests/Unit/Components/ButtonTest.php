@@ -47,8 +47,7 @@ it('renders as disabled when loading', function () {
 
     expect($html)
         ->toContain('aura-btn-loading')
-        ->toContain('disabled')
-        ->toContain('aura-btn-spinner');
+        ->toContain('disabled');
 });
 
 it('renders as link when href is provided', function () {

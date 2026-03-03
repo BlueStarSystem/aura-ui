@@ -12,6 +12,8 @@
     'size' => 'md',
 ])
 
+@php $inputId = $attributes->get('id') ?? 'aura-input-' . uniqid(); @endphp
+
 @php
     $textareaClasses = [
         'aura-textarea',
@@ -29,10 +31,11 @@
 
 <div class="{{ implode(' ', $wrapperClasses) }}" @if($characterCount || $autoResize) x-data="{ count: 0 }" @endif>
     @if($label)
-        <label class="aura-label text-[13px] font-semibold text-aura-surface-900 tracking-tight">{{ $label }}</label>
+        <label for="{{ $inputId }}" class="aura-label text-[13px] font-semibold text-aura-surface-900 tracking-tight">{{ $label }}</label>
     @endif
 
     <textarea
+        id="{{ $inputId }}"
         rows="{{ $rows }}"
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($disabled) disabled @endif
@@ -40,7 +43,7 @@
         @if($maxlength) maxlength="{{ $maxlength }}" @endif
         @if($characterCount) x-on:input="count = $el.value.length" @endif
         @if($autoResize) x-on:input="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'" @endif
-        {{ $attributes->class($textareaClasses) }}
+        {{ $attributes->except('id')->class($textareaClasses) }}
     ></textarea>
 
     <div class="aura-input-footer">

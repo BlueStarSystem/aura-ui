@@ -14,6 +14,8 @@
     'size' => 'md',
 ])
 
+@php $inputId = $attributes->get('id') ?? 'aura-input-' . uniqid(); @endphp
+
 @php
     $sizeClasses = match($size) {
         'sm' => 'aura-input-sm py-1.5 px-2.5 text-[13px]',
@@ -38,7 +40,7 @@
 
 <div class="{{ implode(' ', $wrapperClasses) }}">
     @if($label)
-        <label class="aura-label text-[13px] font-semibold text-aura-surface-900 tracking-tight">{{ $label }}</label>
+        <label for="{{ $inputId }}" class="aura-label text-[13px] font-semibold text-aura-surface-900 tracking-tight">{{ $label }}</label>
     @endif
 
     <div class="aura-input-container {{ ($prefixIcon || $prefix || $suffixIcon || $suffix) ? 'aura-input-group flex items-stretch rounded-aura-md overflow-hidden' : '' }} {{ ($prefixIcon || $prefix) ? 'aura-input-has-prefix' : '' }} {{ ($suffixIcon || $suffix) ? 'aura-input-has-suffix' : '' }}">
@@ -52,10 +54,11 @@
 
         <input
             type="{{ $type }}"
+            id="{{ $inputId }}"
             @if($placeholder) placeholder="{{ $placeholder }}" @endif
             @if($disabled) disabled @endif
             @if($readonly) readonly @endif
-            {{ $attributes->class($inputClasses) }}
+            {{ $attributes->except('id')->class($inputClasses) }}
         />
 
         @if($suffixIcon)

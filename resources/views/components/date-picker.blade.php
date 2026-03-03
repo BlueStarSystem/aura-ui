@@ -216,12 +216,12 @@
     <div
         class="aura-datepicker-dropdown absolute top-full left-0 mt-1 w-[300px] bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-xl z-aura-dropdown p-3 aura-glass"
         x-show="open"
-        x-transition:enter="aura-transition-enter"
-        x-transition:enter-start="aura-transition-enter-start"
-        x-transition:enter-end="aura-transition-enter-end"
-        x-transition:leave="aura-transition-leave"
-        x-transition:leave-start="aura-transition-leave-start"
-        x-transition:leave-end="aura-transition-leave-end"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-1"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-1"
         x-cloak
         role="dialog"
         aria-modal="true"

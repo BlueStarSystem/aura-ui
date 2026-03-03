@@ -45,7 +45,7 @@ return [
     |
     */
     'playground' => [
-        'enabled' => true,
+        'enabled' => env('AURA_PLAYGROUND', false),
         'path' => 'aura/playground',
         'middleware' => ['web'],
     ],

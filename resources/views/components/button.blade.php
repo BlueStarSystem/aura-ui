@@ -74,7 +74,7 @@
     ];
 
     if ($outline) $classes[] = 'aura-btn-outline border-[1.5px]';
-    if ($gradient) $classes[] = 'aura-btn-gradient border-none';
+    if ($gradient) $classes[] = 'aura-btn-gradient border-none bg-gradient-to-r from-violet-500 to-indigo-500 text-white hover:from-violet-600 hover:to-indigo-600';
     if ($loading) $classes[] = 'aura-btn-loading';
     if ($iconOnly) $classes[] = 'aura-btn-icon-only';
 
@@ -83,9 +83,7 @@
 
 @if($href)
 <a href="{{ $href }}" {{ $attributes->class($classes) }} @if($isDisabled) aria-disabled="true" tabindex="-1" @endif>
-    @if($loading)
-        <span class="aura-btn-spinner"></span>
-    @elseif($icon)
+    @if(!$loading && $icon)
         <x-aura::icon :name="$icon" size="sm" />
     @endif
     @if(!$iconOnly)
@@ -97,9 +95,7 @@
 </a>
 @else
 <button type="{{ $type }}" {{ $attributes->class($classes) }} @if($isDisabled) disabled @endif>
-    @if($loading)
-        <span class="aura-btn-spinner"></span>
-    @elseif($icon)
+    @if(!$loading && $icon)
         <x-aura::icon :name="$icon" size="sm" />
     @endif
     @if(!$iconOnly)

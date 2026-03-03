@@ -28,7 +28,7 @@ it('renders upload zone', function () {
 it('renders default placeholder text', function () {
     $view = $this->blade('<x-aura::file-upload wire:model="test" />');
 
-    $view->assertSee('Trascina qui o clicca per selezionare');
+    $view->assertSee('Drag here or click to select');
     $view->assertSee('aura-file-upload-placeholder', false);
 });
 

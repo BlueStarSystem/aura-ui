@@ -42,9 +42,6 @@
 @endphp
 
 <span {{ $attributes->class($classes) }}>
-    @if($dot)
-        <span class="aura-badge-dot"></span>
-    @endif
     @if($icon)
         <x-aura::icon :name="$icon" size="xs" />
     @endif
