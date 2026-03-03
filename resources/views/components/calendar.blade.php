@@ -13,7 +13,72 @@
 ])
 
 @php
-    $dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    $i18n = [
+        'en' => [
+            'days'     => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            'month'    => 'Month',
+            'week'     => 'Week',
+            'day'      => 'Day',
+            'today'    => 'Today',
+            'allDay'   => 'All day',
+            'prev'     => 'Previous',
+            'next'     => 'Next',
+        ],
+        'it' => [
+            'days'     => ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'],
+            'month'    => 'Mese',
+            'week'     => 'Settimana',
+            'day'      => 'Giorno',
+            'today'    => 'Oggi',
+            'allDay'   => 'Tutto il giorno',
+            'prev'     => 'Precedente',
+            'next'     => 'Successivo',
+        ],
+        'de' => [
+            'days'     => ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+            'month'    => 'Monat',
+            'week'     => 'Woche',
+            'day'      => 'Tag',
+            'today'    => 'Heute',
+            'allDay'   => 'Ganztägig',
+            'prev'     => 'Zurück',
+            'next'     => 'Weiter',
+        ],
+        'fr' => [
+            'days'     => ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            'month'    => 'Mois',
+            'week'     => 'Semaine',
+            'day'      => 'Jour',
+            'today'    => "Aujourd'hui",
+            'allDay'   => 'Toute la journée',
+            'prev'     => 'Précédent',
+            'next'     => 'Suivant',
+        ],
+        'es' => [
+            'days'     => ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+            'month'    => 'Mes',
+            'week'     => 'Semana',
+            'day'      => 'Día',
+            'today'    => 'Hoy',
+            'allDay'   => 'Todo el día',
+            'prev'     => 'Anterior',
+            'next'     => 'Siguiente',
+        ],
+        'pt' => [
+            'days'     => ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+            'month'    => 'Mês',
+            'week'     => 'Semana',
+            'day'      => 'Dia',
+            'today'    => 'Hoje',
+            'allDay'   => 'Dia inteiro',
+            'prev'     => 'Anterior',
+            'next'     => 'Próximo',
+        ],
+    ];
+
+    $t = $i18n[$locale] ?? $i18n['en'];
+
+    $dayNames = $t['days'];
     if ($startOfWeek === 0) {
         array_unshift($dayNames, array_pop($dayNames));
     }
@@ -33,6 +98,7 @@
         startOfWeek: {{ (int)$startOfWeek }},
         businessHoursStart: {{ (int)$businessHoursStart }},
         businessHoursEnd: {{ (int)$businessHoursEnd }},
+        t: {{ Js::from($t) }},
 
         get year() { return this.currentDate.getFullYear(); },
         get month() { return this.currentDate.getMonth(); },
@@ -194,13 +260,13 @@
     {{-- HEADER --}}
     <div class="aura-calendar-header flex items-center justify-between px-4 py-3 border-b border-aura-surface-200 bg-aura-surface-50">
         <div class="flex items-center gap-1">
-            <button type="button" class="aura-calendar-nav inline-flex items-center justify-center w-8 h-8 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-200 hover:text-aura-surface-900" @click="prev()" :aria-label="view === 'month' ? 'Previous month' : view === 'week' ? 'Previous week' : 'Previous day'">
+            <button type="button" class="aura-calendar-nav inline-flex items-center justify-center w-8 h-8 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-200 hover:text-aura-surface-900" @click="prev()" :aria-label="t.prev + ' ' + (view === 'month' ? t.month : view === 'week' ? t.week : t.day)">
                 <x-aura::icon name="chevron-left" size="sm" />
             </button>
-            <button type="button" class="aura-calendar-nav inline-flex items-center justify-center w-8 h-8 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-200 hover:text-aura-surface-900" @click="goToday()" aria-label="Today">
+            <button type="button" class="aura-calendar-nav inline-flex items-center justify-center w-8 h-8 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-200 hover:text-aura-surface-900" @click="goToday()" :aria-label="t.today">
                 <x-aura::icon name="circle" size="xs" />
             </button>
-            <button type="button" class="aura-calendar-nav inline-flex items-center justify-center w-8 h-8 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-200 hover:text-aura-surface-900" @click="next()" :aria-label="view === 'month' ? 'Next month' : view === 'week' ? 'Next week' : 'Next day'">
+            <button type="button" class="aura-calendar-nav inline-flex items-center justify-center w-8 h-8 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-200 hover:text-aura-surface-900" @click="next()" :aria-label="t.next + ' ' + (view === 'month' ? t.month : view === 'week' ? t.week : t.day)">
                 <x-aura::icon name="chevron-right" size="sm" />
             </button>
         </div>
@@ -208,9 +274,9 @@
         <span class="aura-calendar-title text-sm font-semibold text-aura-surface-900 capitalize" x-text="title"></span>
 
         <div class="aura-calendar-views flex items-center gap-0.5 bg-aura-surface-100 rounded-aura-md p-0.5">
-            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'month' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'month'" aria-label="Month view">Month</button>
-            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'week' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'week'" aria-label="Week view">Week</button>
-            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'day' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'day'" aria-label="Day view">Day</button>
+            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'month' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'month'" :aria-label="t.month" x-text="t.month"></button>
+            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'week' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'week'" :aria-label="t.week" x-text="t.week"></button>
+            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'day' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'day'" :aria-label="t.day" x-text="t.day"></button>
         </div>
     </div>
 
@@ -254,7 +320,7 @@
         </div>
 
         <div class="aura-calendar-week-allday grid border-b border-aura-surface-200" style="grid-template-columns: 60px repeat(7, 1fr)">
-            <div class="px-2 py-1 text-[10px] text-aura-surface-400 text-right self-center">All day</div>
+            <div class="px-2 py-1 text-[10px] text-aura-surface-400 text-right self-center" x-text="t.allDay"></div>
             <template x-for="(day, i) in weekDays" :key="'wa-'+i">
                 <div class="p-0.5 border-l border-aura-surface-100 min-h-[32px]" :class="isToday(day) ? 'bg-aura-primary-50/30' : ''">
                     <template x-for="ev in getAllDayEvents(day)" :key="ev[eventTitleKey]">
@@ -291,7 +357,7 @@
     {{-- DAY VIEW --}}
     <div x-show="view === 'day'" class="aura-calendar-day">
         <div class="aura-calendar-day-allday flex border-b border-aura-surface-200">
-            <div class="w-[60px] shrink-0 px-2 py-1 text-[10px] text-aura-surface-400 text-right self-center">All day</div>
+            <div class="w-[60px] shrink-0 px-2 py-1 text-[10px] text-aura-surface-400 text-right self-center" x-text="t.allDay"></div>
             <div class="flex-1 p-0.5 border-l border-aura-surface-100 min-h-[32px]">
                 <template x-for="ev in getAllDayEvents(currentDate)" :key="ev[eventTitleKey]">
                     <div

@@ -92,32 +92,33 @@
     to   { background-position: 0 0; }
 }
 
-/* Utility classes for animations */
-@utility aura-animate-spin {
+/* Animation classes — regular CSS rules (not @utility) to avoid
+   Tailwind CSS v4 @layer utilities specificity/purging issues */
+.aura-animate-spin {
     animation: aura-spin 0.8s linear infinite;
 }
 
-@utility aura-animate-shimmer {
+.aura-animate-shimmer {
     animation: aura-shimmer 1.8s ease-in-out infinite;
 }
 
-@utility aura-animate-fade-in {
+.aura-animate-fade-in {
     animation: aura-fade-in var(--animate-duration-slow) var(--ease-aura-out) both;
 }
 
-@utility aura-animate-slide-up {
+.aura-animate-slide-up {
     animation: aura-slide-up var(--animate-duration-slow) var(--ease-aura-out) both;
 }
 
-@utility aura-animate-scale-in {
+.aura-animate-scale-in {
     animation: aura-scale-in var(--animate-duration-slow) var(--ease-aura-spring) both;
 }
 
-@utility aura-animate-ping {
+.aura-animate-ping {
     animation: aura-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-@utility aura-animate-shake {
+.aura-animate-shake {
     animation: aura-shake 0.4s var(--ease-aura-out);
 }
 
@@ -142,9 +143,12 @@
     transition-timing-function: var(--ease-aura-out);
 }
 
-/* Reduce motion for accessibility */
+/* Reduce motion for accessibility — only disable decorative animations,
+   keep functional UI feedback (spinners, progress, toasts, swap) working. */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    :not([class*="aura-"]):not([x-transition\\:enter]):not([x-transition\\:leave]),
+    :not([class*="aura-"]):not([x-transition\\:enter]):not([x-transition\\:leave])::before,
+    :not([class*="aura-"]):not([x-transition\\:enter]):not([x-transition\\:leave])::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;

@@ -24,7 +24,7 @@ it('renders previous navigation button', function () {
 
     expect($html)
         ->toContain('prev()')
-        ->toContain('Previous month');
+        ->toContain('t.prev');
 });
 
 it('renders next navigation button', function () {
@@ -32,7 +32,7 @@ it('renders next navigation button', function () {
 
     expect($html)
         ->toContain('next()')
-        ->toContain('Next month');
+        ->toContain('t.next');
 });
 
 it('renders today button', function () {
@@ -47,9 +47,9 @@ it('renders view switcher', function () {
     expect($html)
         ->toContain('aura-calendar-views')
         ->toContain('aura-calendar-view-btn')
-        ->toContain('Month')
-        ->toContain('Week')
-        ->toContain('Day');
+        ->toContain('x-text="t.month"')
+        ->toContain('x-text="t.week"')
+        ->toContain('x-text="t.day"');
 });
 
 it('renders month view by default', function () {
@@ -168,7 +168,7 @@ it('renders week view all-day section', function () {
     $html = Blade::render('<x-aura::calendar />');
 
     expect($html)
-        ->toContain('All day')
+        ->toContain('x-text="t.allDay"')
         ->toContain('getAllDayEvents(');
 });
 
@@ -259,17 +259,40 @@ it('has dynamic aria labels for navigation', function () {
     $html = Blade::render('<x-aura::calendar />');
 
     expect($html)
-        ->toContain('Previous week')
-        ->toContain('Next week')
-        ->toContain('Previous day')
-        ->toContain('Next day');
+        ->toContain('t.prev')
+        ->toContain('t.next')
+        ->toContain('t.month')
+        ->toContain('t.week')
+        ->toContain('t.day');
 });
 
 it('has view switcher aria labels', function () {
     $html = Blade::render('<x-aura::calendar />');
 
     expect($html)
-        ->toContain('aria-label="Month view"')
-        ->toContain('aria-label="Week view"')
-        ->toContain('aria-label="Day view"');
+        ->toContain(':aria-label="t.month"')
+        ->toContain(':aria-label="t.week"')
+        ->toContain(':aria-label="t.day"');
+});
+
+it('renders italian locale translations', function () {
+    $html = Blade::render('<x-aura::calendar locale="it" />');
+
+    expect($html)
+        ->toContain('Lun')
+        ->toContain('Ven')
+        ->toContain('Dom')
+        ->toContain('\u0022month\u0022:\u0022Mese\u0022')
+        ->toContain('\u0022today\u0022:\u0022Oggi\u0022')
+        ->toContain('\u0022allDay\u0022:\u0022Tutto il giorno\u0022');
+});
+
+it('falls back to english for unsupported locale', function () {
+    $html = Blade::render('<x-aura::calendar locale="zh" />');
+
+    expect($html)
+        ->toContain('Mon')
+        ->toContain('Fri')
+        ->toContain('\u0022month\u0022:\u0022Month\u0022')
+        ->toContain('\u0022today\u0022:\u0022Today\u0022');
 });

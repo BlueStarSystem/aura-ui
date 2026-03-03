@@ -9,7 +9,7 @@
 ])
 
 @php
-    $toolbarItems = array_map('trim', explode(',', $toolbar));
+    $toolbarItems = is_array($toolbar) ? $toolbar : array_map('trim', explode(',', $toolbar));
     $toolbarIcons = [
         'bold' => ['icon' => 'bold', 'cmd' => 'bold', 'label' => 'Bold'],
         'italic' => ['icon' => 'italic', 'cmd' => 'italic', 'label' => 'Italic'],
@@ -27,11 +27,24 @@
     x-data="{
         value: @if(isset($__livewire) && $attributes->wire('model')->value()) $wire.entangle('{{ $attributes->wire('model')->value() }}'){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else '' @endif,
 
+        sanitize(html) {
+            const temp = document.createElement('div');
+            temp.textContent = '';
+            temp.innerHTML = html;
+            temp.querySelectorAll('script,iframe,object,embed').forEach(el => el.remove());
+            [...temp.querySelectorAll('*')].forEach(el => {
+                [...el.attributes].forEach(attr => {
+                    if (attr.name.startsWith('on')) el.removeAttribute(attr.name);
+                });
+            });
+            return temp.innerHTML;
+        },
+
         init() {
-            this.$refs.editable.innerHTML = this.value || '';
+            this.$refs.editable.innerHTML = this.sanitize(this.value || '');
             this.$watch('value', (v) => {
                 if (this.$refs.editable.innerHTML !== v) {
-                    this.$refs.editable.innerHTML = v || '';
+                    this.$refs.editable.innerHTML = this.sanitize(v || '');
                 }
             });
         },

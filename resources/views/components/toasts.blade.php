@@ -24,8 +24,10 @@
         add(toast) {
             const id = Date.now() + Math.random();
             const duration = toast.duration || this.defaultDuration;
-            this.toasts.push({ id, type: toast.type || 'info', title: toast.title || '', message: toast.message || '', duration, progress: 100 });
-            if (this.toasts.length > this.maxToasts) this.toasts.shift();
+            const newToast = { id, type: toast.type || 'info', title: toast.title || '', message: toast.message || '', duration, progress: 100 };
+            let updated = [...this.toasts, newToast];
+            if (updated.length > this.maxToasts) updated = updated.slice(1);
+            this.toasts = updated;
             if (duration > 0) {
                 const interval = setInterval(() => {
                     const t = this.toasts.find(t => t.id === id);
@@ -39,7 +41,7 @@
             this.toasts = this.toasts.filter(t => t.id !== id);
         }
     }"
-    @aura:toast.window="add($event.detail)"
+    x-on:auratoast.window="add($event.detail)"
     {{ $attributes }}
 >
     <template x-for="toast in toasts" :key="toast.id">
