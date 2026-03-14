@@ -1,0 +1,73 @@
+name: Auto Release & Satis Rebuild
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest tag
+        id: latest_tag
+        run: |
+          TAG=$(git tag --sort=-v:refname | head -1)
+          if [ -z "$TAG" ]; then
+            TAG="v0.0.0"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Latest tag: $TAG"
+
+      - name: Determine version bump from commit message
+        id: bump
+        run: |
+          MSG=$(git log -1 --pretty=%B)
+          echo "Commit message: $MSG"
+
+          if echo "$MSG" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$MSG" | grep -q 'BREAKING CHANGE'; then
+            echo "type=major" >> "$GITHUB_OUTPUT"
+          elif echo "$MSG" | grep -qE '^feat(\(.+\))?:'; then
+            echo "type=minor" >> "$GITHUB_OUTPUT"
+          elif echo "$MSG" | grep -qE '^(fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?:'; then
+            echo "type=patch" >> "$GITHUB_OUTPUT"
+          else
+            echo "type=none" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Calculate new version
+        id: version
+        if: steps.bump.outputs.type != 'none'
+        run: |
+          TAG="${{ steps.latest_tag.outputs.tag }}"
+          VERSION="${TAG#v}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          BUMP="${{ steps.bump.outputs.type }}"
+          case "$BUMP" in
+            major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH + 1)) ;;
+          esac
+
+          NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "new_tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+          echo "New version: $NEW_TAG ($BUMP bump)"
+
+      - name: Create and push tag
+        if: steps.bump.outputs.type != 'none'
+        run: |
+          git tag ${{ steps.version.outputs.new_tag }}
+          git push origin ${{ steps.version.outputs.new_tag }}
+
+      - name: Trigger Satis rebuild
+        if: steps.bump.outputs.type != 'none'
+        run: |
+          curl -s -X POST https://packages.elju.it/_webhook             -H "X-Satis-Api-Key: ${{ secrets.SATIS_API_KEY }}"             -H "Content-Type: application/json"             -d '{"package": "${{ github.repository }}"}'
+          echo "Satis rebuild triggered"
