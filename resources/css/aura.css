@@ -168,6 +168,70 @@
 @utility z-aura-tooltip  { z-index: var(--z-aura-tooltip); }
 @utility z-aura-toast    { z-index: var(--z-aura-toast); }
 
+/* Stepper */
+.aura-stepper { display: flex; gap: 0.5rem; }
+.aura-stepper--horizontal { flex-direction: row; align-items: flex-start; }
+.aura-stepper--vertical { flex-direction: column; }
+
+.aura-stepper__step { display: flex; align-items: center; gap: 0.75rem; flex: 1; position: relative; }
+.aura-stepper--vertical .aura-stepper__step { flex: none; }
+
+.aura-stepper__indicator {
+    width: 2.25rem; height: 2.25rem; border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 0.8125rem; flex-shrink: 0;
+    transition: all 200ms ease; border: 2px solid transparent;
+}
+.aura-stepper--sm .aura-stepper__indicator { width: 1.75rem; height: 1.75rem; font-size: 0.75rem; }
+.aura-stepper--lg .aura-stepper__indicator { width: 2.75rem; height: 2.75rem; font-size: 0.9375rem; }
+
+.aura-stepper__step--completed .aura-stepper__indicator {
+    background: linear-gradient(135deg, var(--color-aura-primary-500), var(--color-aura-primary-600));
+    color: #ffffff;
+}
+.aura-stepper__step--active .aura-stepper__indicator {
+    border-color: var(--color-aura-primary-500); color: var(--color-aura-primary-600);
+    background: color-mix(in oklab, var(--color-aura-primary-500), transparent 90%);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-aura-primary-500), transparent 85%);
+}
+.aura-stepper__step--pending .aura-stepper__indicator {
+    border-color: var(--color-aura-surface-300); color: var(--color-aura-surface-400);
+    background: var(--color-aura-surface-50);
+}
+
+.aura-stepper__check { width: 1rem; height: 1rem; }
+.aura-stepper__icon { width: 1rem; height: 1rem; }
+.aura-stepper__number { line-height: 1; }
+
+.aura-stepper__label { font-weight: 500; font-size: 0.8125rem; color: var(--color-aura-surface-900); }
+.aura-stepper__step--pending .aura-stepper__label { color: var(--color-aura-surface-400); }
+.aura-stepper__description { font-size: 0.75rem; color: var(--color-aura-surface-500); display: block; }
+
+/* Connectors (horizontal) */
+.aura-stepper--horizontal .aura-stepper__step:not(:last-child)::after {
+    content: ''; position: absolute; top: 1.125rem; left: calc(50% + 1.25rem); right: -0.5rem;
+    height: 2px; background: var(--color-aura-surface-200);
+}
+.aura-stepper--horizontal .aura-stepper__step--completed:not(:last-child)::after {
+    background: var(--color-aura-primary-500);
+}
+.aura-stepper--no-connectors .aura-stepper__step::after { display: none; }
+
+/* Connectors (vertical) */
+.aura-stepper--vertical .aura-stepper__step:not(:last-child)::after {
+    content: ''; position: absolute; top: 2.5rem; left: 1.0625rem;
+    width: 2px; height: calc(100% - 1.25rem); background: var(--color-aura-surface-200);
+}
+.aura-stepper--vertical .aura-stepper__step--completed:not(:last-child)::after {
+    background: var(--color-aura-primary-500);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .aura-stepper--horizontal { flex-direction: column; }
+    .aura-stepper--horizontal .aura-stepper__step::after { display: none; }
+}
+
 /* Internal imports */
 @import "./compat/variables-compat.css";
 @import "./base/dark-mode.css";
