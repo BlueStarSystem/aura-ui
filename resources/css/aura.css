@@ -304,6 +304,79 @@
 .dark .aura-notification-center__item:hover { background: rgba(255,255,255,0.04); }
 .dark .aura-notification-center__badge { border-color: var(--color-aura-surface-800); }
 
+/* Data Card */
+.aura-data-card {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    padding: 1.25rem 1.5rem; background: var(--color-aura-surface-0, #ffffff);
+    border: 1px solid var(--color-aura-surface-200); border-radius: var(--radius-aura-lg, 12px);
+    transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
+    text-decoration: none; color: inherit; overflow: hidden;
+}
+.aura-data-card:hover { box-shadow: var(--shadow-aura-md); }
+.aura-data-card--clickable:hover { transform: translateY(-1px); border-color: var(--color-aura-surface-300); cursor: pointer; }
+
+.aura-data-card__header { display: flex; align-items: center; gap: 0.5rem; }
+.aura-data-card__icon {
+    width: 2.25rem; height: 2.25rem; border-radius: var(--radius-aura-md, 8px);
+    display: flex; align-items: center; justify-content: center;
+    background: color-mix(in oklab, var(--color-aura-primary-500), transparent 90%);
+    color: var(--color-aura-primary-600); flex-shrink: 0;
+}
+.aura-data-card__title { font-size: 0.8125rem; font-weight: 500; color: var(--color-aura-surface-400); text-transform: uppercase; letter-spacing: 0.03em; }
+
+.aura-data-card__body { display: flex; align-items: baseline; gap: 0.75rem; }
+.aura-data-card__value { font-size: 1.75rem; font-weight: 800; color: var(--color-aura-surface-900); letter-spacing: -0.025em; line-height: 1.1; }
+
+.aura-data-card__change { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.8125rem; font-weight: 600; }
+.aura-data-card__change--positive { color: #059669; }
+.aura-data-card__change--negative { color: #dc2626; }
+.aura-data-card__change--neutral { color: var(--color-aura-surface-400); }
+.aura-data-card__change-icon { width: 1rem; height: 1rem; }
+
+.aura-data-card__sparkline { margin-top: 0.25rem; height: 2rem; color: var(--color-aura-primary-400); opacity: 0.7; }
+.aura-data-card__sparkline-svg { width: 100%; height: 100%; }
+
+.aura-data-card__footer { padding-top: 0.75rem; border-top: 1px solid var(--color-aura-surface-100); font-size: 0.8125rem; }
+
+.dark .aura-data-card { background: var(--color-aura-surface-800); border-color: var(--color-aura-surface-700); }
+.dark .aura-data-card__value { color: var(--color-aura-surface-100); }
+.dark .aura-data-card__footer { border-top-color: var(--color-aura-surface-700); }
+
+/* Floating Label Input */
+.aura-floating-input { position: relative; width: 100%; max-width: 340px; }
+
+.aura-floating-input__field { position: relative; }
+
+.aura-floating-input__input {
+    width: 100%; padding: 1rem 0 0.5rem; border: none; border-bottom: 2px solid var(--color-aura-surface-300);
+    background: transparent; font-size: 0.9375rem; color: var(--color-aura-surface-900);
+    outline: none; transition: border-color 150ms ease; box-sizing: border-box;
+}
+.aura-floating-input__input:focus,
+.aura-floating-input__input--active { border-bottom-color: var(--color-aura-primary-500); }
+
+.aura-floating-input__label {
+    position: absolute; left: 0; top: 0.75rem; font-size: 0.9375rem; color: var(--color-aura-surface-400);
+    pointer-events: none; transition: all 150ms ease; transform-origin: left top;
+}
+.aura-floating-input__label--float {
+    transform: translateY(-0.75rem) scale(0.75); color: var(--color-aura-primary-600);
+}
+
+.aura-floating-input__required { color: var(--color-aura-danger-500); margin-left: 0.125rem; }
+
+.aura-floating-input__error { font-size: 0.75rem; color: var(--color-aura-danger-500); margin-top: 0.375rem; font-weight: 500; }
+
+.aura-floating-input--error .aura-floating-input__input { border-bottom-color: var(--color-aura-danger-500); }
+.aura-floating-input--error .aura-floating-input__label--float { color: var(--color-aura-danger-600); }
+
+.aura-floating-input--disabled .aura-floating-input__input { background: var(--color-aura-surface-50); cursor: not-allowed; opacity: 0.6; }
+
+.dark .aura-floating-input__input { color: var(--color-aura-surface-100); border-bottom-color: var(--color-aura-surface-600); }
+.dark .aura-floating-input__input:focus { border-bottom-color: var(--color-aura-primary-400); }
+.dark .aura-floating-input__label--float { color: var(--color-aura-primary-400); }
+.dark .aura-floating-input--disabled .aura-floating-input__input { background: var(--color-aura-surface-800); }
+
 /* Internal imports */
 @import "./compat/variables-compat.css";
 @import "./base/dark-mode.css";
