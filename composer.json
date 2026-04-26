@@ -1,6 +1,6 @@
 {
     "name": "bluestarsystem/aura-ui",
-    "version": "3.3.0",
+    "version": "3.4.0",
     "description": "Vibrant Depth UI component library for Laravel + Livewire + Alpine.js + Tailwind CSS",
     "type": "library",
     "license": "MIT",
@@ -19,8 +19,8 @@
     },
     "require": {
         "php": "^8.3",
-        "illuminate/support": "^12.0",
-        "illuminate/view": "^12.0"
+        "illuminate/support": "^12.0 || ^13.0",
+        "illuminate/view": "^12.0 || ^13.0"
     },
     "require-dev": {
         "livewire/livewire": "^3.6 || ^4.0",
