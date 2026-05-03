@@ -18,10 +18,28 @@
     };
     $contentClasses = ['aura-modal-content', $maxWidthClass, 'relative w-full max-h-[calc(100vh-48px)] bg-aura-surface-0 border border-aura-surface-200 rounded-aura-xl shadow-aura-2xl overflow-hidden flex flex-col'];
     if ($glass) $contentClasses[] = 'aura-glass';
+
+    // Detect wire:model[.modifier] usage and entangle Alpine `open` to the Livewire property.
+    // Strip the directive from $attributes so it doesn't end up on the wrapper (Livewire only
+    // binds wire:model to form controls; on a div it is a no-op that we replace with entangle).
+    $wireModelProperty = null;
+    $wireModelLive = false;
+    foreach (array_keys($attributes->getAttributes()) as $attrKey) {
+        if (str_starts_with($attrKey, 'wire:model')) {
+            $rawProperty = $attributes->get($attrKey);
+            $wireModelProperty = preg_replace('/[^a-zA-Z0-9_\.\[\]]/', '', (string) $rawProperty);
+            $wireModelLive = str_contains($attrKey, '.live');
+            $attributes = $attributes->except($attrKey);
+            break;
+        }
+    }
+    $xDataAttribute = $wireModelProperty
+        ? sprintf('x-data="{ open: $wire.entangle(\'%s\')%s }"', $wireModelProperty, $wireModelLive ? '.live' : '')
+        : 'x-data="{ open: false }"';
 @endphp
 
 <div
-    x-data="{ open: false }"
+    {!! $xDataAttribute !!}
     @if($name) x-on:open-modal.window="if ($event.detail === '{{ $name }}') open = true"
     x-on:close-modal.window="if ($event.detail === '{{ $name }}') open = false" @endif
     x-on:keydown.escape.window="open = false"
