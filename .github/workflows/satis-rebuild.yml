@@ -1,0 +1,15 @@
+name: Trigger Satis rebuild
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify packages.elju.it
+        run: |
+          curl -fsS -X POST \
+            -H "X-Satis-Api-Key: ${{ secrets.SATIS_API_KEY }}" \
+            https://packages.elju.it/_webhook
