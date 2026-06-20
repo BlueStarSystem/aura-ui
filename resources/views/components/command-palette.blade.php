@@ -25,11 +25,14 @@
             const items = this.flatItems;
             if (items[this.activeIndex]) items[this.activeIndex].click();
         },
-        reset() { this.search = ''; this.activeIndex = 0; }
+        reset() { this.search = ''; this.activeIndex = 0; },
+        _auraLastFocused: null,
+        openPalette() { this._auraLastFocused = document.activeElement; this.open = true; this.reset(); },
+        closePalette() { this.open = false; if (this._auraLastFocused) { this._auraLastFocused.focus(); this._auraLastFocused = null; } }
     }"
-    x-on:keydown.meta.k.window.prevent="open = !open; if (open) reset();"
-    x-on:keydown.ctrl.k.window.prevent="open = !open; if (open) reset();"
-    x-on:keydown.escape.window="open = false"
+    x-on:keydown.meta.k.window.prevent="open ? closePalette() : openPalette()"
+    x-on:keydown.ctrl.k.window.prevent="open ? closePalette() : openPalette()"
+    x-on:keydown.escape.window="closePalette()"
     {{ $attributes }}
 >
     <template x-teleport="body">
@@ -42,11 +45,14 @@
             x-transition:leave="aura-transition-fast"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            @click="open = false"
+            @click="closePalette()"
             style="display: none;"
         >
             <div
                 class="aura-command-dialog w-full max-w-lg bg-aura-surface-0 border border-aura-surface-200 rounded-aura-xl shadow-aura-2xl overflow-hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-label="{{ $placeholder }}"
                 x-show="open"
                 x-transition:enter="aura-transition"
                 x-transition:enter-start="opacity-0 scale-95 -translate-y-4"

@@ -36,7 +36,8 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
         x-cloak
-        role="menu"
+        role="region"
+        aria-label="Notifications"
     >
         <div class="aura-notification-center__list" style="max-height: {{ $maxHeight }}">
             @if ($slot->isEmpty() && isset($empty))

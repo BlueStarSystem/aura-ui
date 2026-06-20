@@ -42,6 +42,10 @@
         }
     }"
     x-on:auratoast.window="add($event.detail)"
+    role="region"
+    aria-label="Notifications"
+    aria-live="polite"
+    aria-atomic="false"
     {{ $attributes }}
 >
     <template x-for="toast in toasts" :key="toast.id">
@@ -54,7 +58,6 @@
             x-transition:leave="aura-transition-fast"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0 translate-x-4"
-            role="alert"
         >
             <div class="aura-toast-icon shrink-0" x-bind:class="{
                 'text-aura-success-500': toast.type === 'success',

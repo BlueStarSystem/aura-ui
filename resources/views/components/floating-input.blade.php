@@ -9,6 +9,7 @@
 ])
 
 @php $inputId = $attributes->get('id') ?? 'aura-fi-' . $name . '-' . uniqid(); @endphp
+@php $descriptionId = $inputId . '-description'; @endphp
 
 <div
     {{ $attributes->only('class')->class([
@@ -30,6 +31,7 @@
             @if($value) value="{{ $value }}" @endif
             @if($required) required @endif
             @if($disabled) disabled @endif
+            @if($error) aria-invalid="true" aria-describedby="{{ $descriptionId }}" @endif
             class="aura-floating-input__input"
             :class="{ 'aura-floating-input__input--active': active }"
             x-on:focus="focused = true"
@@ -50,6 +52,6 @@
     </div>
 
     @if ($error)
-        <p class="aura-floating-input__error">{{ $error }}</p>
+        <p id="{{ $descriptionId }}" class="aura-floating-input__error">{{ $error }}</p>
     @endif
 </div>
