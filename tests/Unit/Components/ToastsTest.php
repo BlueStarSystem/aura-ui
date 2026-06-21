@@ -40,10 +40,10 @@ it('sets default duration', function () {
     expect($html)->toContain('defaultDuration: 3000');
 });
 
-it('listens for aura:toast event', function () {
+it('listens for auratoast event', function () {
     $html = Blade::render('<x-aura::toasts />');
 
-    expect($html)->toContain('aura:toast');
+    expect($html)->toContain('auratoast');
 });
 
 it('has add and remove methods', function () {
@@ -54,12 +54,13 @@ it('has add and remove methods', function () {
         ->toContain('remove(');
 });
 
-it('renders toast template with role alert', function () {
+it('exposes the toast container as a polite live region', function () {
     $html = Blade::render('<x-aura::toasts />');
 
     expect($html)
         ->toContain('aura-toast')
-        ->toContain('role="alert"');
+        ->toContain('role="region"')
+        ->toContain('aria-live="polite"');
 });
 
 it('renders close button', function () {

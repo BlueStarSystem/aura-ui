@@ -5,11 +5,14 @@
     'disabled' => false,
 ])
 
+@php $descriptionId = $description ? 'aura-checkbox-desc-' . uniqid() : null; @endphp
+
 <label class="aura-checkbox flex items-start gap-2.5 cursor-pointer relative select-none" @if($disabled) aria-disabled="true" @endif>
     <input
         type="checkbox"
         @if($value) value="{{ $value }}" @endif
         @if($disabled) disabled @endif
+        @if($descriptionId) aria-describedby="{{ $descriptionId }}" @endif
         {{ $attributes }}
     />
     <span class="aura-checkbox-box shrink-0 w-[18px] h-[18px] mt-px border-2 border-aura-surface-300 rounded-[5px] bg-aura-surface-0 flex items-center justify-center aura-transition">
@@ -21,7 +24,7 @@
         <span class="aura-checkbox-content flex flex-col gap-0.5">
             <span class="aura-checkbox-label text-sm font-[450] text-aura-surface-900 leading-snug">{{ $label }}</span>
             @if($description)
-                <span class="aura-checkbox-description text-xs text-aura-surface-400 leading-snug">{{ $description }}</span>
+                <span id="{{ $descriptionId }}" class="aura-checkbox-description text-xs text-aura-surface-400 leading-snug">{{ $description }}</span>
             @endif
         </span>
     @endif

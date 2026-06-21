@@ -13,6 +13,7 @@
 ])
 
 @php $inputId = $attributes->get('id') ?? 'aura-input-' . uniqid(); @endphp
+@php $descriptionId = $inputId . '-description'; @endphp
 
 @php
     $textareaClasses = [
@@ -41,6 +42,8 @@
         @if($disabled) disabled @endif
         @if($readonly) readonly @endif
         @if($maxlength) maxlength="{{ $maxlength }}" @endif
+        @if($error) aria-invalid="true" @endif
+        @if($error || $hint) aria-describedby="{{ $descriptionId }}" @endif
         @if($characterCount) x-on:input="count = $el.value.length" @endif
         @if($autoResize) x-on:input="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'" @endif
         {{ $attributes->except('id')->class($textareaClasses) }}
@@ -48,9 +51,9 @@
 
     <div class="aura-input-footer">
         @if($error)
-            <p class="aura-input-error-text text-xs text-aura-danger-500 font-medium flex items-center gap-1 aura-animate-shake">{{ $error }}</p>
+            <p id="{{ $descriptionId }}" class="aura-input-error-text text-xs text-aura-danger-500 font-medium flex items-center gap-1 aura-animate-shake">{{ $error }}</p>
         @elseif($hint)
-            <p class="aura-input-hint text-xs text-aura-surface-400 leading-snug">{{ $hint }}</p>
+            <p id="{{ $descriptionId }}" class="aura-input-hint text-xs text-aura-surface-400 leading-snug">{{ $hint }}</p>
         @endif
 
         @if($characterCount && $maxlength)

@@ -33,6 +33,8 @@
     };
 
     $panelSize = $isHorizontal ? "width:100%;max-height:{$sizeMap};" : "height:100%;max-width:{$sizeMap};";
+
+    $drawerTitleId = 'aura-drawer-title-' . uniqid();
 @endphp
 
 <div x-data="{
@@ -72,13 +74,33 @@
     {{-- Panel: uses visibility+transform instead of x-show for smooth slide animation --}}
     <div x-cloak
          x-on:click.stop
+         role="dialog"
+         aria-modal="true"
+         @if($title) aria-labelledby="{{ $drawerTitleId }}" @endif
+         tabindex="-1"
+         x-data="{ _auraLastFocused: null }"
+         x-effect="
+            if (drawerOpen) {
+                if (! _auraLastFocused) { _auraLastFocused = document.activeElement; }
+                $nextTick(() => { ($el.querySelector('[autofocus]') || $el).focus(); });
+            } else if (_auraLastFocused) {
+                _auraLastFocused.focus(); _auraLastFocused = null;
+            }
+         "
+         x-on:keydown.tab="
+            const els = [...$el.querySelectorAll('a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex=&quot;-1&quot;])')].filter(el => el.offsetParent !== null);
+            if (! els.length) return;
+            const first = els[0], last = els[els.length - 1];
+            if ($event.shiftKey && document.activeElement === first) { $event.preventDefault(); last.focus(); }
+            else if (! $event.shiftKey && document.activeElement === last) { $event.preventDefault(); first.focus(); }
+         "
          style="position:fixed;z-index:var(--z-aura-modal, 500);{{ $positionStyle }}{{ $panelSize }}background:var(--aura-surface-0, #fff);box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);transition:transform 0.3s ease,visibility 0.3s;overflow:hidden;"
          :style="{ transform: drawerOpen ? 'translate(0,0)' : '{{ $translateHidden }}', visibility: drawerOpen ? 'visible' : 'hidden' }">
 
         @if($title || $closeable)
         <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aura-surface-200, #e5e7eb);padding:1rem 1.5rem;">
             @if($title)
-                <h3 style="font-size:1.125rem;font-weight:600;color:var(--aura-surface-900, #111827);margin:0;">{{ $title }}</h3>
+                <h3 id="{{ $drawerTitleId }}" style="font-size:1.125rem;font-weight:600;color:var(--aura-surface-900, #111827);margin:0;">{{ $title }}</h3>
             @else
                 <div></div>
             @endif

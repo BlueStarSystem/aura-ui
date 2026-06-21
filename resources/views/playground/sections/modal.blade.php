@@ -20,6 +20,15 @@
     </div>
 
     <div class="space-y-3">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Livewire Modal (wire:model)</h3>
+        <p class="text-sm text-aura-surface-500">Pass a Livewire property via <code>wire:model</code> to drive the open state from the server.</p>
+        <pre class="text-xs bg-aura-surface-100 dark:bg-aura-surface-800 p-3 rounded-lg overflow-x-auto"><code>{{ '<x-aura::modal title="..." wire:model="showModal">
+    <p>Body controlled by Livewire $showModal property.</p>
+</x-aura::modal>' }}</code></pre>
+        <p class="text-xs text-aura-surface-500">Inside the component, <code>$this->showModal = true</code> opens it; <code>$this->showModal = false</code> closes it. Use <code>wire:model.live</code> for round-trip changes.</p>
+    </div>
+
+    <div class="space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wider text-aura-surface-400">Danger Modal</h3>
         <div class="flex flex-wrap gap-3 items-center">
             <x-aura::button variant="danger" @click="$dispatch('open-modal', 'danger-modal')">Elimina elemento</x-aura::button>

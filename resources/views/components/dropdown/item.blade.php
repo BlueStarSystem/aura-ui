@@ -11,12 +11,12 @@
 @endphp
 
 @if($href)
-<a href="{{ $href }}" class="{{ implode(' ', $classes) }}" {{ $attributes }}>
+<a href="{{ $href }}" role="menuitem" class="{{ implode(' ', $classes) }}" {{ $attributes }}>
     @if($icon) <x-aura::icon :name="$icon" size="sm" /> @endif
     <span>{{ $slot }}</span>
 </a>
 @else
-<button type="{{ $type }}" class="{{ implode(' ', $classes) }}" {{ $attributes }}>
+<button type="{{ $type }}" role="menuitem" class="{{ implode(' ', $classes) }}" {{ $attributes }}>
     @if($icon) <x-aura::icon :name="$icon" size="sm" /> @endif
     <span>{{ $slot }}</span>
 </button>

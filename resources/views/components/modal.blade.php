@@ -18,10 +18,30 @@
     };
     $contentClasses = ['aura-modal-content', $maxWidthClass, 'relative w-full max-h-[calc(100vh-48px)] bg-aura-surface-0 border border-aura-surface-200 rounded-aura-xl shadow-aura-2xl overflow-hidden flex flex-col'];
     if ($glass) $contentClasses[] = 'aura-glass';
+
+    $modalTitleId = 'aura-modal-title-' . uniqid();
+
+    // Detect wire:model[.modifier] usage and entangle Alpine `open` to the Livewire property.
+    // Strip the directive from $attributes so it doesn't end up on the wrapper (Livewire only
+    // binds wire:model to form controls; on a div it is a no-op that we replace with entangle).
+    $wireModelProperty = null;
+    $wireModelLive = false;
+    foreach (array_keys($attributes->getAttributes()) as $attrKey) {
+        if (str_starts_with($attrKey, 'wire:model')) {
+            $rawProperty = $attributes->get($attrKey);
+            $wireModelProperty = preg_replace('/[^a-zA-Z0-9_\.\[\]]/', '', (string) $rawProperty);
+            $wireModelLive = str_contains($attrKey, '.live');
+            $attributes = $attributes->except($attrKey);
+            break;
+        }
+    }
+    $xDataAttribute = $wireModelProperty
+        ? sprintf('x-data="{ open: $wire.entangle(\'%s\')%s }"', $wireModelProperty, $wireModelLive ? '.live' : '')
+        : 'x-data="{ open: false }"';
 @endphp
 
 <div
-    x-data="{ open: false }"
+    {!! $xDataAttribute !!}
     @if($name) x-on:open-modal.window="if ($event.detail === '{{ $name }}') open = true"
     x-on:close-modal.window="if ($event.detail === '{{ $name }}') open = false" @endif
     x-on:keydown.escape.window="open = false"
@@ -56,10 +76,30 @@
                 x-transition:leave-start="opacity-100 transform scale-100"
                 x-transition:leave-end="opacity-0 transform scale-95"
                 x-on:click.stop
+                role="dialog"
+                aria-modal="true"
+                @if(isset($title)) aria-labelledby="{{ $modalTitleId }}" @endif
+                tabindex="-1"
+                x-data="{ _auraLastFocused: null }"
+                x-effect="
+                    if (open) {
+                        if (! _auraLastFocused) { _auraLastFocused = document.activeElement; }
+                        $nextTick(() => { ($el.querySelector('[autofocus]') || $el).focus(); });
+                    } else if (_auraLastFocused) {
+                        _auraLastFocused.focus(); _auraLastFocused = null;
+                    }
+                "
+                x-on:keydown.tab="
+                    const els = [...$el.querySelectorAll('a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex=&quot;-1&quot;])')].filter(el => el.offsetParent !== null);
+                    if (! els.length) return;
+                    const first = els[0], last = els[els.length - 1];
+                    if ($event.shiftKey && document.activeElement === first) { $event.preventDefault(); last.focus(); }
+                    else if (! $event.shiftKey && document.activeElement === last) { $event.preventDefault(); first.focus(); }
+                "
             >
                 @if(isset($title))
                     <div class="aura-modal-header px-6 pt-5 pb-4 border-b border-aura-surface-200 flex items-center justify-between gap-4">
-                        <h3 class="aura-modal-title text-[17px] font-bold text-aura-surface-900 m-0 tracking-tight">{{ $title }}</h3>
+                        <h3 id="{{ $modalTitleId }}" class="aura-modal-title text-[17px] font-bold text-aura-surface-900 m-0 tracking-tight">{{ $title }}</h3>
                         @if($closeable)
                             <button type="button" class="aura-modal-close shrink-0 w-8 h-8 flex items-center justify-center border-none bg-transparent text-aura-surface-400 rounded-aura-sm cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="open = false" aria-label="Close">
                                 <x-aura::icon name="x" size="md" />
