@@ -35,9 +35,10 @@ jobs:
             echo "type=major" >> "$GITHUB_OUTPUT"
           elif echo "$MSG" | grep -qE '^feat(\(.+\))?:'; then
             echo "type=minor" >> "$GITHUB_OUTPUT"
-          elif echo "$MSG" | grep -qE '^(fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?:'; then
+          elif echo "$MSG" | grep -qE '^(fix|perf|refactor)(\(.+\))?:'; then
             echo "type=patch" >> "$GITHUB_OUTPUT"
           else
+            # docs/test/chore/ci/build/style change no shipped code -> no release (avoids version churn)
             echo "type=none" >> "$GITHUB_OUTPUT"
           fi
 
