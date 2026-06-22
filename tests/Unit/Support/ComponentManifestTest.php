@@ -27,3 +27,14 @@ it('throws when getting an unknown component', function () {
     $m = new ComponentManifest([]);
     expect(fn () => $m->get('nope'))->toThrow(InvalidArgumentException::class);
 });
+
+it('defaults type to component when absent and reads explicit block type', function () {
+    $m = new ComponentManifest([
+        'button' => ['tier' => 'free', 'files' => ['button.blade.php'], 'deps' => []],
+        'hero-split' => ['tier' => 'free', 'type' => 'block', 'files' => ['blocks/hero-split.blade.php'], 'deps' => ['button']],
+    ]);
+
+    expect($m->type('button'))->toBe('component')
+        ->and($m->type('hero-split'))->toBe('block')
+        ->and($m->resolve('hero-split'))->toBe(['button', 'hero-split']);
+});

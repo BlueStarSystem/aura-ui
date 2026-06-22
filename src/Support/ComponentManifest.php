@@ -6,7 +6,7 @@ use InvalidArgumentException;
 
 final class ComponentManifest
 {
-    /** @param array<string, array{tier:string, files:list<string>, deps:list<string>}> $entries */
+    /** @param array<string, array{tier:string, type?:string, files:list<string>, deps:list<string>}> $entries */
     public function __construct(private array $entries) {}
 
     /** @param list<string> $paths */
@@ -34,7 +34,7 @@ final class ComponentManifest
         return isset($this->entries[$name]);
     }
 
-    /** @return array{tier:string, files:list<string>, deps:list<string>} */
+    /** @return array{tier:string, type?:string, files:list<string>, deps:list<string>} */
     public function get(string $name): array
     {
         if (! $this->has($name)) {
@@ -47,6 +47,11 @@ final class ComponentManifest
     public function tier(string $name): string
     {
         return $this->get($name)['tier'];
+    }
+
+    public function type(string $name): string
+    {
+        return $this->get($name)['type'] ?? 'component';
     }
 
     /** @return list<string> */
