@@ -78,6 +78,7 @@ class AuraUIServiceProvider extends ServiceProvider
             Commands\InstallCommand::class,
             Commands\ManifestCommand::class,
             Commands\AddCommand::class,
+            Commands\InitCommand::class,
         ]);
     }
 }
