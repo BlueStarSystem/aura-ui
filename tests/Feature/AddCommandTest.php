@@ -60,3 +60,23 @@ it('blocks when a free component has a pro dep and pro package is absent', funct
         'components' => ['card'], '--path' => $this->dest, '--free-root' => $this->free,
     ])->expectsOutputToContain('composer require bluestarsystem/aura-ui-pro')->assertFailed();
 });
+
+it('installs a block and its component deps into the blocks subdir with rewritten namespace', function () {
+    $root = sys_get_temp_dir().'/aura-add-block-'.uniqid();
+    $free = $root.'/free';
+    $dest = $root.'/dest';
+    \Illuminate\Support\Facades\File::ensureDirectoryExists($free.'/resources/views/components/blocks');
+    \Illuminate\Support\Facades\File::put($free.'/resources/views/components/button.blade.php', '<button>x</button>');
+    \Illuminate\Support\Facades\File::put($free.'/resources/views/components/blocks/hero-split.blade.php', '<section><x-aura::button>Go</x-aura::button></section>');
+    \Illuminate\Support\Facades\File::put($free.'/resources/aura-registry.json', json_encode([
+        'button' => ['tier' => 'free', 'type' => 'component', 'files' => ['button.blade.php'], 'deps' => []],
+        'hero-split' => ['tier' => 'free', 'type' => 'block', 'files' => ['blocks/hero-split.blade.php'], 'deps' => ['button']],
+    ]));
+
+    $this->artisan('aura:add', ['components' => ['hero-split'], '--path' => $dest, '--free-root' => $free])->assertSuccessful();
+
+    expect(\Illuminate\Support\Facades\File::get($dest.'/blocks/hero-split.blade.php'))->toContain('<x-aura.button>')
+        ->and(\Illuminate\Support\Facades\File::exists($dest.'/button.blade.php'))->toBeTrue();
+
+    \Illuminate\Support\Facades\File::deleteDirectory($root);
+});
