@@ -30,8 +30,8 @@
         files: [],
         error: '',
         _syncing: false,
-        maxBytes: {{ $maxBytes ?? 'null' }},
-        accept: '{{ $accept ?? '' }}',
+        maxBytes: {{ is_null($maxBytes) ? 'null' : (int) $maxBytes }},
+        accept: {{ Js::from($accept ?? '') }},
         multiple: {{ $multiple ? 'true' : 'false' }},
         preview: {{ $preview ? 'true' : 'false' }},
 
@@ -49,7 +49,7 @@
             this.error = '';
             for (let f of fileList) {
                 if (this.maxBytes && f.size > this.maxBytes) {
-                    this.error = f.name + ' exceeds the maximum size ({{ $maxSize }})';
+                    this.error = f.name + ' exceeds the maximum size (' + {{ Js::from($maxSize) }} + ')';
                     continue;
                 }
                 if (this.accept && !this.matchesAccept(f)) {

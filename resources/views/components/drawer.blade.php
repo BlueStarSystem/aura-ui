@@ -43,8 +43,8 @@
         closeDrawer() { this.drawerOpen = false; }
      }"
      @if($name)
-     x-on:open-drawer.window="if ($event.detail === '{{ $name }}') openDrawer()"
-     x-on:close-drawer.window="if ($event.detail === '{{ $name }}') closeDrawer()"
+     x-on:open-drawer.window="if ($event.detail === {{ Js::from($name) }}) openDrawer()"
+     x-on:close-drawer.window="if ($event.detail === {{ Js::from($name) }}) closeDrawer()"
      @endif
      x-on:keydown.escape.window="closeDrawer()"
      {{ $attributes }}>

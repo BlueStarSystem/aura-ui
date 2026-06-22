@@ -6,7 +6,7 @@
 
 <div class="aura-tooltip-wrapper relative inline-flex" x-data="{ show: false }" {{ $attributes }}>
     <div
-        x-on:mouseenter="setTimeout(() => show = true, {{ $delay }})"
+        x-on:mouseenter="setTimeout(() => show = true, {{ (int) $delay }})"
         x-on:mouseleave="show = false"
         x-on:focus="show = true"
         x-on:blur="show = false"

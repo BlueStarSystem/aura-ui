@@ -26,7 +26,7 @@
         interval: null,
         init() {
             @if($target)
-                const target = new Date('{{ $target }}').getTime();
+                const target = new Date({{ Js::from($target) }}).getTime();
                 this.remaining = Math.max(0, Math.floor((target - Date.now()) / 1000));
             @elseif($seconds)
                 this.remaining = {{ (int)$seconds }};

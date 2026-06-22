@@ -87,14 +87,14 @@
 <div
     class="aura-calendar border border-aura-surface-200 rounded-aura-lg overflow-hidden bg-aura-surface-0"
     x-data="{
-        view: '{{ $view }}',
+        view: {{ Js::from($view) }},
         currentDate: new Date(),
         events: {{ Js::from($events) }},
-        eventDateKey: '{{ $eventDateKey }}',
-        eventTitleKey: '{{ $eventTitleKey }}',
-        eventColorKey: '{{ $eventColorKey }}',
-        eventStartKey: '{{ $eventStartKey }}',
-        eventEndKey: '{{ $eventEndKey }}',
+        eventDateKey: {{ Js::from($eventDateKey) }},
+        eventTitleKey: {{ Js::from($eventTitleKey) }},
+        eventColorKey: {{ Js::from($eventColorKey) }},
+        eventStartKey: {{ Js::from($eventStartKey) }},
+        eventEndKey: {{ Js::from($eventEndKey) }},
         startOfWeek: {{ (int)$startOfWeek }},
         businessHoursStart: {{ (int)$businessHoursStart }},
         businessHoursEnd: {{ (int)$businessHoursEnd }},
@@ -110,7 +110,7 @@
         },
 
         get monthTitle() {
-            return this.currentDate.toLocaleString('{{ $locale }}', { month: 'long', year: 'numeric' });
+            return this.currentDate.toLocaleString({{ Js::from($locale) }}, { month: 'long', year: 'numeric' });
         },
 
         get weekTitle() {
@@ -118,16 +118,16 @@
             const end = new Date(start);
             end.setDate(end.getDate() + 6);
             const opts = { month: 'short', day: 'numeric' };
-            const startStr = start.toLocaleString('{{ $locale }}', opts);
+            const startStr = start.toLocaleString({{ Js::from($locale) }}, opts);
             if (start.getMonth() === end.getMonth()) {
                 return startStr + ' – ' + end.getDate() + ', ' + start.getFullYear();
             }
-            const endStr = end.toLocaleString('{{ $locale }}', opts);
+            const endStr = end.toLocaleString({{ Js::from($locale) }}, opts);
             return startStr + ' – ' + endStr + ', ' + end.getFullYear();
         },
 
         get dayTitle() {
-            return this.currentDate.toLocaleString('{{ $locale }}', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            return this.currentDate.toLocaleString({{ Js::from($locale) }}, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         },
 
         get days() {
@@ -182,7 +182,7 @@
         },
 
         formatDayHeader(date) {
-            return date.toLocaleString('{{ $locale }}', { weekday: 'short', day: 'numeric' });
+            return date.toLocaleString({{ Js::from($locale) }}, { weekday: 'short', day: 'numeric' });
         },
 
         isToday(date) {

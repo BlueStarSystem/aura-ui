@@ -17,7 +17,7 @@
         $sizeClass,
         'aura-stepper--no-connectors' => ! $connectors,
     ]) }}
-    x-data="{ active: {{ $active }}, total: 0 }"
+    x-data="{ active: {{ (int) $active }}, total: 0 }"
     x-init="total = $el.querySelectorAll('.aura-stepper__step').length"
 >
     {{ $slot }}

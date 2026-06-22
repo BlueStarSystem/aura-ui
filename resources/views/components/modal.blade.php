@@ -42,8 +42,8 @@
 
 <div
     {!! $xDataAttribute !!}
-    @if($name) x-on:open-modal.window="if ($event.detail === '{{ $name }}') open = true"
-    x-on:close-modal.window="if ($event.detail === '{{ $name }}') open = false" @endif
+    @if($name) x-on:open-modal.window="if ($event.detail === {{ Js::from($name) }}) open = true"
+    x-on:close-modal.window="if ($event.detail === {{ Js::from($name) }}) open = false" @endif
     x-on:keydown.escape.window="open = false"
     {{ $attributes }}
 >
