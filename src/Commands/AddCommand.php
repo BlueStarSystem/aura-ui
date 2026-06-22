@@ -52,6 +52,14 @@ class AddCommand extends Command
 
         $resolved = array_values(array_unique($resolved));
 
+        foreach ($resolved as $name) {
+            if ($manifest->tier($name) === 'pro' && ! $proPresent) {
+                $this->error("\"{$name}\" is a Pro component. Run first: composer require bluestarsystem/aura-ui-pro");
+
+                return self::FAILURE;
+            }
+        }
+
         $sourceBasePaths = ['free' => $freeRoot.'/resources/views/components'];
 
         if ($proPresent) {

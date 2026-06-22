@@ -47,3 +47,16 @@ it('blocks a pro component when the pro package is absent', function () {
         'components' => ['scheduler'], '--path' => $this->dest, '--free-root' => $this->free,
     ])->expectsOutputToContain('composer require bluestarsystem/aura-ui-pro')->assertFailed();
 });
+
+it('blocks when a free component has a pro dep and pro package is absent', function () {
+    // Overwrite the registry so that a free component ("card") depends on a pro component ("scheduler")
+    File::put($this->free.'/resources/aura-registry.json', json_encode([
+        'card'      => ['tier' => 'free', 'files' => ['card.blade.php'], 'deps' => ['scheduler']],
+        'scheduler' => ['tier' => 'pro',  'files' => ['scheduler.blade.php'], 'deps' => []],
+    ]));
+    File::put($this->free.'/resources/views/components/card.blade.php', '<div>card</div>');
+
+    $this->artisan('aura:add', [
+        'components' => ['card'], '--path' => $this->dest, '--free-root' => $this->free,
+    ])->expectsOutputToContain('composer require bluestarsystem/aura-ui-pro')->assertFailed();
+});
