@@ -1,0 +1,591 @@
+{
+    "accordion": {
+        "tier": "free",
+        "files": [
+            "accordion.blade.php",
+            "accordion/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "alert": {
+        "tier": "free",
+        "files": [
+            "alert.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "aside": {
+        "tier": "free",
+        "files": [
+            "aside.blade.php"
+        ],
+        "deps": []
+    },
+    "autocomplete": {
+        "tier": "free",
+        "files": [
+            "autocomplete.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "avatar": {
+        "tier": "free",
+        "files": [
+            "avatar.blade.php",
+            "avatar/group.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "badge": {
+        "tier": "free",
+        "files": [
+            "badge.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "brand": {
+        "tier": "free",
+        "files": [
+            "brand.blade.php"
+        ],
+        "deps": []
+    },
+    "breadcrumbs": {
+        "tier": "free",
+        "files": [
+            "breadcrumbs.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "button": {
+        "tier": "free",
+        "files": [
+            "button.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "calendar": {
+        "tier": "free",
+        "files": [
+            "calendar.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "card": {
+        "tier": "free",
+        "files": [
+            "card.blade.php",
+            "card/description.blade.php",
+            "card/title.blade.php"
+        ],
+        "deps": []
+    },
+    "chart": {
+        "tier": "free",
+        "files": [
+            "chart.blade.php"
+        ],
+        "deps": []
+    },
+    "checkbox": {
+        "tier": "free",
+        "files": [
+            "checkbox.blade.php"
+        ],
+        "deps": []
+    },
+    "collapsible": {
+        "tier": "free",
+        "files": [
+            "collapsible.blade.php"
+        ],
+        "deps": []
+    },
+    "command-palette": {
+        "tier": "free",
+        "files": [
+            "command-palette.blade.php",
+            "command-palette/group.blade.php",
+            "command-palette/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "container": {
+        "tier": "free",
+        "files": [
+            "container.blade.php"
+        ],
+        "deps": []
+    },
+    "context-menu": {
+        "tier": "free",
+        "files": [
+            "context-menu.blade.php"
+        ],
+        "deps": []
+    },
+    "countdown": {
+        "tier": "free",
+        "files": [
+            "countdown.blade.php"
+        ],
+        "deps": []
+    },
+    "data-card": {
+        "tier": "free",
+        "files": [
+            "data-card.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "date-picker": {
+        "tier": "free",
+        "files": [
+            "date-picker.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "description-list": {
+        "tier": "free",
+        "files": [
+            "description-list.blade.php",
+            "description-list/item.blade.php"
+        ],
+        "deps": []
+    },
+    "diff": {
+        "tier": "free",
+        "files": [
+            "diff.blade.php"
+        ],
+        "deps": []
+    },
+    "drawer": {
+        "tier": "free",
+        "files": [
+            "drawer.blade.php"
+        ],
+        "deps": []
+    },
+    "dropdown": {
+        "tier": "free",
+        "files": [
+            "dropdown.blade.php",
+            "dropdown/item.blade.php",
+            "dropdown/separator.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "editor": {
+        "tier": "free",
+        "files": [
+            "editor.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "empty-state": {
+        "tier": "free",
+        "files": [
+            "empty-state.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "fab": {
+        "tier": "free",
+        "files": [
+            "fab.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "field": {
+        "tier": "free",
+        "files": [
+            "field.blade.php"
+        ],
+        "deps": []
+    },
+    "file-upload": {
+        "tier": "free",
+        "files": [
+            "file-upload.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "floating-input": {
+        "tier": "free",
+        "files": [
+            "floating-input.blade.php"
+        ],
+        "deps": []
+    },
+    "form": {
+        "tier": "free",
+        "files": [
+            "form.blade.php",
+            "form/actions.blade.php",
+            "form/section.blade.php"
+        ],
+        "deps": []
+    },
+    "header": {
+        "tier": "free",
+        "files": [
+            "header.blade.php"
+        ],
+        "deps": []
+    },
+    "heading": {
+        "tier": "free",
+        "files": [
+            "heading.blade.php"
+        ],
+        "deps": []
+    },
+    "icon": {
+        "tier": "free",
+        "files": [
+            "icon.blade.php"
+        ],
+        "deps": []
+    },
+    "indicator": {
+        "tier": "free",
+        "files": [
+            "indicator.blade.php"
+        ],
+        "deps": []
+    },
+    "input": {
+        "tier": "free",
+        "files": [
+            "input.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "kbd": {
+        "tier": "free",
+        "files": [
+            "kbd.blade.php"
+        ],
+        "deps": []
+    },
+    "layout": {
+        "tier": "free",
+        "files": [
+            "layout.blade.php"
+        ],
+        "deps": []
+    },
+    "list": {
+        "tier": "free",
+        "files": [
+            "list.blade.php",
+            "list/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "main": {
+        "tier": "free",
+        "files": [
+            "main.blade.php"
+        ],
+        "deps": []
+    },
+    "modal": {
+        "tier": "free",
+        "files": [
+            "modal.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "multiselect": {
+        "tier": "free",
+        "files": [
+            "multiselect.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "navbar": {
+        "tier": "free",
+        "files": [
+            "navbar.blade.php",
+            "navbar/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "notification-center": {
+        "tier": "free",
+        "files": [
+            "notification-center.blade.php",
+            "notification-center/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "otp": {
+        "tier": "free",
+        "files": [
+            "otp.blade.php"
+        ],
+        "deps": []
+    },
+    "pagination": {
+        "tier": "free",
+        "files": [
+            "pagination.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "popover": {
+        "tier": "free",
+        "files": [
+            "popover.blade.php"
+        ],
+        "deps": []
+    },
+    "profile": {
+        "tier": "free",
+        "files": [
+            "profile.blade.php"
+        ],
+        "deps": [
+            "avatar"
+        ]
+    },
+    "progress": {
+        "tier": "free",
+        "files": [
+            "progress.blade.php"
+        ],
+        "deps": []
+    },
+    "radial-progress": {
+        "tier": "free",
+        "files": [
+            "radial-progress.blade.php"
+        ],
+        "deps": []
+    },
+    "radio": {
+        "tier": "free",
+        "files": [
+            "radio.blade.php"
+        ],
+        "deps": []
+    },
+    "radio-group": {
+        "tier": "free",
+        "files": [
+            "radio-group.blade.php"
+        ],
+        "deps": []
+    },
+    "rating": {
+        "tier": "free",
+        "files": [
+            "rating.blade.php"
+        ],
+        "deps": []
+    },
+    "select": {
+        "tier": "free",
+        "files": [
+            "select.blade.php",
+            "select/option.blade.php"
+        ],
+        "deps": []
+    },
+    "separator": {
+        "tier": "free",
+        "files": [
+            "separator.blade.php"
+        ],
+        "deps": []
+    },
+    "skeleton": {
+        "tier": "free",
+        "files": [
+            "skeleton.blade.php"
+        ],
+        "deps": []
+    },
+    "slider": {
+        "tier": "free",
+        "files": [
+            "slider.blade.php"
+        ],
+        "deps": []
+    },
+    "spinner": {
+        "tier": "free",
+        "files": [
+            "spinner.blade.php"
+        ],
+        "deps": []
+    },
+    "stats-card": {
+        "tier": "free",
+        "files": [
+            "stats-card.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "stepper": {
+        "tier": "free",
+        "files": [
+            "stepper.blade.php",
+            "stepper/step.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "subheading": {
+        "tier": "free",
+        "files": [
+            "subheading.blade.php"
+        ],
+        "deps": []
+    },
+    "swap": {
+        "tier": "free",
+        "files": [
+            "swap.blade.php"
+        ],
+        "deps": []
+    },
+    "table": {
+        "tier": "free",
+        "files": [
+            "table.blade.php",
+            "table/body.blade.php",
+            "table/cell.blade.php",
+            "table/head.blade.php",
+            "table/header.blade.php",
+            "table/row.blade.php"
+        ],
+        "deps": []
+    },
+    "tabs": {
+        "tier": "free",
+        "files": [
+            "tabs.blade.php",
+            "tabs/tab.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "tags": {
+        "tier": "free",
+        "files": [
+            "tags.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "text": {
+        "tier": "free",
+        "files": [
+            "text.blade.php"
+        ],
+        "deps": []
+    },
+    "textarea": {
+        "tier": "free",
+        "files": [
+            "textarea.blade.php"
+        ],
+        "deps": []
+    },
+    "time-picker": {
+        "tier": "free",
+        "files": [
+            "time-picker.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "timeline": {
+        "tier": "free",
+        "files": [
+            "timeline.blade.php",
+            "timeline/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "toasts": {
+        "tier": "free",
+        "files": [
+            "toasts.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "toggle": {
+        "tier": "free",
+        "files": [
+            "toggle.blade.php"
+        ],
+        "deps": []
+    },
+    "tooltip": {
+        "tier": "free",
+        "files": [
+            "tooltip.blade.php"
+        ],
+        "deps": []
+    }
+}

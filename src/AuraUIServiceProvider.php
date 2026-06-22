@@ -76,6 +76,7 @@ class AuraUIServiceProvider extends ServiceProvider
     {
         $this->commands([
             Commands\InstallCommand::class,
+            Commands\ManifestCommand::class,
         ]);
     }
 }
