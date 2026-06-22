@@ -11,7 +11,7 @@
 <div
     {{ $attributes->class(['aura-tags-wrapper relative flex flex-col gap-1.5']) }}
     x-data="{
-        tags: @if($attributes->wire('model')->value()) $wire.entangle('{{ $attributes->wire('model')->value() }}'){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else [] @endif,
+        tags: @if($attributes->wire('model')->value()) $wire.entangle({{ Js::from($attributes->wire('model')->value()) }}){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else [] @endif,
         input: '',
         max: {{ is_null($max) ? 'null' : (int) $max }},
         init() { if (!Array.isArray(this.tags)) this.tags = []; },

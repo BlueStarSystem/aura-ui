@@ -25,7 +25,7 @@
 <div
     {{ $attributes->class(['aura-multiselect-wrapper relative flex flex-col gap-1.5']) }}
     x-data="{
-        selected: @if($attributes->wire('model')->value()) $wire.entangle('{{ $attributes->wire('model')->value() }}'){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else [] @endif,
+        selected: @if($attributes->wire('model')->value()) $wire.entangle({{ Js::from($attributes->wire('model')->value()) }}){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else [] @endif,
         options: {{ Js::from($normalized) }},
         search: '',
         open: false,

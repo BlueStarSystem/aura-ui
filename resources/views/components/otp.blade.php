@@ -13,7 +13,7 @@
     x-data="{
         length: {{ $len }},
         digits: Array({{ $len }}).fill(''),
-        model: @if($attributes->wire('model')->value()) $wire.entangle('{{ $attributes->wire('model')->value() }}'){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else '' @endif,
+        model: @if($attributes->wire('model')->value()) $wire.entangle({{ Js::from($attributes->wire('model')->value()) }}){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else '' @endif,
         init() {
             const v = (this.model || '').toString().slice(0, this.length).split('');
             for (let i = 0; i < this.length; i++) this.digits[i] = v[i] || '';

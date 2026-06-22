@@ -21,9 +21,9 @@
 <div
     {{ $attributes->class(['aura-slider-wrapper flex flex-col gap-2']) }}
     x-data="{
-        value: @if($attributes->wire('model')->value()) $wire.entangle('{{ $attributes->wire('model')->value() }}'){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else {{ $value ?? $min }} @endif,
-        min: {{ $min }},
-        max: {{ $max }},
+        value: @if($attributes->wire('model')->value()) $wire.entangle({{ Js::from($attributes->wire('model')->value()) }}){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else {{ (float) ($value ?? $min) }} @endif,
+        min: {{ (float) $min }},
+        max: {{ (float) $max }},
 
         get percentage() {
             return ((this.value - this.min) / (this.max - this.min)) * 100;

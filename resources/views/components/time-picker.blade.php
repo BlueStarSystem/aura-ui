@@ -33,7 +33,7 @@
     {{ $attributes->class(['aura-timepicker-wrapper relative']) }}
     x-data="{
         open: false,
-        value: @if(isset($__livewire) && $attributes->wire('model')->value()) $wire.entangle('{{ $attributes->wire('model')->value() }}'){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else '' @endif,
+        value: @if(isset($__livewire) && $attributes->wire('model')->value()) $wire.entangle({{ Js::from($attributes->wire('model')->value()) }}){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else '' @endif,
         slots: {{ json_encode($slots) }},
         search: '',
 
