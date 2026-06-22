@@ -28,12 +28,11 @@ class ManifestCommand extends Command
         $manifest = [];
 
         foreach (Finder::create()->files()->name('*.blade.php')->depth(0)->in($source) as $file) {
-            $name = $file->getFilenameWithoutExtension();
-            $name = preg_replace('/\.blade$/', '', $name);
+            $name = preg_replace('/\.blade$/', '', $file->getFilenameWithoutExtension());
 
             $files = [$name.'.blade.php'];
 
-            if (is_dir($source.'/'.$name)) {
+            if (is_dir($source.'/'.$name) && $name !== 'blocks') {
                 foreach (Finder::create()->files()->name('*.blade.php')->in($source.'/'.$name)->sortByName() as $sub) {
                     $files[] = $name.'/'.str_replace('\\', '/', $sub->getRelativePathname());
                 }
@@ -41,9 +40,24 @@ class ManifestCommand extends Command
 
             $manifest[$name] = [
                 'tier' => $tier,
+                'type' => 'component',
                 'files' => $files,
                 'deps' => $this->parseDeps($source, $files, $name),
             ];
+        }
+
+        if (is_dir($source.'/blocks')) {
+            foreach (Finder::create()->files()->name('*.blade.php')->depth(0)->in($source.'/blocks') as $file) {
+                $name = preg_replace('/\.blade$/', '', $file->getFilenameWithoutExtension());
+                $files = ['blocks/'.$name.'.blade.php'];
+
+                $manifest[$name] = [
+                    'tier' => $tier,
+                    'type' => 'block',
+                    'files' => $files,
+                    'deps' => $this->parseDeps($source, $files, $name),
+                ];
+            }
         }
 
         ksort($manifest);
