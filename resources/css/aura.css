@@ -377,6 +377,45 @@
 .dark .aura-floating-input__label--float { color: var(--color-aura-primary-400); }
 .dark .aura-floating-input--disabled .aura-floating-input__input { background: var(--color-aura-surface-800); }
 
+/* Slider */
+.aura-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(
+        to right,
+        var(--color-aura-primary-500) var(--aura-slider-progress, 0%),
+        var(--color-aura-surface-200) var(--aura-slider-progress, 0%)
+    );
+    outline: none;
+    cursor: pointer;
+}
+.aura-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-aura-primary-500);
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.aura-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-aura-primary-500);
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.aura-slider:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Internal imports */
 @import "./compat/variables-compat.css";
 @import "./base/dark-mode.css";

@@ -7,12 +7,18 @@
     'disabled' => false,
     'icon' => null,
     'iconRight' => null,
+    'prefixIcon' => null,
+    'suffixIcon' => null,
     'iconOnly' => false,
     'href' => null,
     'type' => 'button',
 ])
 
 @php
+    // Resolve icon aliases: prefixIcon/suffixIcon are preferred; icon/iconRight are legacy aliases
+    $leftIcon = $prefixIcon ?? $icon;
+    $rightIcon = $suffixIcon ?? $iconRight;
+
     // Treat variant="outline" as outline prop on primary
     if ($variant === 'outline') {
         $outline = true;
@@ -83,26 +89,26 @@
 
 @if($href)
 <a href="{{ $href }}" {{ $attributes->class($classes) }} @if($isDisabled) aria-disabled="true" tabindex="-1" @endif>
-    @if(!$loading && $icon)
-        <x-aura::icon :name="$icon" size="sm" />
+    @if(!$loading && $leftIcon)
+        <x-aura::icon :name="$leftIcon" size="sm" />
     @endif
     @if(!$iconOnly)
         <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
     @endif
-    @if($iconRight)
-        <x-aura::icon :name="$iconRight" size="sm" />
+    @if($rightIcon)
+        <x-aura::icon :name="$rightIcon" size="sm" />
     @endif
 </a>
 @else
 <button type="{{ $type }}" {{ $attributes->class($classes) }} @if($isDisabled) disabled @endif>
-    @if(!$loading && $icon)
-        <x-aura::icon :name="$icon" size="sm" />
+    @if(!$loading && $leftIcon)
+        <x-aura::icon :name="$leftIcon" size="sm" />
     @endif
     @if(!$iconOnly)
         <span class="inline-flex items-center gap-[inherit]">{{ $slot }}</span>
     @endif
-    @if($iconRight)
-        <x-aura::icon :name="$iconRight" size="sm" />
+    @if($rightIcon)
+        <x-aura::icon :name="$rightIcon" size="sm" />
     @endif
 </button>
 @endif

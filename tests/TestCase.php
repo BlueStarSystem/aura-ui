@@ -3,11 +3,23 @@
 namespace BlueStarSystem\AuraUI\Tests;
 
 use BlueStarSystem\AuraUI\AuraUIServiceProvider;
+use Illuminate\Testing\TestView;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (! TestView::hasMacro('value')) {
+            TestView::macro('value', function () {
+                return $this->rendered;
+            });
+        }
+    }
+
     protected function getPackageProviders($app): array
     {
         return [

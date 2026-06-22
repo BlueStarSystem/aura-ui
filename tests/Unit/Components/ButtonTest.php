@@ -80,3 +80,24 @@ it('merges custom attributes', function () {
         ->toContain('id="my-btn"')
         ->toContain('data-action="save"');
 });
+
+it('renders a prefix icon via prefixIcon', function () {
+    $html = Blade::render('<x-aura::button prefix-icon="check">Save</x-aura::button>');
+
+    // The icon component renders an SVG; confirm one SVG is present before the slot text
+    expect($html)->toContain('<svg');
+});
+
+it('renders a suffix icon via suffixIcon', function () {
+    $html = Blade::render('<x-aura::button suffix-icon="arrow-right">Go</x-aura::button>');
+
+    // The icon component renders an SVG; confirm one SVG is present after the slot text
+    expect($html)->toContain('<svg');
+});
+
+it('still supports the legacy icon and iconRight props', function () {
+    $html = Blade::render('<x-aura::button icon="check" icon-right="arrow-right">X</x-aura::button>');
+
+    // Both icons render SVGs; with two icons we expect two <svg occurrences
+    expect(substr_count($html, '<svg'))->toBe(2);
+});
