@@ -61,4 +61,44 @@ final class ComponentInstaller
 
         return ['written' => $written, 'skipped' => $skipped];
     }
+
+    /**
+     * @param  array<int, array{name:string, files:array<string,string>}>  $items
+     * @return array{written:list<string>, skipped:list<string>}
+     */
+    public function installRemote(array $items, bool $force, bool $dryRun): array
+    {
+        $written = [];
+        $skipped = [];
+
+        foreach ($items as $item) {
+            foreach ($item['files'] as $relative => $content) {
+                if (! RemoteRegistry::pathIsSafe($relative)) {
+                    throw new RuntimeException("Unsafe component path: {$relative}");
+                }
+
+                $target = $this->destPath.'/'.$relative;
+
+                if (is_file($target) && ! $force) {
+                    $skipped[] = $relative;
+
+                    continue;
+                }
+
+                $written[] = $relative;
+
+                if ($dryRun) {
+                    continue;
+                }
+
+                if (! is_dir(dirname($target))) {
+                    mkdir(dirname($target), 0755, true);
+                }
+
+                file_put_contents($target, self::rewriteNamespace($content));
+            }
+        }
+
+        return ['written' => $written, 'skipped' => $skipped];
+    }
 }
