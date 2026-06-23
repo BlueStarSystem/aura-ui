@@ -49,4 +49,19 @@ return [
         'path' => 'aura/playground',
         'middleware' => ['web'],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remote Registry
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the RemoteRegistry (aura add <url>) secure fetch.
+    | allowed_hosts: hosts that do NOT require interactive confirmation.
+    | max_bytes: maximum response body size accepted from the registry.
+    |
+    */
+    'registry' => [
+        'allowed_hosts' => ['aura-ui.com'],
+        'max_bytes' => 512 * 1024,
+    ],
 ];
