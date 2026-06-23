@@ -48,7 +48,7 @@ final class RemoteRegistry
     {
         $parts = parse_url($url);
 
-        if (($parts['scheme'] ?? '') !== 'https') {
+        if (strtolower($parts['scheme'] ?? '') !== 'https') {
             throw new RuntimeException("Refusing non-HTTPS registry URL: {$url}");
         }
 
@@ -93,6 +93,10 @@ final class RemoteRegistry
 
         $files = [];
 
+        if (! is_array($data['files'] ?? [])) {
+            throw new RuntimeException("Registry item \"{$name}\" has an invalid \"files\" list.");
+        }
+
         foreach ($data['files'] ?? [] as $file) {
             if (! is_array($file) || ! isset($file['path'], $file['content']) || ! is_string($file['path']) || ! is_string($file['content'])) {
                 throw new RuntimeException("Registry item \"{$name}\" has an invalid file entry.");
@@ -106,6 +110,10 @@ final class RemoteRegistry
         }
 
         $deps = [];
+
+        if (! is_array($data['deps'] ?? [])) {
+            throw new RuntimeException("Registry item \"{$name}\" has an invalid \"deps\" list.");
+        }
 
         foreach ($data['deps'] ?? [] as $dep) {
             if (is_string($dep) && $dep !== '') {

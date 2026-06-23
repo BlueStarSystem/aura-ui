@@ -73,3 +73,18 @@ it('is cycle-safe', function () {
 
     expect(count($items))->toBe(2);
 });
+
+it('defeats the userinfo host bypass', function () {
+    Http::fake();
+    remoteRegistry(['aura-ui.com'], confirm: false)->fetch('https://aura-ui.com@evil.test/r/x.json');
+})->throws(RuntimeException::class);
+
+it('rejects a non-array files value', function () {
+    Http::fake(['*' => Http::response(['name' => 'x', 'files' => 'evil', 'deps' => []])]);
+    remoteRegistry()->fetch('https://aura-ui.com/r/x.json');
+})->throws(RuntimeException::class);
+
+it('rejects a non-string file content', function () {
+    Http::fake(['*' => Http::response(['name' => 'x', 'files' => [['path' => 'x.blade.php', 'content' => 123]], 'deps' => []])]);
+    remoteRegistry()->fetch('https://aura-ui.com/r/x.json');
+})->throws(RuntimeException::class);
