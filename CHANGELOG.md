@@ -5,6 +5,77 @@ All notable changes to Aura UI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.13.0] - 2026-06-23
+
+### Added
+- `aura:add` installs components from a **remote registry URL** (`php artisan aura:add https://host/r/<name>.json`) with HTTPS-only fetch, host allowlist + confirmation, schema validation and path sanitisation. aura-ui.com serves the installable shape at `/r/{name}.json`.
+
+## [3.12.0] - 2026-06-22
+
+### Added
+- Free **Blocks** in the component registry (`type` field in `aura-registry.json`) — full-page sections installable via `aura:add`.
+
+## [3.11.0] - 2026-06-22
+
+### Added
+- OKLCH **PaletteGenerator** (`fromHex`) powering Theme Studio, coherent with the Aura Filament palette.
+
+## [3.10.0] - 2026-06-22
+
+### Added
+- **`aura:add` / `aura:init` own-the-code CLI** — copy a component's Blade source into your project (resolves dependencies, rewrites the namespace).
+
+## [3.9.2] - 2026-06-22
+
+### Fixed
+- Hardened developer-controlled props interpolated into JS contexts (`Js::from` / casts) across components.
+
+## [3.9.1] - 2026-06-22
+
+### Fixed
+- Hardened `wire:model` entangle (`Js::from`) and slider numeric props across components.
+
+## [3.9.0] - 2026-06-22
+
+### Added
+- `<x-aura::multiselect>`, `<x-aura::tags>`, `<x-aura::otp>` and `<x-aura::slider>` (slider relocated from Pro to Free).
+- `<x-aura::button>` `prefixIcon` / `suffixIcon` (preferred over the deprecated `icon` / `iconRight` aliases).
+
+## [3.8.0] - 2026-06-21
+
+### Added
+- WCAG accessibility pass across components; `wire:model` works out of the box on the modal.
+
+## [3.7.0] - 2026-04-26
+
+### Added
+- Laravel 13 compatibility (`illuminate/* ^12 || ^13`).
+
+## [3.6.0] - 2026-04-17
+
+### Added
+- **Floating Label Input** component (Material Design animation).
+
+## [3.5.0] - 2026-04-16
+
+### Added
+- **Notification Center** component with dropdown and badges.
+
+## [3.4.0] - 2026-03-16
+
+### Added
+- Heroicon → Lucide icon name fallback mapping.
+
+## [3.3.2] - 2026-03-03
+
+### Added
+- Component improvements: validation, accessibility, form handling.
+
+## [3.3.1] - 2026-03-03
+
+### Fixed
+- Docs visual fixes: editor array toolbar, calendar i18n, swap grid overlay, toast events, animations.
+
 ## [3.2.0] - 2026-02-25
 
 ### Added
