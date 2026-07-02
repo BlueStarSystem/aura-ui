@@ -202,7 +202,7 @@
         />
         <div class="aura-datepicker-icons absolute right-0 top-0 h-full flex items-center gap-1 pr-2">
             @if($clearable)
-                <button type="button" class="aura-datepicker-clear p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-surface-700" x-show="displayValue" x-on:click.stop="clear()" aria-label="Clear">
+                <button type="button" class="aura-datepicker-clear p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-surface-700" x-show="displayValue" x-on:click.stop="clear()" aria-label="{{ __('aura-ui::messages.clear') }}">
                     <x-aura::icon name="x" size="xs" />
                 </button>
             @endif
@@ -228,17 +228,17 @@
     >
         {{-- Header --}}
         <div class="aura-datepicker-header flex items-center justify-between gap-1 mb-3">
-            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="prevYear()" aria-label="Previous year">
+            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="prevYear()" aria-label="{{ __('aura-ui::messages.date_picker.previous_year') }}">
                 <x-aura::icon name="chevrons-left" size="xs" />
             </button>
-            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="prevMonth()" aria-label="Previous month">
+            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="prevMonth()" aria-label="{{ __('aura-ui::messages.date_picker.previous_month') }}">
                 <x-aura::icon name="chevron-left" size="xs" />
             </button>
             <span class="aura-datepicker-title text-sm font-semibold text-aura-surface-900" x-text="monthNames[month] + ' ' + year"></span>
-            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="nextMonth()" aria-label="Next month">
+            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="nextMonth()" aria-label="{{ __('aura-ui::messages.date_picker.next_month') }}">
                 <x-aura::icon name="chevron-right" size="xs" />
             </button>
-            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="nextYear()" aria-label="Next year">
+            <button type="button" class="aura-datepicker-nav inline-flex items-center justify-center w-7 h-7 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900" x-on:click="nextYear()" aria-label="{{ __('aura-ui::messages.date_picker.next_year') }}">
                 <x-aura::icon name="chevrons-right" size="xs" />
             </button>
         </div>

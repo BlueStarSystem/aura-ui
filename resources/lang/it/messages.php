@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'close' => 'Chiudi',
+    'clear' => 'Cancella',
+    'clear_all' => 'Cancella tutto',
+    'remove' => 'Rimuovi',
+    'previous' => 'Precedente',
+    'next' => 'Successivo',
+    'loading' => 'Caricamento',
+    'notifications' => 'Notifiche',
+    'breadcrumbs' => 'Percorso',
+    'pagination' => 'Navigazione pagine',
+    'toggle_navigation' => 'Attiva/disattiva navigazione',
+    'no_options' => 'Nessuna opzione',
+    'rating' => 'Valutazione',
+    'rate' => 'Valuta :n di :max',
+    'date_picker' => [
+        'previous_year' => 'Anno precedente',
+        'previous_month' => 'Mese precedente',
+        'next_month' => 'Mese successivo',
+        'next_year' => 'Anno successivo',
+    ],
+    'file_upload' => [
+        'drop_or_select' => 'Trascina qui o clicca per selezionare',
+    ],
+    'time_picker' => [
+        'filter' => 'Filtra...',
+    ],
+];

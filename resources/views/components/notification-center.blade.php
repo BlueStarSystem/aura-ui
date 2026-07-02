@@ -14,7 +14,7 @@
         type="button"
         class="aura-notification-center__trigger"
         @click="open = !open"
-        aria-label="Notifications"
+        aria-label="{{ __('aura-ui::messages.notifications') }}"
         :aria-expanded="open"
     >
         <svg class="aura-notification-center__bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -37,7 +37,7 @@
         x-transition:leave-end="opacity-0 scale-95"
         x-cloak
         role="region"
-        aria-label="Notifications"
+        aria-label="{{ __('aura-ui::messages.notifications') }}"
     >
         <div class="aura-notification-center__list" style="max-height: {{ $maxHeight }}">
             @if ($slot->isEmpty() && isset($empty))

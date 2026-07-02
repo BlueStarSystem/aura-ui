@@ -5,6 +5,14 @@ All notable changes to Aura UI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.14.0] - 2026-07-02
+
+### Added
+- **Component labels are now translatable (i18n).** Hardcoded English UI strings across ~18 components (close, clear, remove, previous/next, pagination, loading, no options, toggle navigation, notifications, date-picker navigation, file-upload prompt, time-picker filter, rating) now resolve via the publishable `aura-ui::` translation namespace — English and Italian ship out of the box. Publish/customise with `php artisan vendor:publish --tag=aura-ui-lang`. (Calendar month/day names keep the existing `locale` prop.)
+
+### Fixed
+- The pagination navigation `aria-label` was hardcoded in Italian ("Navigazione pagine"); it now follows the application locale (English by default, Italian when the locale is `it`).
+
 ## [3.13.0] - 2026-06-23
 
 ### Added

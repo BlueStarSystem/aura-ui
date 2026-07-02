@@ -47,7 +47,7 @@
     @endif
     {{ $slot }}
     @if($removable)
-        <button type="button" class="aura-badge-remove" aria-label="Remove">
+        <button type="button" class="aura-badge-remove" aria-label="{{ __('aura-ui::messages.remove') }}">
             <x-aura::icon name="x" size="xs" />
         </button>
     @endif

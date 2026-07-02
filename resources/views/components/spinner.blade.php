@@ -20,6 +20,6 @@
     };
 @endphp
 
-<div {{ $attributes->class(['aura-spinner', "aura-spinner-{$size}", "aura-spinner-{$color}", 'inline-block rounded-full border-aura-surface-200 aura-animate-spin', $sizeClasses, $colorClass]) }} role="status" aria-label="Loading">
-    <span class="sr-only">Loading...</span>
+<div {{ $attributes->class(['aura-spinner', "aura-spinner-{$size}", "aura-spinner-{$color}", 'inline-block rounded-full border-aura-surface-200 aura-animate-spin', $sizeClasses, $colorClass]) }} role="status" aria-label="{{ __('aura-ui::messages.loading') }}">
+    <span class="sr-only">{{ __('aura-ui::messages.loading') }}</span>
 </div>

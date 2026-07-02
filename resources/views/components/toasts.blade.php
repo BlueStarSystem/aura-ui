@@ -43,7 +43,7 @@
     }"
     x-on:auratoast.window="add($event.detail)"
     role="region"
-    aria-label="Notifications"
+    aria-label="{{ __('aura-ui::messages.notifications') }}"
     aria-live="polite"
     aria-atomic="false"
     {{ $attributes }}
@@ -84,7 +84,7 @@
                 </template>
                 <div class="aura-toast-message text-sm text-aura-surface-500" x-text="toast.message"></div>
             </div>
-            <button class="aura-toast-close shrink-0 p-1 text-aura-surface-400 bg-transparent border-none cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-surface-900 hover:bg-aura-surface-100" @click="remove(toast.id)" aria-label="Close">
+            <button class="aura-toast-close shrink-0 p-1 text-aura-surface-400 bg-transparent border-none cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-surface-900 hover:bg-aura-surface-100" @click="remove(toast.id)" aria-label="{{ __('aura-ui::messages.close') }}">
                 <x-aura::icon name="x" size="sm" />
             </button>
             <div class="aura-toast-progress absolute bottom-0 left-0 right-0 h-0.5 bg-aura-surface-100">

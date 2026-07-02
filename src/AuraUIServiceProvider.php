@@ -10,12 +10,13 @@ class AuraUIServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/aura-ui.php', 'aura-ui');
+        $this->mergeConfigFrom(__DIR__.'/../config/aura-ui.php', 'aura-ui');
     }
 
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'aura');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'aura');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'aura-ui');
 
         $this->registerComponents();
         $this->registerPlayground();
@@ -30,7 +31,7 @@ class AuraUIServiceProvider extends ServiceProvider
     {
         // Anonymous Blade components from resources/views/components/
         Blade::anonymousComponentPath(
-            __DIR__ . '/../resources/views/components',
+            __DIR__.'/../resources/views/components',
             'aura'
         );
     }
@@ -56,20 +57,24 @@ class AuraUIServiceProvider extends ServiceProvider
     protected function registerPublishing(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/aura-ui.php' => config_path('aura-ui.php'),
+            __DIR__.'/../config/aura-ui.php' => config_path('aura-ui.php'),
         ], 'aura-ui-config');
 
         $this->publishes([
-            __DIR__ . '/../resources/css' => resource_path('css/vendor/aura-ui'),
+            __DIR__.'/../resources/css' => resource_path('css/vendor/aura-ui'),
         ], 'aura-ui-css');
 
         $this->publishes([
-            __DIR__ . '/../resources/views/components' => resource_path('views/vendor/aura/components'),
+            __DIR__.'/../resources/views/components' => resource_path('views/vendor/aura/components'),
         ], 'aura-ui-views');
 
         $this->publishes([
-            __DIR__ . '/../resources/js/vendor' => public_path('js/vendor'),
+            __DIR__.'/../resources/js/vendor' => public_path('js/vendor'),
         ], 'aura-ui-assets');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => $this->app->langPath('vendor/aura-ui'),
+        ], 'aura-ui-lang');
     }
 
     protected function registerCommands(): void

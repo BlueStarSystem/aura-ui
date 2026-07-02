@@ -30,7 +30,7 @@
 <div x-data="{ rating: {{ (int)$value }}, hovered: 0 }"
      {{ $attributes->class(['aura-rating inline-flex items-center', $gapClass]) }}
      role="radiogroup"
-     aria-label="Rating">
+     aria-label="{{ __('aura-ui::messages.rating') }}">
     @for($i = 1; $i <= $max; $i++)
         <button type="button"
                 @if(!$readonly)
@@ -42,7 +42,7 @@
                 :class="(hovered >= {{ $i }} || (!hovered && rating >= {{ $i }})) ? '{{ $colorClass }}' : 'text-aura-surface-300'"
                 role="radio"
                 :aria-checked="rating === {{ $i }}"
-                aria-label="Rate {{ $i }} of {{ $max }}">
+                aria-label="{{ __('aura-ui::messages.rate', ['n' => $i, 'max' => $max]) }}">
             <svg class="{{ $sizeClass }}" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </button>
     @endfor

@@ -139,7 +139,7 @@
                 {{ $slot }}
             @else
                 <x-aura::icon name="upload-cloud" size="xl" class="aura-file-upload-icon text-aura-surface-300" />
-                <p class="aura-file-upload-text text-sm text-aura-surface-500">Drag here or click to select</p>
+                <p class="aura-file-upload-text text-sm text-aura-surface-500">{{ __('aura-ui::messages.file_upload.drop_or_select') }}</p>
                 @if($maxSize)
                     <p class="aura-file-upload-hint text-xs text-aura-surface-400">Max {{ $maxSize }}</p>
                 @endif
@@ -163,7 +163,7 @@
                     <span class="aura-file-upload-name block text-sm font-medium text-aura-surface-900 truncate" x-text="file.name"></span>
                     <span class="aura-file-upload-size block text-xs text-aura-surface-400" x-text="file.size"></span>
                 </div>
-                <button type="button" class="aura-file-upload-remove shrink-0 p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-danger-500 hover:bg-aura-danger-50" x-on:click.stop="removeFile(idx)" aria-label="Remove">
+                <button type="button" class="aura-file-upload-remove shrink-0 p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-danger-500 hover:bg-aura-danger-50" x-on:click.stop="removeFile(idx)" aria-label="{{ __('aura-ui::messages.remove') }}">
                     <x-aura::icon name="x" size="xs" />
                 </button>
             </div>

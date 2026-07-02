@@ -66,7 +66,7 @@
         <template x-for="v in selected" :key="v">
             <span class="aura-multiselect-chip inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-aura-primary-50 text-aura-primary-700 rounded-aura-full">
                 <span x-text="labelFor(v)"></span>
-                <button type="button" class="inline-flex items-center justify-center p-0.5 bg-transparent border-none text-aura-primary-400 cursor-pointer rounded-full hover:text-aura-primary-700 hover:bg-aura-primary-100" x-on:click.stop="remove(v)" aria-label="Remove">
+                <button type="button" class="inline-flex items-center justify-center p-0.5 bg-transparent border-none text-aura-primary-400 cursor-pointer rounded-full hover:text-aura-primary-700 hover:bg-aura-primary-100" x-on:click.stop="remove(v)" aria-label="{{ __('aura-ui::messages.remove') }}">
                     <x-aura::icon name="x" size="xs" />
                 </button>
             </span>
@@ -79,7 +79,7 @@
             <span class="flex-1 text-sm text-aura-surface-400" x-show="!selected.length">{{ $placeholder }}</span>
         @endif
         @if($clearable)
-            <button type="button" class="aura-multiselect-clear ml-auto text-aura-surface-400 hover:text-aura-surface-700" x-show="selected.length" x-on:click.stop="clear()" aria-label="Clear all">
+            <button type="button" class="aura-multiselect-clear ml-auto text-aura-surface-400 hover:text-aura-surface-700" x-show="selected.length" x-on:click.stop="clear()" aria-label="{{ __('aura-ui::messages.clear_all') }}">
                 <x-aura::icon name="x" size="xs" />
             </button>
         @endif
@@ -93,7 +93,7 @@
                 x-bind:class="{ 'bg-aura-primary-50 text-aura-primary-700': highlight === filteredOptions.indexOf(opt) }"
                 x-bind:aria-selected="selected.includes(opt.value)"></button>
         </template>
-        <div class="px-3 py-2 text-sm text-aura-surface-400" x-show="!filteredOptions.length">No options</div>
+        <div class="px-3 py-2 text-sm text-aura-surface-400" x-show="!filteredOptions.length">{{ __('aura-ui::messages.no_options') }}</div>
     </div>
 
     @if($error)

@@ -41,7 +41,7 @@
             class="aura-navbar-toggle md:hidden inline-flex items-center justify-center w-10 h-10 rounded-aura-md text-aura-surface-500 bg-transparent border-none cursor-pointer aura-transition-fast hover:bg-aura-surface-100 hover:text-aura-surface-900"
             @click="mobileOpen = !mobileOpen"
             x-bind:aria-expanded="mobileOpen"
-            aria-label="Toggle navigation"
+            aria-label="{{ __('aura-ui::messages.toggle_navigation') }}"
         >
             <x-aura::icon x-show="!mobileOpen" name="menu" size="md" />
             <x-aura::icon x-show="mobileOpen" name="x" size="md" x-cloak />

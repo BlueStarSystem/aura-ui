@@ -12,7 +12,7 @@
     $sep = $separatorMap[$separator] ?? '›';
 @endphp
 
-<nav class="aura-breadcrumbs py-2" aria-label="Breadcrumbs" {{ $attributes }}>
+<nav class="aura-breadcrumbs py-2" aria-label="{{ __('aura-ui::messages.breadcrumbs') }}" {{ $attributes }}>
     <ol class="aura-breadcrumbs-list flex items-center flex-wrap gap-0 list-none m-0 p-0">
         @foreach($items as $index => $item)
             @if($index > 0)

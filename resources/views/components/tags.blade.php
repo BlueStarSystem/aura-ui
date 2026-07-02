@@ -38,7 +38,7 @@
         <template x-for="(tag, idx) in tags" :key="idx">
             <span class="aura-tag inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-aura-primary-50 text-aura-primary-700 rounded-aura-full">
                 <span x-text="tag"></span>
-                <button type="button" class="aura-tag-remove inline-flex items-center justify-center p-0.5 bg-transparent border-none text-aura-primary-400 cursor-pointer rounded-full aura-transition-fast hover:text-aura-primary-700 hover:bg-aura-primary-100" x-on:click="removeTag(idx)" @if($disabled) disabled @endif aria-label="Remove">
+                <button type="button" class="aura-tag-remove inline-flex items-center justify-center p-0.5 bg-transparent border-none text-aura-primary-400 cursor-pointer rounded-full aura-transition-fast hover:text-aura-primary-700 hover:bg-aura-primary-100" x-on:click="removeTag(idx)" @if($disabled) disabled @endif aria-label="{{ __('aura-ui::messages.remove') }}">
                     <x-aura::icon name="x" size="xs" />
                 </button>
             </span>

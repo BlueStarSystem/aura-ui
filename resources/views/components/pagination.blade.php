@@ -7,7 +7,7 @@
 ])
 
 @if($paginator && $paginator->total() > 0)
-<nav class="aura-pagination flex flex-col gap-3" role="navigation" aria-label="Navigazione pagine">
+<nav class="aura-pagination flex flex-col gap-3" role="navigation" aria-label="{{ __('aura-ui::messages.pagination') }}">
     <div class="aura-pagination-info-row flex items-center justify-between flex-wrap gap-2 text-[13px] text-aura-surface-500">
         @if($showInfo)
             <div class="aura-pagination-info">
@@ -36,7 +36,7 @@
                 <x-aura::icon name="chevron-left" size="sm" />
             </span>
         @else
-            <button class="aura-pagination-btn inline-flex items-center justify-center min-w-[32px] h-8 px-1.5 border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 text-[13px] font-medium cursor-pointer aura-transition-fast hover:bg-aura-surface-50 hover:border-aura-primary-200 hover:text-aura-primary-600 hover:shadow-aura-sm" wire:click="previousPage" rel="prev" aria-label="Previous">
+            <button class="aura-pagination-btn inline-flex items-center justify-center min-w-[32px] h-8 px-1.5 border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 text-[13px] font-medium cursor-pointer aura-transition-fast hover:bg-aura-surface-50 hover:border-aura-primary-200 hover:text-aura-primary-600 hover:shadow-aura-sm" wire:click="previousPage" rel="prev" aria-label="{{ __('aura-ui::messages.previous') }}">
                 <x-aura::icon name="chevron-left" size="sm" />
             </button>
         @endif
@@ -56,7 +56,7 @@
 
         {{-- Next --}}
         @if($paginator->hasMorePages())
-            <button class="aura-pagination-btn inline-flex items-center justify-center min-w-[32px] h-8 px-1.5 border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 text-[13px] font-medium cursor-pointer aura-transition-fast hover:bg-aura-surface-50 hover:border-aura-primary-200 hover:text-aura-primary-600 hover:shadow-aura-sm" wire:click="nextPage" rel="next" aria-label="Next">
+            <button class="aura-pagination-btn inline-flex items-center justify-center min-w-[32px] h-8 px-1.5 border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 text-[13px] font-medium cursor-pointer aura-transition-fast hover:bg-aura-surface-50 hover:border-aura-primary-200 hover:text-aura-primary-600 hover:shadow-aura-sm" wire:click="nextPage" rel="next" aria-label="{{ __('aura-ui::messages.next') }}">
                 <x-aura::icon name="chevron-right" size="sm" />
             </button>
         @else
