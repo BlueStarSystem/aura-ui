@@ -1,6 +1,6 @@
 {
     "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-    "name": "io.github.bluestarsystem/aura-ui",
+    "name": "io.github.BlueStarSystem/aura-ui",
     "title": "Aura UI",
     "description": "Discover and install Aura UI Blade components for Laravel, Livewire and Tailwind CSS 4.",
     "version": "1.0.0",
