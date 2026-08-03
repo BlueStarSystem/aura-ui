@@ -2,16 +2,18 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/bluestarsystem/aura-ui.svg?style=flat-square)](https://packagist.org/packages/bluestarsystem/aura-ui)
 [![License](https://img.shields.io/packagist/l/bluestarsystem/aura-ui.svg?style=flat-square)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-555%20passing-brightgreen?style=flat-square)]()
+[![Tests](https://img.shields.io/badge/tests-690%20passing-brightgreen?style=flat-square)]()
 [![PHP](https://img.shields.io/badge/php-8.3%2B-8892BF?style=flat-square)]()
 [![Laravel](https://img.shields.io/badge/laravel-12-FF2D20?style=flat-square)]()
 [![Tailwind CSS](https://img.shields.io/badge/tailwind-4-38BDF8?style=flat-square)]()
 
 **"Vibrant Depth" UI component library for Laravel 12 + Livewire 4 + Alpine.js + Tailwind CSS 4.**
 
-Aura UI provides **44 production-ready Blade components** with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support. Unlike flat/minimal UI libraries, Aura UI intentionally goes in a different direction while staying professional.
+Aura UI provides **64 production-ready Blade components** with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support. Unlike flat/minimal UI libraries, Aura UI intentionally goes in a different direction while staying professional.
 
-**Looking for advanced components?** Check out [Aura UI Pro](https://aura-ui.com) for DataTable, charts, calendar, kanban, advanced forms, and more.
+Date picker, file upload, autocomplete, charts, calendar, command palette and the rich editor are all included here, under the MIT licence -- no account and no licence key required.
+
+**Building an admin panel?** [Aura UI Pro](https://aura-ui.com) adds a DataTable system, application shells and data-heavy components on top.
 
 ## Requirements
 
@@ -141,13 +143,15 @@ Import the CSS in your app:
 
 ## Aura UI Pro
 
-Unlock 19 additional components and a powerful DataTable system with [Aura UI Pro](https://aura-ui.com):
+Unlock 25 additional components and a powerful DataTable system with [Aura UI Pro](https://aura-ui.com):
 
-- **Advanced Forms**: Date picker, time picker, file upload, autocomplete, tags input, color picker, slider, OTP input, rich text editor
-- **Navigation**: Tabs, accordion, steps wizard, sidebar
-- **Interactive**: Command palette (Cmd+K), confirmation dialog, toast notifications
-- **Visualization**: Charts (Chart.js), calendar, kanban board, tree view
-- **DataTable**: 5 Livewire traits, column builder, bulk actions, filters, inline editing
+- **Application shells**: App shell, sidebar, dock, steps wizard, resizable panels
+- **Data-heavy**: Kanban board, tree view, scheduler, carousel
+- **Charts**: Area chart, bar chart, stat chart, sparkline, gauge
+- **Advanced forms**: Color picker, date range picker, OTP input, tags input, pillbox, rich text
+- **Messaging**: Chat bubble, mail message, composer
+- **Overlays**: Hover card, confirmation dialog
+- **DataTable**: 6 Livewire traits, column builder, bulk actions, filters, inline editing, row details
 
 ## Design System
 
