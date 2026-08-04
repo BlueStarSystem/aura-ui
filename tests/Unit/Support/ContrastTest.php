@@ -37,3 +37,11 @@ it('applies the right AA threshold for normal and large text', function () {
 it('rejects unparseable colours', function () {
     Contrast::ratio('not-a-colour', '#fff');
 })->throws(InvalidArgumentException::class);
+
+it('rejects hex without a leading #, since it is not valid CSS and the browser would ignore it', function () {
+    Contrast::ratio('336699', '#fff');
+})->throws(InvalidArgumentException::class);
+
+it('still accepts hex with a leading #, three- and six-digit', function () {
+    expect(Contrast::ratio('#369', '#fff'))->toBe(Contrast::ratio('#336699', '#fff'));
+});

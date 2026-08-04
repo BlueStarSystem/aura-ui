@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use InvalidArgumentException;
+use Throwable;
 
 /**
  * Static checks for an application that consumes Aura UI.
@@ -148,7 +149,28 @@ class DoctorCommand extends Command
             return;   // checkCssSetup has already warned about this
         }
 
-        $colors = ThemeColors::parse((string) File::get($path));
+        try {
+            $css = (string) File::get($path);
+        } catch (Throwable) {
+            // Never let an unreadable file (permissions, a race with something
+            // else writing it, ...) crash the whole scan -- the same "never
+            // throws" contract ThemeColors::parse() itself honours.
+            $this->add('warning', 'a11y-theme', 'Could not read resources/css/app.css — skipping the theme contrast check.', 'resources/css/app.css');
+
+            return;
+        }
+
+        // A block that opened but never closed (or similar) was not actually
+        // read. Saying "using Aura defaults, which meet WCAG AA" here would be
+        // a false assurance about a file whose content is unknown -- worse
+        // than saying nothing, so this is reported as its own, distinct warning.
+        if (ThemeColors::hasUnreadableThemeBlock($css)) {
+            $this->add('warning', 'a11y-theme', 'Found an @theme block in resources/css/app.css that could not be fully read (e.g. an unclosed brace) — its colours were not checked.', 'resources/css/app.css');
+
+            return;
+        }
+
+        $colors = ThemeColors::parse($css);
 
         if ($colors === []) {
             $this->add('warning', 'a11y-theme', 'No Aura colour overrides found in a @theme block — using Aura defaults, which meet WCAG AA.', 'resources/css/app.css');

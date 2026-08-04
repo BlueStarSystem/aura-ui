@@ -370,5 +370,77 @@ describe('--a11y', function () {
 
             File::delete($css);
         });
+
+        it('does not flag a colour override that is commented out, since the browser never applies it', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { /* --color-aura-primary-600: #7dd3fc; */ }');   // would fail AA if live
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
+
+        it('still flags a live override that sits right next to a commented-out one in the same block', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { /* --color-aura-danger-600: #4338ca; */ --color-aura-primary-600: #7dd3fc; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();
+
+            File::delete($css);
+        });
+
+        it('does not let a nested at-rule inside @theme truncate the block, so a later override is still checked', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, <<<'CSS'
+            @theme {
+                --color-aura-danger-600: #4338ca;
+                @media (prefers-color-scheme: dark) {
+                    --color-aura-danger-600: #4338ca;
+                }
+                --color-aura-primary-600: #7dd3fc;
+            }
+            CSS);
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();
+
+            File::delete($css);
+        });
+
+        it('warns distinctly, rather than reassuring, when the @theme block could not be fully read', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #4338ca');   // never closed
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('could not be fully read')
+                ->assertSuccessful();   // warning, not error -- did not claim compliance it could not verify
+
+            File::delete($css);
+        });
+
+        it('warns rather than crashes when app.css exists but cannot be read', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #4338ca; }');
+
+            File::partialMock()
+                ->shouldReceive('get')
+                ->with($css)
+                ->andThrow(new RuntimeException('permission denied'));
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('Could not read')
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
     });
 });

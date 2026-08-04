@@ -61,7 +61,7 @@ final class Contrast
             );
         }
 
-        if (preg_match('/^#?[0-9a-f]{3}$|^#?[0-9a-f]{6}$/i', $color) === 1) {
+        if (preg_match('/^#[0-9a-f]{3}$|^#[0-9a-f]{6}$/i', $color) === 1) {
             return PaletteGenerator::hexToRgb($color);
         }
 
