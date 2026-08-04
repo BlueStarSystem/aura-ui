@@ -10,27 +10,29 @@ namespace BlueStarSystem\AuraUI\Support;
  * doctor turns "nothing" into a warning, never an error -- refusing to build
  * someone's app over CSS we failed to read would be worse than staying quiet.
  *
- * Runs as a single character-by-character scan rather than a couple of
- * regexes, tracking comment / single-quote / double-quote / url() state
- * while it counts braces. A depth counter that does not know about any of
- * those constructs miscounts a `}` that is legitimately just data (inside a
- * quoted value, an unterminated comment, or an unquoted `url(...)` token)
- * and either closes the @theme block too early -- silently dropping every
- * variable declared after it -- or never closes it at all.
+ * Runs as a single character-by-character scan, tracking comment /
+ * single-quote / double-quote / url() state while it counts braces *and*
+ * accumulates each declaration. Declaration extraction used to be a second,
+ * separate step -- a regex thrown at the whole block's raw text once the
+ * closing brace was found -- and every defect found in this file after the
+ * scan itself was already correct lived in that seam: the regex had no idea
+ * a `}`, a `;`, or a declaration-shaped fragment could legitimately be
+ * sitting inside a quoted value or a url() token rather than being real
+ * structure. Recording each declaration *as the scan proceeds*, in the same
+ * pass that already knows exactly what is a quote, a comment, a url() token
+ * and a genuinely structural brace or semicolon, removes that seam rather
+ * than hardening the regex against the next input shaped like it.
  *
  * The invariant this file exists to uphold: if the CSS contains an @theme
  * block and that block was not read cleanly to completion -- for any
  * reason, including ones not yet discovered -- the result must be
- * `unreadable = true`, never a falsely reassuring empty colour list. Two
- * things enforce this by construction rather than by enumerating failure
- * cases: every value ever added to $colors passes through
- * extractColors(), whose own success/failure is folded into $unreadable
- * (see the PCRE-failure branch below); and, at the very end of the scan,
- * `$mode !== 'normal'` fires whenever *anything* -- a comment, a quoted
- * string, a url() token, or a future construct this scanner does not yet
- * know about -- was left open at end of file, regardless of brace depth.
- * That second check is deliberately broader than "the brace we expected
- * never arrived": it is the backstop for the next unanticipated input.
+ * `unreadable = true`, never a falsely reassuring empty colour list. At the
+ * end of the scan, `$mode !== 'normal'` fires whenever *anything* -- a
+ * comment, a quoted string, a url() token, or a future construct this
+ * scanner does not yet know about -- was left open at end of file,
+ * independent of brace depth. That is a deliberately broad backstop for the
+ * next unanticipated input, on top of (not instead of) the specific
+ * quote/comment/url handling below.
  */
 final class ThemeColors
 {
@@ -43,13 +45,11 @@ final class ThemeColors
     /**
      * True when the CSS contains an @theme block that could not be fully
      * read: an opening `{` with no matching closing brace before the file
-     * ends, a comment/string/url() token left open at end of file, or a
-     * declaration extraction that itself failed (e.g. a PCRE backtrack
-     * limit). Deliberately distinct from "no @theme block" and "@theme
-     * block with no Aura colours" -- both of those are legitimate states
-     * where Aura's defaults are genuinely still in effect. This one is not:
-     * the file was not actually read, so nothing about it should be
-     * asserted.
+     * ends, or a comment/string/url() token left open at end of file.
+     * Deliberately distinct from "no @theme block" and "@theme block with
+     * no Aura colours" -- both of those are legitimate states where Aura's
+     * defaults are genuinely still in effect. This one is not: the file was
+     * not actually read, so nothing about it should be asserted.
      */
     public static function hasUnreadableThemeBlock(string $css): bool
     {
@@ -68,7 +68,7 @@ final class ThemeColors
         $mode = 'normal';   // normal | comment | single | double | url
         $awaitingBrace = false;
         $themeDepth = 0;    // 0 = not currently inside an @theme block
-        $buffer = '';
+        $declaration = '';  // the current, not-yet-terminated declaration's text
 
         $i = 0;
 
@@ -96,7 +96,7 @@ final class ThemeColors
                     // CSS escaping applies inside an unquoted url() token
                     // too, so an escaped closing paren does not end it early.
                     if ($themeDepth > 0) {
-                        $buffer .= $ch.$next;
+                        $declaration .= $ch.$next;
                     }
                     $i += 2;
 
@@ -104,7 +104,7 @@ final class ThemeColors
                 }
 
                 if ($themeDepth > 0) {
-                    $buffer .= $ch;
+                    $declaration .= $ch;
                 }
 
                 if ($ch === $closer) {
@@ -125,7 +125,7 @@ final class ThemeColors
             // (an escaped quote character must not open a string).
             if ($ch === '\\') {
                 if ($themeDepth > 0) {
-                    $buffer .= $ch.$next;
+                    $declaration .= $ch.$next;
                 }
                 $i += 2;
 
@@ -143,7 +143,7 @@ final class ThemeColors
                 $mode = $ch === "'" ? 'single' : 'double';
 
                 if ($themeDepth > 0) {
-                    $buffer .= $ch;
+                    $declaration .= $ch;
                 }
 
                 $i++;
@@ -151,23 +151,30 @@ final class ThemeColors
                 continue;
             }
 
-            // An unquoted url(...) token: per the CSS syntax spec, a `}` (or
-            // any other character) inside it is just data, not structure.
-            // If the content is instead quoted (url("...")), that is not
-            // this token form at all -- leave it alone here so the very next
-            // iteration hits the ordinary quote branch above and handles it
-            // as a normal quoted string, closing paren included.
-            if (($ch === 'u' || $ch === 'U') && stripos($css, 'url(', $i) === $i) {
-                $afterParen = $i + 4 < $length ? $css[$i + 4] : '';
+            // An unquoted url(...) token: per the CSS syntax spec, a `}`,
+            // `;`, or any other character inside it is just data, not
+            // structure. Tolerates whitespace and comments between "url"
+            // and "(" (both legal CSS). A quoted url("...") is left alone
+            // here so the very next relevant character hits the ordinary
+            // quote branch above and is handled as a normal string, closing
+            // paren included -- the common url("data:...;base64,...") case
+            // needs no special casing at all this way.
+            if ($ch === 'u' || $ch === 'U') {
+                $afterParen = self::urlTokenParenEnd($css, $i, $length);
 
-                if ($afterParen !== "'" && $afterParen !== '"') {
-                    if ($themeDepth > 0) {
-                        $buffer .= substr($css, $i, 4);
+                if ($afterParen !== null) {
+                    $afterParenChar = $afterParen < $length ? $css[$afterParen] : '';
+
+                    if ($afterParenChar !== "'" && $afterParenChar !== '"') {
+                        if ($themeDepth > 0) {
+                            $declaration .= substr($css, $i, $afterParen - $i);
+                        }
+
+                        $i = $afterParen;
+                        $mode = 'url';
+
+                        continue;
                     }
-                    $i += 4;
-                    $mode = 'url';
-
-                    continue;
                 }
             }
 
@@ -188,7 +195,7 @@ final class ThemeColors
             if ($awaitingBrace && $ch === '{') {
                 $awaitingBrace = false;
                 $themeDepth = 1;
-                $buffer = '';
+                $declaration = '';
                 $i++;
 
                 continue;
@@ -196,28 +203,26 @@ final class ThemeColors
 
             if ($themeDepth > 0) {
                 if ($ch === '{') {
+                    // Opens a nested at-rule (e.g. @media inside @theme).
+                    // Whatever was accumulated before it is a selector, not
+                    // a declaration -- discard rather than let it corrupt
+                    // the next real declaration inside the nested block.
                     $themeDepth++;
-                    $buffer .= $ch;
+                    $declaration = '';
                 } elseif ($ch === '}') {
                     $themeDepth--;
-
-                    if ($themeDepth === 0) {
-                        $extracted = self::extractColors($buffer);
-
-                        foreach ($extracted['colors'] as $shade => $value) {
-                            $colors[$shade] = $value;
-                        }
-
-                        if (! $extracted['ok']) {
-                            $unreadable = true;
-                        }
-
-                        $buffer = '';
-                    } else {
-                        $buffer .= $ch;
-                    }
+                    $declaration = '';
+                } elseif ($ch === ';') {
+                    // A semicolon reached in normal mode, inside the theme
+                    // block, at any nesting depth, terminates a real
+                    // declaration -- record it immediately, while the scan
+                    // still knows exactly what belongs to it, rather than
+                    // deferring to a second pass that would have to
+                    // re-discover the same quote/url boundaries blind.
+                    self::recordDeclaration($colors, $declaration);
+                    $declaration = '';
                 } else {
-                    $buffer .= $ch;
+                    $declaration .= $ch;
                 }
             }
 
@@ -237,26 +242,87 @@ final class ThemeColors
         return ['colors' => $colors, 'unreadable' => $unreadable];
     }
 
+    /**
+     * If $css, at offset $i, is a case-insensitive "url" identifier that --
+     * once any whitespace and complete comments between it and the opening
+     * parenthesis are skipped -- is followed by "(", returns the offset
+     * immediately after that "(". Returns null when "url" is not actually
+     * followed by "(" (just an ordinary identifier, not a url() token), or
+     * when a comment in between never closes -- this does not guess through
+     * an unterminated comment either; the ordinary comment-mode handling
+     * reaches it on the next iteration and reports unreadable normally.
+     */
+    private static function urlTokenParenEnd(string $css, int $i, int $length): ?int
+    {
+        if (stripos($css, 'url', $i) !== $i) {
+            return null;
+        }
+
+        $j = $i + 3;
+
+        while ($j < $length) {
+            $c = $css[$j];
+
+            if ($c === ' ' || $c === "\t" || $c === "\n" || $c === "\r" || $c === "\f") {
+                $j++;
+
+                continue;
+            }
+
+            if ($c === '/' && $j + 1 < $length && $css[$j + 1] === '*') {
+                $close = strpos($css, '*/', $j + 2);
+
+                if ($close === false) {
+                    return null;
+                }
+
+                $j = $close + 2;
+
+                continue;
+            }
+
+            break;
+        }
+
+        return $j < $length && $css[$j] === '(' ? $j + 1 : null;
+    }
+
     private static function isIdentChar(string $ch): bool
     {
         return $ch !== '' && preg_match('/[a-zA-Z0-9_-]/', $ch) === 1;
     }
 
-    /** @return array{colors: array<string, string>, ok: bool} */
-    private static function extractColors(string $block): array
+    /**
+     * Parses a single, already-isolated declaration -- the scan only calls
+     * this with text that ran from one structural boundary to the next, so
+     * there is no quote/url ambiguity left to resolve here, and no regex is
+     * needed: a "--color-aura-*" declaration is fully described by "does the
+     * trimmed text start with that prefix" and "where is the first colon".
+     *
+     * @param  array<string, string>  $colors
+     */
+    private static function recordDeclaration(array &$colors, string $declaration): void
     {
-        $matched = @preg_match_all('/--color-aura-([a-z]+-[0-9]+)\s*:\s*([^;]+);/i', $block, $found, PREG_SET_ORDER);
+        $declaration = ltrim($declaration);
 
-        if ($matched === false || preg_last_error() !== PREG_NO_ERROR) {
-            return ['colors' => [], 'ok' => false];
+        if (stripos($declaration, '--color-aura-') !== 0) {
+            return;
         }
 
-        $colors = [];
+        $rest = substr($declaration, strlen('--color-aura-'));
+        $colon = strpos($rest, ':');
 
-        foreach ($found as $match) {
-            $colors[strtolower(trim($match[1]))] = trim($match[2]);
+        if ($colon === false) {
+            return;
         }
 
-        return ['colors' => $colors, 'ok' => true];
+        $shade = strtolower(trim(substr($rest, 0, $colon)));
+        $value = trim(substr($rest, $colon + 1));
+
+        if ($shade === '' || $value === '') {
+            return;
+        }
+
+        $colors[$shade] = $value;
     }
 }

@@ -490,6 +490,30 @@ describe('--a11y', function () {
 
             File::delete($css);
         });
+
+        it('does not let whitespace between "url" and "(" open a hole for a stray brace to hide a real override', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: url  (http://x.com/img}?y=1); --color-aura-danger-600: #7dd3fc; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();   // danger-600 is a genuine, un-lost failing override
+
+            File::delete($css);
+        });
+
+        it('does not let a declaration-shaped fragment inside a quoted value spoof a passing override over a real failing one', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #7dd3fc; --color-aura-danger-600: "junk;--color-aura-primary-600: #4338ca;more"; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();   // the real, failing primary-600 must not be spoofed into passing
+
+            File::delete($css);
+        });
     });
 
     it('degrades a check that throws to a warning and still runs the others', function () {

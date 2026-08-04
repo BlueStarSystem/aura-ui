@@ -148,19 +148,62 @@ it('honours a backslash escape outside quotes, so it does not truncate the block
     ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
 });
 
-it('signals unreadable, rather than "no overrides", when the extraction regex itself fails (e.g. a PCRE backtrack limit)', function () {
-    $original = ini_get('pcre.backtrack_limit');
-    ini_set('pcre.backtrack_limit', 1);
+it('tolerates whitespace between "url" and "(", so a stray brace inside it still cannot hide a real override', function () {
+    $css = '@theme { --color-aura-primary-600: url  (http://x.com/img}?y=1); --color-aura-danger-600: #ff0000; }';
 
-    try {
-        $css = '@theme { --color-aura-primary-600: #4338ca; }';
-
-        expect(ThemeColors::parse($css))->toBe([])
-            ->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeTrue();
-    } finally {
-        ini_set('pcre.backtrack_limit', $original);
-    }
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => 'url  (http://x.com/img}?y=1)',
+        'danger-600' => '#ff0000',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
 });
+
+it('tolerates a comment between "url" and "(" too', function () {
+    $css = '@theme { --color-aura-primary-600: url/* wat */(http://x.com/img}?y=1); --color-aura-danger-600: #ff0000; }';
+
+    // The comment is still recognised for the purpose of *finding* the url()
+    // token (its stray `}` does not truncate the block), but the raw text
+    // between "url" and "(" is not itself stripped from the captured value
+    // -- only genuine comment *content*, i.e. what would appear between "("
+    // and ")", is data this scanner strips elsewhere. What matters here is
+    // that danger-600 is not lost.
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => 'url/* wat */(http://x.com/img}?y=1)',
+        'danger-600' => '#ff0000',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('does not let a declaration-shaped fragment inside a quoted value spoof a real declaration', function () {
+    $css = '@theme { --color-aura-danger-600: #ff0000; --color-aura-primary-600: "junk;--color-aura-danger-600: #00ff00;more"; }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'danger-600' => '#ff0000',
+        'primary-600' => '"junk;--color-aura-danger-600: #00ff00;more"',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('keeps the full value of a url() containing a semicolon, such as a base64 data URI', function () {
+    $css = '@theme { --color-aura-primary-600: url("data:image/png;base64,AAAA//8="); }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => 'url("data:image/png;base64,AAAA//8=")',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+// A prior revision of this scanner ran a whole-block regex
+// (`--color-aura-...` via preg_match_all) once a block's closing brace was
+// found, and a test here proved a PCRE failure (e.g. pcre.backtrack_limit=1)
+// degraded to "unreadable" rather than a silent []. That whole-buffer regex
+// has since been deleted -- declarations are now recorded live, character
+// by character, inside scan() itself (see recordDeclaration(), which uses
+// plain string operations, not a regex) specifically to close the seam
+// where a regex could misread a quote/url/semicolon boundary it did not
+// understand. With no regex left anywhere in the declaration-extraction
+// path, that specific PCRE-failure scenario can no longer occur, and the
+// test asserting it was removed rather than edited to pass some other way.
+// isIdentChar()'s single-character regex is the one PCRE call remaining in
+// this file; it did not fail under pcre.backtrack_limit=1 when this was
+// verified (matching a lone character against `[a-zA-Z0-9_-]` needs no
+// backtracking), so it does not stand in for the deleted test's scenario.
 
 describe('hasUnreadableThemeBlock()', function () {
     it('is false when there is no @theme block at all', function () {
