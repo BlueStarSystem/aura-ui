@@ -29,7 +29,7 @@
         'primary' => 'bg-aura-primary-600 text-white hover:bg-aura-primary-700 focus-visible:shadow-[var(--aura-glow-primary)]',
         'secondary' => 'bg-aura-surface-100 text-aura-surface-900 border-aura-surface-300 hover:bg-aura-surface-200 hover:border-aura-surface-400 hover:shadow-aura-md focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.2)]',
         'success' => 'bg-aura-success-700 text-white hover:bg-aura-success-700 focus-visible:shadow-[var(--aura-glow-success)]',
-        'warning' => 'bg-aura-warning-500 text-aura-surface-900 hover:bg-aura-warning-600 focus-visible:shadow-[var(--aura-glow-warning)]',
+        'warning' => 'bg-aura-warning-500 text-aura-surface-900 hover:bg-aura-warning-600 dark:bg-aura-warning-700 dark:text-white dark:hover:bg-aura-warning-700 focus-visible:shadow-[var(--aura-glow-warning)]',
         'danger' => 'bg-aura-danger-600 text-white hover:bg-aura-danger-700 focus-visible:shadow-[var(--aura-glow-danger)]',
         'ghost' => 'bg-transparent text-aura-surface-500 border-transparent hover:bg-aura-surface-100 hover:text-aura-surface-900 hover:shadow-none focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.15)]',
         'link' => 'bg-transparent text-aura-primary-600 dark:text-aura-primary-400 border-transparent px-1 underline underline-offset-[3px] hover:text-aura-primary-700 dark:hover:text-aura-primary-300 hover:shadow-none',
@@ -39,11 +39,11 @@
     // Override variant classes when outline mode is active
     if ($outline) {
         $variantClasses = match($variant) {
-            'primary' => 'bg-transparent text-aura-primary-600 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
+            'primary' => 'bg-transparent text-aura-primary-600 dark:text-aura-primary-400 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
             'secondary' => 'bg-transparent text-aura-surface-700 border-aura-surface-300 hover:bg-aura-surface-50 hover:border-aura-surface-400 focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.2)]',
-            'success' => 'bg-transparent text-aura-success-700 border-aura-success-300 hover:bg-aura-success-50 hover:border-aura-success-500 focus-visible:shadow-[var(--aura-glow-success)]',
-            'warning' => 'bg-transparent text-aura-warning-700 border-aura-warning-300 hover:bg-aura-warning-50 hover:border-aura-warning-500 focus-visible:shadow-[var(--aura-glow-warning)]',
-            'danger' => 'bg-transparent text-aura-danger-600 border-aura-danger-300 hover:bg-aura-danger-50 hover:border-aura-danger-500 focus-visible:shadow-[var(--aura-glow-danger)]',
+            'success' => 'bg-transparent text-aura-success-700 dark:text-aura-success-400 border-aura-success-300 hover:bg-aura-success-50 hover:border-aura-success-500 focus-visible:shadow-[var(--aura-glow-success)]',
+            'warning' => 'bg-transparent text-aura-warning-700 dark:text-aura-warning-400 border-aura-warning-300 hover:bg-aura-warning-50 hover:border-aura-warning-500 focus-visible:shadow-[var(--aura-glow-warning)]',
+            'danger' => 'bg-transparent text-aura-danger-600 dark:text-aura-danger-400 border-aura-danger-300 hover:bg-aura-danger-50 hover:border-aura-danger-500 focus-visible:shadow-[var(--aura-glow-danger)]',
             default => 'bg-transparent text-aura-primary-600 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
         };
     }

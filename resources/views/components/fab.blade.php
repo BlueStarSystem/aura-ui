@@ -28,9 +28,9 @@
 
     $colorClass = match($color) {
         'success' => 'bg-aura-success-700 hover:bg-aura-success-600 text-white',
-        'danger' => 'bg-aura-danger-500 hover:bg-aura-danger-600 text-white',
-        'secondary' => 'bg-aura-surface-600 hover:bg-aura-surface-700 text-white',
-        default => 'bg-aura-primary-500 hover:bg-aura-primary-600 text-white',
+        'danger' => 'bg-aura-danger-500 hover:bg-aura-danger-600 text-white dark:bg-aura-danger-600',
+        'secondary' => 'bg-aura-surface-600 hover:bg-aura-surface-700 text-white dark:text-aura-surface-0',
+        default => 'bg-aura-primary-500 hover:bg-aura-primary-600 text-white dark:bg-aura-primary-600',
     };
 @endphp
 

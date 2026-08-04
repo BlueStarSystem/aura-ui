@@ -44,11 +44,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `avatar` gradient colour variants (`residual.css`) and the `button` `gradient` prop
   variant were shifted two steps darker (e.g. 500→700/600→800) so their lightest stop clears
   4.5:1 against white, while staying gradients rather than flattening to a solid fill.
+- **Dark-mode-only contrast failures**, found by re-checking the whole Class A/C set against
+  `.dark`'s overrides (which invert the `surface` scale and brighten the `-500` accents, but
+  leave every other accent shade at its light value). Fixed with either a `dark:` variant or,
+  where the target shade is unredefined by `.dark`, a single base-rule change that fixes both
+  themes at once: `button`'s solid `warning` and outline `primary`/`success`/`warning`/`danger`
+  text; `calendar`'s default event-pill colour (also a marginal pre-existing light-mode fail,
+  4.47:1, missed by the original census); `fab`'s `default`/`primary` and `danger` icon fills;
+  the checked `checkbox`/`radio` fill and the `primary`/`danger` `toggle` knobs (`residual.css`);
+  and the `success`/`secondary` `toggle` knobs (base-rule fix, both themes). Also fixed, per a
+  controller decision covering two cases a shade swap cannot solve: `indicator`'s `secondary`
+  badge and `fab`'s `secondary` button both pair invariant white text/icon with a `surface-*`
+  background, which inverts under `.dark` by design; rather than pin a literal colour, the
+  foreground now inverts with it via `dark:text-aura-surface-0`.
 
 ### Note
 - This pass covers the free package's Class A/C/D contrast defects found in the 2026-08-04
-  census. Unchecked form-control borders, toggle knobs, and dark mode beyond `alert`/`badge`/
-  `tooltip` remain unverified and are tracked separately.
+  census, in both light and dark mode. Unchecked form-control borders and several
+  runtime-coloured cases (`calendar`/`avatar` arbitrary colours, `dock`'s undefined RGB
+  fallbacks) remain unverified; the library is not claimed fully WCAG AA compliant.
 
 ## [3.14.0] - 2026-07-02
 

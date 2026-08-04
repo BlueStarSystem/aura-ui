@@ -107,6 +107,11 @@
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
 }
 
+.dark .aura-checkbox input:checked + .aura-checkbox-box {
+    background: var(--color-aura-primary-600);
+    border-color: var(--color-aura-primary-600);
+}
+
 .aura-checkbox input:checked + .aura-checkbox-box svg {
     opacity: 1;
     transform: scale(1);
@@ -142,6 +147,11 @@
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
 }
 
+.dark .aura-radio input:checked + .aura-radio-circle {
+    background: var(--color-aura-primary-600);
+    border-color: var(--color-aura-primary-600);
+}
+
 .aura-radio input:checked + .aura-radio-circle .aura-radio-dot {
     opacity: 1;
     transform: scale(1);
@@ -169,16 +179,24 @@
     background: var(--color-aura-primary-500);
 }
 
+.dark .aura-toggle-input:checked + .aura-toggle {
+    background: var(--color-aura-primary-600);
+}
+
 .aura-toggle-input:checked + .aura-toggle-secondary {
-    background: var(--color-aura-secondary-500);
+    background: var(--color-aura-secondary-700);
 }
 
 .aura-toggle-input:checked + .aura-toggle-success {
-    background: var(--color-aura-success-500);
+    background: var(--color-aura-success-700);
 }
 
 .aura-toggle-input:checked + .aura-toggle-danger {
     background: var(--color-aura-danger-500);
+}
+
+.dark .aura-toggle-input:checked + .aura-toggle-danger {
+    background: var(--color-aura-danger-600);
 }
 
 .aura-toggle-input:checked + .aura-toggle .aura-toggle-knob {

@@ -299,7 +299,7 @@
                     <template x-for="ev in getEvents(cell.date)" :key="ev[eventTitleKey]">
                         <div
                             class="aura-calendar-event mt-0.5 px-1 py-0.5 text-[10px] font-medium text-white rounded truncate"
-                            x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-500)'"
+                            x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
                             x-text="ev[eventTitleKey]"
                         ></div>
                     </template>
@@ -326,7 +326,7 @@
                     <template x-for="ev in getAllDayEvents(day)" :key="ev[eventTitleKey]">
                         <div
                             class="aura-calendar-event px-1 py-0.5 text-[10px] font-medium text-white rounded truncate"
-                            x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-500)'"
+                            x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
                             x-text="ev[eventTitleKey]"
                         ></div>
                     </template>
@@ -343,7 +343,7 @@
                             <template x-for="ev in getEventsForHour(day, hour)" :key="ev[eventTitleKey]">
                                 <div
                                     class="aura-calendar-event px-1.5 py-0.5 text-[10px] font-medium text-white rounded truncate"
-                                    x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-500)'"
+                                    x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
                                     x-text="ev[eventStartKey] + ' ' + ev[eventTitleKey]"
                                 ></div>
                             </template>
@@ -362,7 +362,7 @@
                 <template x-for="ev in getAllDayEvents(currentDate)" :key="ev[eventTitleKey]">
                     <div
                         class="aura-calendar-event px-1.5 py-1 text-xs font-medium text-white rounded truncate mb-0.5"
-                        x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-500)'"
+                        x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
                         x-text="ev[eventTitleKey]"
                     ></div>
                 </template>
@@ -377,7 +377,7 @@
                         <template x-for="ev in getEventsForHour(currentDate, hour)" :key="ev[eventTitleKey]">
                             <div
                                 class="aura-calendar-event px-1.5 py-1 text-xs font-medium text-white rounded truncate mb-0.5"
-                                x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-500)'"
+                                x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
                                 x-text="ev[eventStartKey] + ' ' + ev[eventTitleKey]"
                             ></div>
                         </template>

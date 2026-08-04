@@ -19,7 +19,7 @@
         'success' => 'bg-aura-success-700 text-white',
         'warning' => 'bg-aura-warning-700 text-white',
         'info' => 'bg-aura-info-700 text-white',
-        'secondary' => 'bg-aura-surface-500 text-white',
+        'secondary' => 'bg-aura-surface-500 text-white dark:text-aura-surface-0',
         default => 'bg-aura-danger-600 text-white',
     };
 
