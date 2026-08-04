@@ -12,7 +12,7 @@
 @php
     $variantClasses = match($variant) {
         'primary' => 'bg-aura-primary-100 text-aura-primary-700 dark:bg-[rgba(129,140,248,0.15)] dark:text-aura-primary-300',
-        'secondary' => 'bg-aura-surface-200 text-aura-surface-500 dark:text-aura-surface-600',
+        'secondary' => 'bg-aura-surface-200 text-aura-surface-700 dark:text-aura-surface-600',
         'success' => 'bg-aura-success-100 text-aura-success-700 dark:bg-[rgba(52,211,153,0.15)] dark:text-aura-success-300',
         'warning' => 'bg-aura-warning-100 text-aura-warning-700 dark:bg-[rgba(251,191,36,0.15)] dark:text-aura-warning-300',
         'danger' => 'bg-aura-danger-100 text-aura-danger-700 dark:bg-[rgba(248,113,113,0.15)] dark:text-aura-danger-300',

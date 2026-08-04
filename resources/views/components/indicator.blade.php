@@ -15,12 +15,12 @@
     };
 
     $colorClass = match($color) {
-        'primary' => 'bg-aura-primary-500 text-white',
-        'success' => 'bg-aura-success-500 text-white',
-        'warning' => 'bg-aura-warning-500 text-white',
-        'info' => 'bg-aura-info-500 text-white',
-        'secondary' => 'bg-aura-surface-400 text-white',
-        default => 'bg-aura-danger-500 text-white',
+        'primary' => 'bg-aura-primary-600 text-white',
+        'success' => 'bg-aura-success-700 text-white',
+        'warning' => 'bg-aura-warning-700 text-white',
+        'info' => 'bg-aura-info-700 text-white',
+        'secondary' => 'bg-aura-surface-500 text-white',
+        default => 'bg-aura-danger-600 text-white',
     };
 
     $sizeClass = match($size) {

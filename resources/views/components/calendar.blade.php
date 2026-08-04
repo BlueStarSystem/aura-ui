@@ -295,7 +295,7 @@
                         'aura-calendar-other': !cell.current
                     }"
                 >
-                    <span class="aura-calendar-date inline-flex items-center justify-center w-6 h-6 text-xs font-medium rounded-full" x-bind:class="{ 'text-aura-surface-300': !cell.current, 'text-aura-surface-700': cell.current, 'bg-aura-primary-500 text-white': isToday(cell.date) }" x-text="cell.date.getDate()"></span>
+                    <span class="aura-calendar-date inline-flex items-center justify-center w-6 h-6 text-xs font-medium rounded-full" x-bind:class="{ 'text-aura-surface-300': !cell.current, 'text-aura-surface-700': cell.current, 'bg-aura-primary-600 text-white': isToday(cell.date) }" x-text="cell.date.getDate()"></span>
                     <template x-for="ev in getEvents(cell.date)" :key="ev[eventTitleKey]">
                         <div
                             class="aura-calendar-event mt-0.5 px-1 py-0.5 text-[10px] font-medium text-white rounded truncate"

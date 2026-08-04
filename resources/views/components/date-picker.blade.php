@@ -260,7 +260,7 @@
                     x-bind:class="{
                         'aura-datepicker-day-other opacity-30': !cell.current,
                         'aura-datepicker-day-today font-bold ring-1 ring-aura-primary-300': cell.date && isToday(cell.date),
-                        'aura-datepicker-day-selected !bg-aura-primary-500 !text-white': cell.date && isSelected(cell.date),
+                        'aura-datepicker-day-selected !bg-aura-primary-600 !text-white': cell.date && isSelected(cell.date),
                         'aura-datepicker-day-disabled opacity-30 cursor-not-allowed': cell.disabled,
                     }"
                     x-bind:disabled="!cell.current || cell.disabled"

@@ -45,7 +45,7 @@
             {{-- Page Numbers --}}
             @foreach($paginator->getUrlRange(1, $paginator->lastPage()) as $page => $url)
                 @if($page == $paginator->currentPage())
-                    <span class="aura-pagination-btn aura-pagination-btn-active inline-flex items-center justify-center min-w-[32px] h-8 px-1.5 border border-aura-primary-500 rounded-aura-md bg-aura-primary-500 text-white text-[13px] font-medium shadow-[var(--aura-glow-primary)]" aria-current="page">{{ $page }}</span>
+                    <span class="aura-pagination-btn aura-pagination-btn-active inline-flex items-center justify-center min-w-[32px] h-8 px-1.5 border border-aura-primary-600 rounded-aura-md bg-aura-primary-600 text-white text-[13px] font-medium shadow-[var(--aura-glow-primary)]" aria-current="page">{{ $page }}</span>
                 @elseif($page == 1 || $page == $paginator->lastPage() || abs($page - $paginator->currentPage()) <= 1)
                     <button class="aura-pagination-btn inline-flex items-center justify-center min-w-[32px] h-8 px-1.5 border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 text-[13px] font-medium cursor-pointer aura-transition-fast hover:bg-aura-surface-50 hover:border-aura-primary-200 hover:text-aura-primary-600 hover:shadow-aura-sm" wire:click="gotoPage({{ $page }})">{{ $page }}</button>
                 @elseif(abs($page - $paginator->currentPage()) == 2)

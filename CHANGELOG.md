@@ -5,6 +5,19 @@ All notable changes to Aura UI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- Solid-background components now meet WCAG 2.1 AA contrast for white text: `primary` moves
+  from shade 500 to 600, `success` to 700 and `danger` to 600 (at 500 they rendered white text
+  at 4.47:1, 2.54:1 and 3.76:1 against the required 4.5:1). This affects the `button` solid
+  variants, all six `indicator` colour variants (`primary`, `success`, `warning`, `info`,
+  `secondary`, and the default danger), the `badge` `secondary` variant's light-mode text
+  colour, the `calendar` today marker, the `date-picker` selected-day state and the active
+  `pagination` page. The palette itself is unchanged; `warning` on `button` stays at 500
+  because it uses dark text, and outline/ghost/link variants and `dark:` classes are
+  unaffected.
+
 ## [3.14.0] - 2026-07-02
 
 ### Added

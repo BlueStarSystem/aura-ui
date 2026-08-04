@@ -14,19 +14,19 @@ it('renders an indicator', function () {
 it('renders danger color by default', function () {
     $html = Blade::render('<x-aura::indicator>X</x-aura::indicator>');
 
-    expect($html)->toContain('bg-aura-danger-500');
+    expect($html)->toContain('bg-aura-danger-600');
 });
 
 it('renders primary color', function () {
     $html = Blade::render('<x-aura::indicator color="primary">X</x-aura::indicator>');
 
-    expect($html)->toContain('bg-aura-primary-500');
+    expect($html)->toContain('bg-aura-primary-600');
 });
 
 it('renders success color', function () {
     $html = Blade::render('<x-aura::indicator color="success">X</x-aura::indicator>');
 
-    expect($html)->toContain('bg-aura-success-500');
+    expect($html)->toContain('bg-aura-success-700');
 });
 
 it('renders top-right by default', function () {
