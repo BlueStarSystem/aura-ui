@@ -124,6 +124,44 @@ it('treats an unterminated comment as unreadable even when it swallows a later, 
         ->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeTrue();
 });
 
+it('does not let an unquoted url() token with a stray brace truncate the block early', function () {
+    $css = '@theme { --color-aura-primary-600: url(http://x.com/img}?y=1); --color-aura-danger-600: #7dd3fc; }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => 'url(http://x.com/img}?y=1)',
+        'danger-600' => '#7dd3fc',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('treats an unterminated unquoted url() token as unreadable, exercising the generic end-of-file guard', function () {
+    $css = '@theme { --color-aura-primary-600: url(http://x.com/no-closing-paren';
+
+    expect(ThemeColors::parse($css))->toBe([])
+        ->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeTrue();
+});
+
+it('honours a backslash escape outside quotes, so it does not truncate the block early', function () {
+    $css = '@theme { --x: a\}b; --color-aura-primary-600: #4338ca; }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#4338ca',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('signals unreadable, rather than "no overrides", when the extraction regex itself fails (e.g. a PCRE backtrack limit)', function () {
+    $original = ini_get('pcre.backtrack_limit');
+    ini_set('pcre.backtrack_limit', 1);
+
+    try {
+        $css = '@theme { --color-aura-primary-600: #4338ca; }';
+
+        expect(ThemeColors::parse($css))->toBe([])
+            ->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeTrue();
+    } finally {
+        ini_set('pcre.backtrack_limit', $original);
+    }
+});
+
 describe('hasUnreadableThemeBlock()', function () {
     it('is false when there is no @theme block at all', function () {
         expect(ThemeColors::hasUnreadableThemeBlock('@import "tailwindcss";'))->toBeFalse();

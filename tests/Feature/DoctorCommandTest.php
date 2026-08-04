@@ -466,6 +466,30 @@ describe('--a11y', function () {
 
             File::delete($css);
         });
+
+        it('does not let an unquoted url() token with a stray brace hide a real override', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: url(http://x.com/img}?y=1); --color-aura-danger-600: #7dd3fc; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();   // the invalid url() value cannot be read as a colour either -- a genuine finding
+
+            File::delete($css);
+        });
+
+        it('honours a backslash escape outside quotes, so a real override right after it is still checked', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --x: a\}b; --color-aura-primary-600: #7dd3fc; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();
+
+            File::delete($css);
+        });
     });
 
     it('degrades a check that throws to a warning and still runs the others', function () {
