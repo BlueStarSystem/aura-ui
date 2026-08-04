@@ -19,6 +19,10 @@ dataset('solid surfaces', [
     'badge warning' => ['#fef3c7', '#b45309'],
     'badge danger' => ['#fee2e2', '#b91c1c'],
     'badge info' => ['#e0f2fe', '#0369a1'],
+    'badge secondary' => ['#e2e8f0', '#334155'],  // surface-200 / surface-700
+    'indicator info' => ['#0369a1', '#ffffff'],       // info-700
+    'indicator warning' => ['#b45309', '#ffffff'],    // warning-700
+    'indicator secondary' => ['#64748b', '#ffffff'],  // surface-500
 ]);
 
 it('renders every solid surface at WCAG AA or better', function (string $background, string $text) {
