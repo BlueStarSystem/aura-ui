@@ -5,7 +5,7 @@
 ])
 
 <div {{ $attributes->class(['aura-empty-state', 'flex flex-col items-center justify-center py-12 px-6 text-center']) }}>
-    <div class="aura-empty-state-icon flex items-center justify-center w-16 h-16 mb-4 bg-aura-surface-100 dark:bg-aura-surface-200 rounded-aura-full text-aura-surface-400">
+    <div class="aura-empty-state-icon flex items-center justify-center w-16 h-16 mb-4 bg-aura-surface-100 dark:bg-aura-surface-200 rounded-aura-full text-aura-surface-600">
         <x-aura::icon :name="$icon" size="xl" />
     </div>
     <h3 class="aura-empty-state-title m-0 mb-2 text-base font-semibold text-aura-surface-900">{{ $title }}</h3>

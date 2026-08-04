@@ -75,7 +75,7 @@
                         x-ref="commandInput"
                         x-init="$watch('open', v => { if (v) $nextTick(() => $refs.commandInput.focus()) })"
                     />
-                    <kbd class="aura-command-kbd shrink-0 px-1.5 py-0.5 text-[10px] font-mono text-aura-surface-400 bg-aura-surface-100 rounded border border-aura-surface-200">ESC</kbd>
+                    <kbd class="aura-command-kbd shrink-0 px-1.5 py-0.5 text-[10px] font-mono text-aura-surface-600 bg-aura-surface-100 rounded border border-aura-surface-200">ESC</kbd>
                 </div>
 
                 <div class="aura-command-list max-h-[300px] overflow-y-auto p-2" x-ref="groups">
@@ -86,7 +86,7 @@
                     {{ $emptyText }}
                 </div>
 
-                <div class="aura-command-footer flex items-center gap-4 px-4 py-2.5 border-t border-aura-surface-200 bg-aura-surface-50 text-xs text-aura-surface-400">
+                <div class="aura-command-footer flex items-center gap-4 px-4 py-2.5 border-t border-aura-surface-200 bg-aura-surface-50 text-xs text-aura-surface-600">
                     <span class="aura-command-hint"><kbd class="px-1 py-0.5 text-[10px] font-mono bg-aura-surface-100 rounded border border-aura-surface-200">&uarr;&darr;</kbd> navigate</span>
                     <span class="aura-command-hint"><kbd class="px-1 py-0.5 text-[10px] font-mono bg-aura-surface-100 rounded border border-aura-surface-200">&crarr;</kbd> select</span>
                     <span class="aura-command-hint"><kbd class="px-1 py-0.5 text-[10px] font-mono bg-aura-surface-100 rounded border border-aura-surface-200">esc</kbd> close</span>

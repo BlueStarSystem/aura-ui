@@ -41,8 +41,8 @@
         $variantClasses = match($variant) {
             'primary' => 'bg-transparent text-aura-primary-600 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
             'secondary' => 'bg-transparent text-aura-surface-700 border-aura-surface-300 hover:bg-aura-surface-50 hover:border-aura-surface-400 focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.2)]',
-            'success' => 'bg-transparent text-aura-success-600 border-aura-success-300 hover:bg-aura-success-50 hover:border-aura-success-500 focus-visible:shadow-[var(--aura-glow-success)]',
-            'warning' => 'bg-transparent text-aura-warning-600 border-aura-warning-300 hover:bg-aura-warning-50 hover:border-aura-warning-500 focus-visible:shadow-[var(--aura-glow-warning)]',
+            'success' => 'bg-transparent text-aura-success-700 border-aura-success-300 hover:bg-aura-success-50 hover:border-aura-success-500 focus-visible:shadow-[var(--aura-glow-success)]',
+            'warning' => 'bg-transparent text-aura-warning-700 border-aura-warning-300 hover:bg-aura-warning-50 hover:border-aura-warning-500 focus-visible:shadow-[var(--aura-glow-warning)]',
             'danger' => 'bg-transparent text-aura-danger-600 border-aura-danger-300 hover:bg-aura-danger-50 hover:border-aura-danger-500 focus-visible:shadow-[var(--aura-glow-danger)]',
             default => 'bg-transparent text-aura-primary-600 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
         };
@@ -80,7 +80,7 @@
     ];
 
     if ($outline) $classes[] = 'aura-btn-outline border-[1.5px]';
-    if ($gradient) $classes[] = 'aura-btn-gradient border-none bg-gradient-to-r from-violet-500 to-indigo-500 text-white hover:from-violet-600 hover:to-indigo-600';
+    if ($gradient) $classes[] = 'aura-btn-gradient border-none bg-gradient-to-r from-violet-700 to-indigo-800 text-white hover:from-violet-600 hover:to-indigo-600';
     if ($loading) $classes[] = 'aura-btn-loading';
     if ($iconOnly) $classes[] = 'aura-btn-icon-only';
 

@@ -17,6 +17,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `pagination` page. The palette itself is unchanged; `warning` on `button` stays at 500
   because it uses dark text, and outline/ghost/link variants and `dark:` classes are
   unaffected.
+- **`alert`'s light-mode text colour was not applied at all.** The `info`/`success`/`warning`/
+  `danger` variants referenced `text-aura-{variant}-800`, a shade that does not exist in the
+  palette (those hues stop at 700); Tailwind 4 silently emits no utility for an undefined
+  token, so the text rendered in whatever colour it inherited instead. Changed to the existing
+  `-700` shade, which also clears WCAG 2.1 AA (4.84:1–5.91:1 against each variant's `-50`
+  background). Dark-mode classes were already correct and untouched.
+- More solid surfaces darkened to reach 4.5:1 (text) or 3:1 (non-text UI/icon) against their
+  background: `command-palette`'s footer and `kbd` hint text, `input`'s prefix/suffix affix
+  text, the outline `button`'s `success`/`warning` text, the `success` `fab`, the `success`/
+  `warning`/`info` bars in `toasts`, the `secondary`/`success`/`warning` solid and gradient
+  bars in `progress`, and the icon tint in `empty-state` — all moved from shade 400/500/600 to
+  600/700 as appropriate. `danger` variants that already passed were left alone.
+- The `avatar` gradient colour variants (`residual.css`) and the `button` `gradient` prop
+  variant were shifted two steps darker (e.g. 500→700/600→800) so their lightest stop clears
+  4.5:1 against white, while staying gradients rather than flattening to a solid fill.
+
+### Note
+- This pass covers the free package's Class A/C/D contrast defects found in the 2026-08-04
+  census. Unchecked form-control borders, toggle knobs, and dark mode beyond `alert`/`badge`/
+  `tooltip` remain unverified and are tracked separately.
 
 ## [3.14.0] - 2026-07-02
 

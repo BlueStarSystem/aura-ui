@@ -15,11 +15,11 @@
     $iconName = $icon ?? ($defaultIcons[$variant] ?? 'info');
 
     $variantClasses = match($variant) {
-        'info' => 'bg-aura-info-50 border-aura-info-500 text-aura-info-800 dark:bg-[rgba(14,165,233,0.08)] dark:text-aura-info-200',
-        'success' => 'bg-aura-success-50 border-aura-success-500 text-aura-success-800 dark:bg-[rgba(16,185,129,0.08)] dark:text-aura-success-200',
-        'warning' => 'bg-aura-warning-50 border-aura-warning-500 text-aura-warning-800 dark:bg-[rgba(245,158,11,0.08)] dark:text-aura-warning-200',
-        'danger' => 'bg-aura-danger-50 border-aura-danger-500 text-aura-danger-800 dark:bg-[rgba(239,68,68,0.08)] dark:text-aura-danger-200',
-        default => 'bg-aura-info-50 border-aura-info-500 text-aura-info-800',
+        'info' => 'bg-aura-info-50 border-aura-info-500 text-aura-info-700 dark:bg-[rgba(14,165,233,0.08)] dark:text-aura-info-200',
+        'success' => 'bg-aura-success-50 border-aura-success-500 text-aura-success-700 dark:bg-[rgba(16,185,129,0.08)] dark:text-aura-success-200',
+        'warning' => 'bg-aura-warning-50 border-aura-warning-500 text-aura-warning-700 dark:bg-[rgba(245,158,11,0.08)] dark:text-aura-warning-200',
+        'danger' => 'bg-aura-danger-50 border-aura-danger-500 text-aura-danger-700 dark:bg-[rgba(239,68,68,0.08)] dark:text-aura-danger-200',
+        default => 'bg-aura-info-50 border-aura-info-500 text-aura-info-700',
     };
 
     $classes = [

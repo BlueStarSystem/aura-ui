@@ -37,7 +37,7 @@ it('renders default primary color', function () {
 it('renders success color', function () {
     $html = Blade::render('<x-aura::fab color="success" />');
 
-    expect($html)->toContain('bg-aura-success-500');
+    expect($html)->toContain('bg-aura-success-700');
 });
 
 it('renders medium size by default', function () {

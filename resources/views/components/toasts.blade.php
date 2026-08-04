@@ -89,10 +89,10 @@
             </button>
             <div class="aura-toast-progress absolute bottom-0 left-0 right-0 h-0.5 bg-aura-surface-100">
                 <div class="aura-toast-progress-bar h-full rounded-full" x-bind:class="{
-                    'bg-aura-success-500': toast.type === 'success',
+                    'bg-aura-success-700': toast.type === 'success',
                     'bg-aura-danger-500': toast.type === 'danger' || toast.type === 'error',
-                    'bg-aura-warning-500': toast.type === 'warning',
-                    'bg-aura-info-500': toast.type === 'info'
+                    'bg-aura-warning-700': toast.type === 'warning',
+                    'bg-aura-info-700': toast.type === 'info'
                 }" x-bind:style="'width: ' + toast.progress + '%'"></div>
             </div>
         </div>
