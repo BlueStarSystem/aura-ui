@@ -79,6 +79,15 @@ it('reports findings as JSON when asked', function () {
     File::deleteDirectory($dir);
 });
 
+it('does not flag an unknown component name that only exists inside a Blade comment', function () {
+    $dir = auraDoctorViews('{{-- <x-aura::buton variant="primary">Typo</x-aura::buton> --}}');
+
+    $this->artisan('aura:doctor', ['--path' => [$dir], '--skip-setup' => true])
+        ->assertSuccessful();
+
+    File::deleteDirectory($dir);
+});
+
 describe('--a11y', function () {
     beforeEach(function () {
         $this->views = sys_get_temp_dir().'/aura-doctor-'.uniqid();
@@ -122,6 +131,27 @@ describe('--a11y', function () {
             ->assertSuccessful();
     });
 
+    it('still flags an input that has an id but no matching <label for>', function () {
+        writeView($this->views, 'page', '<x-aura::input name="email" id="email" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
+    it('does not flag an input associated with a native <label for>', function () {
+        writeView($this->views, 'page', '<label for="email">Email</label><x-aura::input name="email" id="email" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('does not flag an input with a dynamic id, since the matching label cannot be resolved statically', function () {
+        writeView($this->views, 'page', '<x-aura::input name="email" :id="$fieldId" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
     it('flags an img without alt', function () {
         writeView($this->views, 'page', '<img src="/logo.png">');
 
@@ -131,6 +161,20 @@ describe('--a11y', function () {
 
     it('accepts an empty alt as a deliberate decorative image', function () {
         writeView($this->views, 'page', '<img src="/deco.png" alt="">');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('accepts role="presentation" as a deliberate decorative image', function () {
+        writeView($this->views, 'page', '<img src="/deco.png" role="presentation">');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('accepts role="none" as a deliberate decorative image', function () {
+        writeView($this->views, 'page', '<img src="/deco.png" role="none">');
 
         $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
             ->assertSuccessful();
@@ -205,5 +249,20 @@ describe('--a11y', function () {
 
         $this->artisan('aura:doctor', ['--path' => [$this->views], '--skip-setup' => true])
             ->assertSuccessful();
+    });
+
+    it('does not flag markup that only exists inside a Blade comment', function () {
+        writeView($this->views, 'page', '{{-- <x-aura::input name="email" /> --}}{{-- <img src="/x.png"> --}}');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('reports the correct line number for a finding that follows a multi-line comment', function () {
+        writeView($this->views, 'page', "{{--\n  a comment\n  spanning lines\n--}}\n<img src=\"/logo.png\">");
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--json' => true, '--skip-setup' => true])
+            ->expectsOutputToContain('"line": 5')
+            ->assertFailed();
     });
 });

@@ -112,6 +112,11 @@ class DoctorCommand extends Command
     {
         $relative = str_replace(base_path().DIRECTORY_SEPARATOR, '', $path);
 
+        // Commented-out or WIP markup never renders, so no check should see it.
+        // Stripped once here, before any regex runs, so every check -- old and
+        // new -- benefits without repeating the work.
+        $contents = $this->stripBladeComments($contents);
+
         preg_match_all('/<x-aura::([a-z0-9.-]+)([^>]*)>/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
 
         foreach ($matches as $match) {
@@ -140,6 +145,21 @@ class DoctorCommand extends Command
         if ($this->option('a11y')) {
             $this->checkAccessibility($contents, $relative);
         }
+    }
+
+    /**
+     * Blanks out {{-- ... --}} regions, character for character except
+     * newlines, so no check ever matches markup that never renders --
+     * while every line number computed downstream (by counting "\n" up to
+     * a match's offset) stays exactly right.
+     */
+    private function stripBladeComments(string $contents): string
+    {
+        return preg_replace_callback(
+            '/\{\{--.*?--\}\}/s',
+            fn (array $m): string => preg_replace('/[^\n]/', ' ', $m[0]) ?? $m[0],
+            $contents
+        ) ?? $contents;
     }
 
     private function checkVariant(string $component, string $attributes, string $file, int $line): void
@@ -228,10 +248,45 @@ class DoctorCommand extends Command
                 continue;
             }
 
+            if ($this->hasMatchingNativeLabel($contents, $attributes)) {
+                continue;
+            }
+
             $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
 
             $this->add('error', 'a11y', "<x-aura::{$match[1][0]}> has no accessible name. Add label=\"…\" or aria-label=\"…\".", $file, $line);
         }
+    }
+
+    /**
+     * The canonical WCAG pattern is a native <label for="x"> paired with an
+     * id="x" on the control -- Blade's :label prop is a convenience, not the
+     * only valid way to name a field. Without this, that standard pattern
+     * would be flagged as inaccessible, which it is not.
+     *
+     * A dynamic id (`:id="$x"` or `id="{{ $x }}"`) cannot be resolved
+     * statically against a <label for>, so it is treated as satisfied rather
+     * than flagged: per the governing rule, an unresolvable case must not
+     * become a false positive.
+     */
+    private function hasMatchingNativeLabel(string $contents, string $attributes): bool
+    {
+        if (preg_match('/(^|\s):id\s*=/i', $attributes) === 1) {
+            return true;
+        }
+
+        if (preg_match('/(^|\s)id\s*=\s*"([^"]*)"/i', $attributes, $found) !== 1
+            && preg_match('/(^|\s)id\s*=\s*\'([^\']*)\'/i', $attributes, $found) !== 1) {
+            return false;
+        }
+
+        $id = $found[2];
+
+        if ($id === '' || str_contains($id, '{{')) {
+            return true;
+        }
+
+        return preg_match('/<label\b[^>]*\bfor\s*=\s*["\']'.preg_quote($id, '/').'["\'][^>]*>/i', $contents) === 1;
     }
 
     private function checkImageAlt(string $contents, string $file): void
@@ -242,6 +297,13 @@ class DoctorCommand extends Command
             $attributes = $match[1][0];
 
             if (preg_match('/(^|\s):?alt\s*=/i', $attributes) === 1) {
+                continue;
+            }
+
+            // role="presentation" / role="none" is the ARIA-recognised way to
+            // mark an image decorative -- axe-core accepts either as an
+            // alternative to alt="", so this check does too.
+            if (preg_match('/(^|\s)role\s*=\s*["\'](presentation|none)["\']/i', $attributes) === 1) {
                 continue;
             }
 
