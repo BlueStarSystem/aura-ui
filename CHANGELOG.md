@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- **Toast and progress bars were nearly invisible in dark mode (regression in v3.15.1/v3.15.2).**
+  The previous release darkened the `toasts` progress bar and the `progress` component's solid
+  and gradient fills to shade 700 (leaving `danger` at 500) so they would clear 3:1 contrast
+  against their track *in light mode*. It did not account for how dark mode works in this
+  library: `dark-mode.css` redefines the surface tokens inside `.dark`, so the same tracks also
+  darken there (toast track `surface-100` -> `#334155`, progress track `surface-200` ->
+  `#475569`), and the fixed `-700`/`-500` fill collapsed into the darkened track (e.g. toast
+  `success` fell from 4.08:1 to 1.89:1, progress `warning` from 3.53:1 to 1.51:1). Fixed by
+  giving every bar fill a `dark:bg-aura-<hue>-300` (and, for the gradient arm, `dark:from-`/
+  `dark:to-aura-<hue>-300`) variant, verified at 3.99:1–7.18:1 against both dark tracks. The
+  light-mode shade 700/500 fix from the previous release is unchanged; only a dark variant was
+  added.
 - Solid-background components now meet WCAG 2.1 AA contrast for white text: `primary` moves
   from shade 500 to 600, `success` to 700 and `danger` to 600 (at 500 they rendered white text
   at 4.47:1, 2.54:1 and 3.76:1 against the required 4.5:1). This affects the `button` solid

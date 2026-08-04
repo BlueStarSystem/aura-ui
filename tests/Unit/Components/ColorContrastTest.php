@@ -87,3 +87,30 @@ it('renders every non-text UI surface at WCAG AA large-text/UI threshold or bett
     expect(Contrast::ratio($adjacent, $element))
         ->toBeGreaterThanOrEqual(Contrast::AA_LARGE);
 })->with('non-text UI surfaces');
+
+/**
+ * Task 6d regression: Task 6c darkened toast/progress bar fills to -700 to win
+ * contrast against a LIGHT track. Under `.dark`, dark-mode.css darkens the track
+ * too (surface-100 -> #334155, surface-200 -> #475569) and the -700 fill nearly
+ * vanished into it (toast success 4.08 -> 1.89, progress warning 3.53 -> 1.51).
+ * The fix adds a `dark:bg-aura-<hue>-300` variant to every bar fill. This dataset
+ * asserts the resulting DARK-theme pairs against the DARK track colours -- do not
+ * confuse it with the light-theme "non-text UI surfaces" dataset above.
+ */
+dataset('dark non-text UI surfaces', [
+    // [etichetta, sfondo/adiacente (dark track), elemento (dark fill, -300)]
+    'toasts bar success vs dark track' => ['#334155', '#6ee7b7'],
+    'toasts bar danger vs dark track' => ['#334155', '#fca5a5'],
+    'toasts bar warning vs dark track' => ['#334155', '#fcd34d'],
+    'toasts bar info vs dark track' => ['#334155', '#7dd3fc'],
+    'progress solid secondary vs dark track' => ['#475569', '#67e8f9'],
+    'progress solid success vs dark track' => ['#475569', '#6ee7b7'],
+    'progress solid warning vs dark track' => ['#475569', '#fcd34d'],
+    'progress solid danger vs dark track' => ['#475569', '#fca5a5'],
+    'progress solid primary default vs dark track' => ['#475569', '#93c5fd'],
+]);
+
+it('renders every dark non-text UI surface at WCAG AA large-text/UI threshold or better', function (string $adjacent, string $element) {
+    expect(Contrast::ratio($adjacent, $element))
+        ->toBeGreaterThanOrEqual(Contrast::AA_LARGE);
+})->with('dark non-text UI surfaces');
