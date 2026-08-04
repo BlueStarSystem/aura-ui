@@ -77,16 +77,36 @@ class DoctorCommand extends Command
     public function handle(): int
     {
         if (! $this->option('skip-setup')) {
-            $this->checkCssSetup();
+            $this->runCheck('css-setup', fn () => $this->checkCssSetup());
         }
 
         if ($this->option('a11y')) {
-            $this->checkThemeContrast();
+            $this->runCheck('theme-contrast', fn () => $this->checkThemeContrast());
         }
 
-        $this->checkBladeUsage();
+        $this->runCheck('blade-usage', fn () => $this->checkBladeUsage());
 
         return $this->report();
+    }
+
+    /**
+     * A diagnostic tool must never be the thing that breaks. Each top-level
+     * check group runs behind this guard so that one check crashing --
+     * anything from a coding mistake to, as actually happened in production,
+     * a consumer's vendored Aura copy missing a class the theme check
+     * depends on -- degrades to a warning instead of killing the whole
+     * `aura:doctor` run and hiding every other check's findings with it.
+     *
+     * Catches Throwable, not just Exception: a missing class surfaces as an
+     * Error, which Exception-only handling would not catch.
+     */
+    private function runCheck(string $name, callable $check): void
+    {
+        try {
+            $check();
+        } catch (Throwable $e) {
+            $this->add('warning', 'internal-error', "The \"{$name}\" check could not complete and was skipped: {$e->getMessage()}");
+        }
     }
 
     /**

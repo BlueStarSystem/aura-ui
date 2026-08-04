@@ -442,5 +442,62 @@ describe('--a11y', function () {
 
             File::delete($css);
         });
+
+        it('is not fooled by a brace inside a quoted value, and still catches the override that follows it', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --font-label: "weird } quote"; --color-aura-primary-600: #7dd3fc; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();
+
+            File::delete($css);
+        });
+
+        it('warns rather than guesses when an unterminated comment could hide a live override', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { /* --color-aura-primary-600: #7dd3fc; }');   // note: no closing */
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('could not be fully read')
+                ->assertSuccessful();   // warning, not a guessed pass or fail
+
+            File::delete($css);
+        });
+    });
+
+    it('degrades a check that throws to a warning and still runs the others', function () {
+        writeView($this->views, 'page', '<img src="/logo.png">');   // a genuine, unrelated a11y finding
+
+        $css = resource_path('css/app.css');
+        File::ensureDirectoryExists(dirname($css));
+        File::put($css, '@theme { --color-aura-primary-600: #4338ca; }');
+
+        // Simulates the production failure Sentry reported: a consumer whose
+        // vendored copy of Aura predates a class the theme check depends on.
+        // File::exists() is the first call both checkCssSetup() and
+        // checkThemeContrast() make against this exact path, so throwing
+        // there exercises the guard around both check groups at once.
+        File::partialMock()
+            ->shouldReceive('exists')
+            ->with($css)
+            ->andThrow(new Error('Class "BlueStarSystem\AuraUI\Support\Contrast" not found'));
+
+        // Only one expectsOutputToContain() per artisan() call: report() writes
+        // the whole --json payload in a single line() call, and Laravel's test
+        // harness matches each expected substring against a *single* output
+        // write, consuming it -- a second substring expectation would never see
+        // a write left to match. assertFailed() independently proves execution
+        // continued past the broken check and reached a real finding: the only
+        // possible source of a hard error here is the genuine <img> alt-text
+        // issue from the untouched blade-usage check, since css-setup and
+        // theme-contrast both degrade to warnings under the mocked throw.
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--json' => true])
+            ->expectsOutputToContain('could not complete and was skipped')
+            ->assertFailed();
+
+        File::delete($css);
     });
 });

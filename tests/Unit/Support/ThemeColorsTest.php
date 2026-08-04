@@ -90,6 +90,40 @@ it('is not fooled by a brace inside a comment', function () {
     ]);
 });
 
+it('is not fooled by a brace inside a quoted value, and still reads the override that follows it', function () {
+    $css = '@theme { --font-label: "weird } quote"; --color-aura-primary-600: #7dd3fc; }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#7dd3fc',
+    ]);
+});
+
+it('is not fooled by a brace inside a single-quoted value either', function () {
+    $css = "@theme { --font-label: 'weird } quote'; --color-aura-primary-600: #7dd3fc; }";
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#7dd3fc',
+    ]);
+});
+
+it('treats an unterminated comment as unreadable rather than parsing its contents as a live override', function () {
+    $css = '@theme { /* --color-aura-primary-600: #7dd3fc; }';
+
+    expect(ThemeColors::parse($css))->toBe([])
+        ->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeTrue();
+});
+
+it('treats an unterminated comment as unreadable even when it swallows a later, otherwise-live declaration', function () {
+    $css = <<<'CSS'
+    @theme {
+        /* --color-aura-danger-600: #ff0000
+        --color-aura-primary-600: #7dd3fc; }
+    CSS;
+
+    expect(ThemeColors::parse($css))->toBe([])
+        ->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeTrue();
+});
+
 describe('hasUnreadableThemeBlock()', function () {
     it('is false when there is no @theme block at all', function () {
         expect(ThemeColors::hasUnreadableThemeBlock('@import "tailwindcss";'))->toBeFalse();

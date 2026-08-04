@@ -10,18 +10,23 @@ namespace BlueStarSystem\AuraUI\Support;
  * doctor turns "nothing" into a warning, never an error -- refusing to build
  * someone's app over CSS we failed to read would be worse than staying quiet.
  *
- * Two things a naive implementation gets wrong, both fixed here:
+ * Runs as a single character-by-character scan rather than a couple of
+ * regexes, because two earlier regex-based attempts each broke in a
+ * different, real way:
  *
- * - CSS comments are not code. `/* --color-aura-primary-600: #ff0000; *\/`
- *   inside a @theme block must never be read as a live override -- the
- *   browser never applies it, so reporting it would flag a colour that
- *   cannot possibly be a contrast problem. Comments are stripped before
- *   anything else runs.
- * - @theme blocks are scanned by counting braces, not by a lazy regex to the
- *   first `}`. A nested at-rule (e.g. a `@media` block inside `@theme`, which
- *   Tailwind 4 allows) has its own `{`/`}` pair; a regex that stops at the
- *   first `}` truncates the block there and silently drops every variable
- *   that follows it in the file.
+ * - A brace that is part of a quoted value (`--font-label: "weird } quote"`)
+ *   is not a structural brace. A depth counter that does not track quote
+ *   state closes the @theme block early there and silently drops every
+ *   variable declared after it.
+ * - Comments are not code, and an *unterminated* comment is not "no comment"
+ *   -- it has to surface as "could not read this", not "parse whatever text
+ *   follows as if it were live" and not "quietly say nothing happened".
+ *
+ * A single pass that tracks comment/single-quote/double-quote state while it
+ * counts braces gets both right at once, where stripping comments first and
+ * depth-counting the result separately cannot: a brace inside an
+ * unterminated comment must not count either, and only a pass that already
+ * knows it never found the closing `*``/` can report that honestly.
  */
 final class ThemeColors
 {
@@ -33,12 +38,13 @@ final class ThemeColors
 
     /**
      * True when the CSS contains an @theme block that could not be fully
-     * read -- most commonly an opening `{` with no matching closing brace
-     * before the file ends (a truncated or otherwise malformed file). This
-     * is deliberately distinct from "no @theme block" and "@theme block with
-     * no Aura colours": both of those are legitimate states where Aura's
-     * defaults are genuinely still in effect. This one is not -- the file
-     * was not actually read, so nothing about it should be asserted.
+     * read: an opening `{` with no matching closing brace before the file
+     * ends, including when a nested, unterminated comment or quoted string
+     * swallows what would have been the closing brace. Deliberately distinct
+     * from "no @theme block" and "@theme block with no Aura colours" -- both
+     * of those are legitimate states where Aura's defaults are genuinely
+     * still in effect. This one is not: the file was not actually read, so
+     * nothing about it should be asserted.
      */
     public static function hasUnreadableThemeBlock(string $css): bool
     {
@@ -50,66 +56,140 @@ final class ThemeColors
      */
     private static function scan(string $css): array
     {
-        $css = self::stripComments($css);
-
-        $colors = [];
-        $unreadable = false;
         $length = strlen($css);
-        $offset = 0;
+        $colors = [];
 
-        while (($start = stripos($css, '@theme', $offset)) !== false) {
-            $openBrace = strpos($css, '{', $start);
+        $mode = 'normal';   // normal | comment | single | double
+        $awaitingBrace = false;
+        $themeDepth = 0;    // 0 = not currently inside an @theme block
+        $buffer = '';
 
-            if ($openBrace === false) {
-                // "@theme" with no block at all left in the file -- nothing
-                // more can be scanned after it either.
-                $unreadable = true;
+        $i = 0;
 
-                break;
-            }
+        while ($i < $length) {
+            $ch = $css[$i];
+            $next = $i + 1 < $length ? $css[$i + 1] : '';
 
-            $depth = 1;
-            $i = $openBrace + 1;
+            if ($mode === 'comment') {
+                if ($ch === '*' && $next === '/') {
+                    $mode = 'normal';
+                    $i += 2;
 
-            while ($i < $length && $depth > 0) {
-                if ($css[$i] === '{') {
-                    $depth++;
-                } elseif ($css[$i] === '}') {
-                    $depth--;
+                    continue;
                 }
 
                 $i++;
+
+                continue;
             }
 
-            if ($depth !== 0) {
-                // Opened but never closed before the file ended.
-                $unreadable = true;
+            if ($mode === 'single' || $mode === 'double') {
+                if ($ch === '\\') {
+                    if ($themeDepth > 0) {
+                        $buffer .= $ch.$next;
+                    }
+                    $i += 2;
 
-                break;
+                    continue;
+                }
+
+                if ($themeDepth > 0) {
+                    $buffer .= $ch;
+                }
+
+                if (($mode === 'single' && $ch === "'") || ($mode === 'double' && $ch === '"')) {
+                    $mode = 'normal';
+                }
+
+                $i++;
+
+                continue;
             }
 
-            $block = substr($css, $openBrace + 1, $i - 1 - ($openBrace + 1));
+            // $mode === 'normal' from here on.
+            if ($ch === '/' && $next === '*') {
+                $mode = 'comment';
+                $i += 2;
 
-            $matched = @preg_match_all('/--color-aura-([a-z]+-[0-9]+)\s*:\s*([^;]+);/i', $block, $found, PREG_SET_ORDER);
+                continue;
+            }
 
-            if ($matched !== false) {
-                foreach ($found as $match) {
-                    $colors[strtolower(trim($match[1]))] = trim($match[2]);
+            if ($ch === "'" || $ch === '"') {
+                $mode = $ch === "'" ? 'single' : 'double';
+
+                if ($themeDepth > 0) {
+                    $buffer .= $ch;
+                }
+
+                $i++;
+
+                continue;
+            }
+
+            if ($themeDepth === 0 && ! $awaitingBrace && $ch === '@' && stripos($css, '@theme', $i) === $i) {
+                $awaitingBrace = true;
+                $i += 6;   // strlen('@theme')
+
+                continue;
+            }
+
+            if ($awaitingBrace && $ch === '{') {
+                $awaitingBrace = false;
+                $themeDepth = 1;
+                $buffer = '';
+                $i++;
+
+                continue;
+            }
+
+            if ($themeDepth > 0) {
+                if ($ch === '{') {
+                    $themeDepth++;
+                    $buffer .= $ch;
+                } elseif ($ch === '}') {
+                    $themeDepth--;
+
+                    if ($themeDepth === 0) {
+                        foreach (self::extractColors($buffer) as $shade => $value) {
+                            $colors[$shade] = $value;
+                        }
+
+                        $buffer = '';
+                    } else {
+                        $buffer .= $ch;
+                    }
+                } else {
+                    $buffer .= $ch;
                 }
             }
 
-            $offset = $i;
+            $i++;
         }
+
+        // Reached the end of the file still expecting a brace (either the
+        // block's opening one, or its closing one -- the latter also covers
+        // an unterminated comment/quote that swallowed the real `}`): the
+        // block was not fully read.
+        $unreadable = $awaitingBrace || $themeDepth > 0;
 
         return ['colors' => $colors, 'unreadable' => $unreadable];
     }
 
-    /**
-     * Blanks out /* ... *\/ comments so nothing inside one is ever mistaken
-     * for a live declaration or a structural brace.
-     */
-    private static function stripComments(string $css): string
+    /** @return array<string, string> */
+    private static function extractColors(string $block): array
     {
-        return preg_replace('#/\*.*?\*/#s', ' ', $css) ?? $css;
+        $matched = @preg_match_all('/--color-aura-([a-z]+-[0-9]+)\s*:\s*([^;]+);/i', $block, $found, PREG_SET_ORDER);
+
+        if ($matched === false) {
+            return [];
+        }
+
+        $colors = [];
+
+        foreach ($found as $match) {
+            $colors[strtolower(trim($match[1]))] = trim($match[2]);
+        }
+
+        return $colors;
     }
 }
