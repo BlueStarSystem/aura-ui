@@ -273,9 +273,9 @@
         <template x-if="withTime">
             <div class="aura-datepicker-time flex items-center gap-2 pt-3 mt-3 border-t border-aura-surface-200">
                 <label class="aura-datepicker-time-label text-xs font-medium text-aura-surface-500">Time:</label>
-                <input type="number" min="0" max="23" x-model.number="hour" x-on:change="updateTime()" class="aura-datepicker-time-input w-14 text-center py-1 px-2 text-sm border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 outline-none" />
+                <input type="number" min="0" max="23" x-model.number="hour" x-on:change="updateTime()" class="aura-datepicker-time-input w-14 text-center py-1 px-2 text-sm border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 outline-none" />
                 <span class="aura-datepicker-time-sep text-aura-surface-400 font-medium">:</span>
-                <input type="number" min="0" max="59" step="5" x-model.number="minute" x-on:change="updateTime()" class="aura-datepicker-time-input w-14 text-center py-1 px-2 text-sm border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 outline-none" />
+                <input type="number" min="0" max="59" step="5" x-model.number="minute" x-on:change="updateTime()" class="aura-datepicker-time-input w-14 text-center py-1 px-2 text-sm border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 outline-none" />
             </div>
         </template>
     </div>

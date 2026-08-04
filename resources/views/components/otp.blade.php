@@ -51,7 +51,7 @@
                 type="text"
                 inputmode="numeric"
                 maxlength="1"
-                class="aura-otp-digit w-11 h-11 text-center text-base font-semibold border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 outline-none aura-transition-fast focus:border-aura-primary-500 focus:shadow-[var(--aura-glow-primary)] @if($error) border-aura-danger-500 @endif"
+                class="aura-otp-digit w-11 h-11 text-center text-base font-semibold border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 text-aura-surface-900 outline-none aura-transition-fast focus:border-aura-primary-500 focus:shadow-[var(--aura-glow-primary)] @if($error) border-aura-danger-500 @endif"
                 x-ref="d{{ $i }}"
                 x-model="digits[{{ $i }}]"
                 x-on:input="onInput($event, {{ $i }})"

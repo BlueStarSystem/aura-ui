@@ -8,9 +8,9 @@
 
 @php
     $trackClasses = match($size) {
-        'sm' => 'aura-toggle aura-toggle-sm w-9 h-5',
-        'lg' => 'aura-toggle aura-toggle-lg w-[52px] h-7',
-        default => 'aura-toggle w-11 h-6',
+        'sm' => 'aura-toggle aura-toggle-sm w-9 h-5 box-border',
+        'lg' => 'aura-toggle aura-toggle-lg w-[52px] h-7 box-border',
+        default => 'aura-toggle w-11 h-6 box-border',
     };
     $knobClasses = match($size) {
         'sm' => 'w-4 h-4',
@@ -26,8 +26,8 @@
         @if($disabled) disabled @endif
         {{ $attributes }}
     />
-    <span class="{{ $trackClasses }} aura-toggle-{{ $color }} relative bg-aura-surface-300 rounded-aura-full aura-transition-slow shrink-0">
-        <span class="aura-toggle-knob {{ $knobClasses }} absolute top-0.5 left-0.5 bg-white rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.15),0_1px_2px_rgba(0,0,0,0.1)] aura-transition-slow"></span>
+    <span class="{{ $trackClasses }} aura-toggle-{{ $color }} relative bg-aura-surface-300 border border-aura-surface-500 rounded-aura-full aura-transition-slow shrink-0">
+        <span class="aura-toggle-knob {{ $knobClasses }} absolute top-px left-px bg-white rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.15),0_1px_2px_rgba(0,0,0,0.1)] aura-transition-slow"></span>
     </span>
     @if($label)
         <span class="aura-toggle-text flex flex-col">

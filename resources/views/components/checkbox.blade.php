@@ -15,7 +15,7 @@
         @if($descriptionId) aria-describedby="{{ $descriptionId }}" @endif
         {{ $attributes }}
     />
-    <span class="aura-checkbox-box shrink-0 w-[18px] h-[18px] mt-px border-2 border-aura-surface-300 rounded-[5px] bg-aura-surface-0 flex items-center justify-center aura-transition">
+    <span class="aura-checkbox-box shrink-0 w-[18px] h-[18px] mt-px border-2 border-aura-surface-500 rounded-[5px] bg-aura-surface-0 flex items-center justify-center aura-transition">
         <svg class="aura-checkbox-icon w-3 h-3 stroke-white stroke-[3] fill-none" viewBox="0 0 12 12" fill="none">
             <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>

@@ -60,7 +60,7 @@
         <label class="aura-label">{{ $label }}</label>
     @endif
 
-    <div class="aura-multiselect-control flex items-center flex-wrap gap-1.5 min-h-[42px] px-3 py-1.5 border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 aura-transition-fast focus-within:border-aura-primary-500 focus-within:shadow-[var(--aura-glow-primary)] {{ $error ? 'border-aura-danger-500' : '' }}"
+    <div class="aura-multiselect-control flex items-center flex-wrap gap-1.5 min-h-[42px] px-3 py-1.5 border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 aura-transition-fast focus-within:border-aura-primary-500 focus-within:shadow-[var(--aura-glow-primary)] {{ $error ? 'border-aura-danger-500' : '' }}"
          x-bind:class="{ 'opacity-50 pointer-events-none': {{ $disabled ? 'true' : 'false' }} }"
          x-on:click="open = true; $refs.search && $refs.search.focus()">
         <template x-for="v in selected" :key="v">

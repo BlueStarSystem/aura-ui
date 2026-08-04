@@ -348,7 +348,7 @@
 .aura-floating-input__field { position: relative; }
 
 .aura-floating-input__input {
-    width: 100%; padding: 1rem 0 0.5rem; border: none; border-bottom: 2px solid var(--color-aura-surface-300);
+    width: 100%; padding: 1rem 0 0.5rem; border: none; border-bottom: 2px solid var(--color-aura-surface-500);
     background: transparent; font-size: 0.9375rem; color: var(--color-aura-surface-900);
     outline: none; transition: border-color 150ms ease; box-sizing: border-box;
 }

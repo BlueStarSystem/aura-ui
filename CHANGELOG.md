@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- **Form controls had a resting boundary too faint to perceive (WCAG 2.1 SC 1.4.11, 3:1).**
+  The idle border of `input`, `select`, `textarea`, `checkbox`, `radio`, `multiselect`, `tags`,
+  `otp`, `floating-input`, `file-upload`'s dropzone, `pagination`'s per-page `<select>`, and
+  `date-picker`'s hour/minute fields used `surface-200` or `surface-300` (1.48:1 or worse
+  against a white page). Moved to `surface-500`, the first shade that clears 3:1 in both light
+  (4.76:1) and dark mode (6.96:1) without a `dark:` variant. **User-visible effect: every form
+  field's outline is now noticeably darker/greyer at rest, not just on hover or focus.**
+  Hover-only borders and non-form-control borders (cards, tabs, `kbd`) were left unchanged.
+- **The toggle's OFF track had no visible boundary at all** (a `surface-300` fill only, 1.48:1
+  against a white page — its extent wasn't perceivable). Added a `surface-500` border to the
+  track and compensated the knob's inset (`top-0.5`/`left-0.5` → `top-px`/`left-px`) so the new
+  1px border doesn't shift the knob off-centre at any size (`sm`/`md`/`lg`). Geometry (outer
+  track dimensions, knob travel distance) is unchanged; only a thin ring is now visible around
+  the track.
 - **Toast and progress bars were nearly invisible in dark mode (regression in v3.15.1/v3.15.2).**
   The previous release darkened the `toasts` progress bar and the `progress` component's solid
   and gradient fills to shade 700 (leaving `danger` at 500) so they would clear 3:1 contrast

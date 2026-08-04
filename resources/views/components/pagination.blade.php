@@ -19,7 +19,7 @@
         @if($showPerPage && !$simple)
             <div class="aura-pagination-per-page flex items-center gap-1.5">
                 <label class="aura-pagination-per-page-label text-[13px] text-aura-surface-500 whitespace-nowrap">Rows:</label>
-                <select class="aura-select aura-input-sm aura-pagination-per-page-select w-auto min-w-[60px] py-1 px-2 pr-6 text-[13px] border border-aura-surface-300 rounded-aura-md bg-aura-surface-0 text-aura-surface-900" wire:model.live="perPage">
+                <select class="aura-select aura-input-sm aura-pagination-per-page-select w-auto min-w-[60px] py-1 px-2 pr-6 text-[13px] border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 text-aura-surface-900" wire:model.live="perPage">
                     @foreach($perPageOptions as $option)
                         <option value="{{ $option }}">{{ $option }}</option>
                     @endforeach

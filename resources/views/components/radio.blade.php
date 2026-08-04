@@ -17,7 +17,7 @@
         @if($descriptionId) aria-describedby="{{ $descriptionId }}" @endif
         {{ $attributes }}
     />
-    <span class="aura-radio-circle shrink-0 w-[18px] h-[18px] mt-px border-2 border-aura-surface-300 rounded-full bg-aura-surface-0 flex items-center justify-center aura-transition">
+    <span class="aura-radio-circle shrink-0 w-[18px] h-[18px] mt-px border-2 border-aura-surface-500 rounded-full bg-aura-surface-0 flex items-center justify-center aura-transition">
         <span class="aura-radio-dot w-2 h-2 rounded-full bg-white"></span>
     </span>
     @if($label)

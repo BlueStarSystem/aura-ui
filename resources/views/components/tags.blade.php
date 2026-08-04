@@ -34,7 +34,7 @@
         <label class="aura-label">{{ $label }}</label>
     @endif
 
-    <div class="aura-tags-container flex items-center flex-wrap gap-1.5 min-h-[42px] px-3 py-1.5 border border-aura-surface-200 rounded-aura-md bg-aura-surface-0 aura-transition-fast focus-within:border-aura-primary-500 focus-within:shadow-[var(--aura-glow-primary)]" x-bind:class="{ 'opacity-50 pointer-events-none': {{ $disabled ? 'true' : 'false' }} }">
+    <div class="aura-tags-container flex items-center flex-wrap gap-1.5 min-h-[42px] px-3 py-1.5 border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 aura-transition-fast focus-within:border-aura-primary-500 focus-within:shadow-[var(--aura-glow-primary)]" x-bind:class="{ 'opacity-50 pointer-events-none': {{ $disabled ? 'true' : 'false' }} }">
         <template x-for="(tag, idx) in tags" :key="idx">
             <span class="aura-tag inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-aura-primary-50 text-aura-primary-700 rounded-aura-full">
                 <span x-text="tag"></span>

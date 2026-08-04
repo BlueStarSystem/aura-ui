@@ -98,6 +98,32 @@ dataset('non-text UI surfaces', [
     // dark-mode pairing (surface-600 inverts light under `.dark`) is in the dark
     // dataset below, alongside its ratified `dark:text-aura-surface-0` fix.
     'fab secondary fill vs white icon' => ['#475569', '#ffffff'],
+
+    // Task 6f: resting borders of form controls were `surface-300` (1.48) or, on
+    // several controls (input/select/textarea/multiselect/tags/otp/date-picker time
+    // inputs), an even lighter `surface-200` -- both fail. `surface-500` is the first
+    // shade that clears 3:1 vs a white page (4.76) and, because the surface scale
+    // inverts under `.dark`, needs no `dark:` variant: input.blade.php, select.blade.php,
+    // textarea.blade.php, checkbox.blade.php, radio.blade.php, multiselect.blade.php,
+    // tags.blade.php, otp.blade.php, file-upload.blade.php's dropzone, pagination.blade.php's
+    // per-page <select>, and date-picker.blade.php's hour/minute <input>s were all moved
+    // to this one token. Hover-only borders (already a separate, unfixed state) and
+    // non-form-control borders (card/tabs/stats-card hover, kbd, decorative fills) were
+    // deliberately left -- see task-6f-report.md.
+    'form control resting border vs light page' => ['#ffffff', '#64748b'],
+
+    // Task 6f: floating-input.blade.php's underline-style border lives in aura.css as
+    // a raw CSS custom property (not a Tailwind utility class), moved the same
+    // surface-300 -> surface-500 step. Its `.dark` override was untouched (already
+    // passing independently -- see dark dataset below).
+    'floating-input resting border vs light page' => ['#ffffff', '#64748b'],
+
+    // Task 6f B1: the toggle's OFF track had no boundary at all (bg-aura-surface-300
+    // fill only, 1.48 vs a white page). Added `border border-aura-surface-500` +
+    // `box-border` to the track, and compensated the knob inset (top-0.5/left-0.5 ->
+    // top-px/left-px) so the 1px border doesn't shift the knob off-centre -- see
+    // task-6f-report.md for the full geometry check across sm/md/lg.
+    'toggle OFF-track border vs light page' => ['#ffffff', '#64748b'],
 ]);
 
 it('renders every non-text UI surface at WCAG AA large-text/UI threshold or better', function (string $adjacent, string $element) {
@@ -155,6 +181,20 @@ dataset('dark non-text UI surfaces', [
     // without a fix). Ratified fix inverts the icon with it: `dark:text-aura-surface-0`.
     // See the light-theme row of the same name in "non-text UI surfaces" above.
     'fab secondary fill vs white icon dark' => ['#cbd5e1', '#0f172a'],
+
+    // Task 6f: `surface-500` is a single class, correct in both themes without a
+    // `dark:` variant -- `.dark` redefines the underlying custom property to
+    // #94a3b8, which clears 3:1 against the dark page (#0f172a) with more margin
+    // than in light mode. Same token as the light-theme row above.
+    'form control resting border vs dark page' => ['#0f172a', '#94a3b8'],
+    'toggle OFF-track border vs dark page' => ['#0f172a', '#94a3b8'],
+
+    // Task 6f: floating-input.blade.php's `.dark` override was left untouched (it
+    // predates this task and uses its own custom property, `--color-aura-surface-600`,
+    // not the shared `-500` token). Asserted here so a future edit to either value
+    // can't silently regress it: #cbd5e1 (dark-mode value of surface-600) vs the
+    // dark page clears with wide margin (12.02).
+    'floating-input resting border vs dark page' => ['#0f172a', '#cbd5e1'],
 ]);
 
 it('renders every dark non-text UI surface at WCAG AA large-text/UI threshold or better', function (string $adjacent, string $element) {
