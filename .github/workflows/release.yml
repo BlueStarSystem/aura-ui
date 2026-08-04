@@ -58,11 +58,21 @@ jobs:
         # Subject and body are read and matched SEPARATELY, on purpose, after two
         # incidents from blurring them: the type prefix and the !-bang form are
         # Conventional Commits subject-line syntax and are matched only against
-        # the subject (%s); BREAKING CHANGE:/BREAKING-CHANGE: is a footer and is
-        # matched only against the body (%b), anchored at line start with the
-        # colon required. No line in a commit body can trigger a bump except a
-        # genuine footer - a commit merely documenting the convention (which
-        # these commits do, routinely) must never be read as declaring one.
+        # the first physical line; BREAKING CHANGE:/BREAKING-CHANGE: is a footer
+        # and is matched only against everything after that line, anchored at
+        # line start with the colon required. No line in a commit body can
+        # trigger a bump except a genuine footer - a commit merely documenting
+        # the convention (which these commits do, routinely) must never be read
+        # as declaring one.
+        #
+        # %s/%b are NOT used for the split: git treats %s as the first
+        # PARAGRAPH, so a footer with no blank line before it (a malformed but
+        # real-world commit shape) folds into %s and %b comes back empty - the
+        # opposite failure direction from the first two incidents (a genuine
+        # breaking change silently downgraded to patch instead of a false
+        # major). Reading the raw message (%B) and splitting on the first
+        # physical line ourselves gives a true first-line subject regardless of
+        # blank lines.
         id: bump
         run: |
           TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
@@ -76,8 +86,9 @@ jobs:
 
           SEVERITY=0
           while IFS= read -r HASH; do
-            SUBJECT=$(git log -1 --pretty=format:%s "$HASH")
-            BODY=$(git log -1 --pretty=format:%b "$HASH")
+            FULL=$(git log -1 --pretty=format:%B "$HASH")
+            SUBJECT=$(printf '%s\n' "$FULL" | head -n 1)
+            BODY=$(printf '%s\n' "$FULL" | tail -n +2)
 
             if echo "$SUBJECT" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$BODY" | grep -qE '^BREAKING[ -]CHANGE:'; then
               [ "$SEVERITY" -lt 3 ] && SEVERITY=3
