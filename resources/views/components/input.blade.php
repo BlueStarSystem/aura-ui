@@ -29,7 +29,7 @@
         "aura-input-{$size}",
         'w-full font-[inherit] leading-normal text-aura-surface-900 bg-aura-surface-100 border border-aura-surface-500 rounded-aura-md outline-none aura-transition box-border',
         'placeholder:text-aura-surface-400',
-        'hover:border-aura-surface-300 hover:bg-aura-surface-50',
+        'hover:border-aura-surface-600 hover:bg-aura-surface-50',
         'focus:border-aura-primary-500 focus:bg-aura-surface-0 focus:shadow-[var(--aura-glow-primary)]',
         $sizeClasses,
     ];

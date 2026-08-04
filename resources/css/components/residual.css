@@ -122,6 +122,10 @@
 }
 
 .aura-checkbox:hover .aura-checkbox-box {
+    border-color: var(--color-aura-primary-600);
+}
+
+.dark .aura-checkbox:hover .aura-checkbox-box {
     border-color: var(--color-aura-primary-400);
 }
 
@@ -162,6 +166,10 @@
 }
 
 .aura-radio:hover .aura-radio-circle {
+    border-color: var(--color-aura-primary-600);
+}
+
+.dark .aura-radio:hover .aura-radio-circle {
     border-color: var(--color-aura-primary-400);
 }
 

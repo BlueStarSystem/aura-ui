@@ -10,12 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **Form controls had a resting boundary too faint to perceive (WCAG 2.1 SC 1.4.11, 3:1).**
   The idle border of `input`, `select`, `textarea`, `checkbox`, `radio`, `multiselect`, `tags`,
-  `otp`, `floating-input`, `file-upload`'s dropzone, `pagination`'s per-page `<select>`, and
-  `date-picker`'s hour/minute fields used `surface-200` or `surface-300` (1.48:1 or worse
-  against a white page). Moved to `surface-500`, the first shade that clears 3:1 in both light
-  (4.76:1) and dark mode (6.96:1) without a `dark:` variant. **User-visible effect: every form
-  field's outline is now noticeably darker/greyer at rest, not just on hover or focus.**
-  Hover-only borders and non-form-control borders (cards, tabs, `kbd`) were left unchanged.
+  `otp`, `floating-input`, `file-upload`'s dropzone, `pagination`'s per-page `<select>`,
+  `date-picker`'s hour/minute fields, and `editor`'s outer boundary used `surface-200` or
+  `surface-300` (1.48:1 or worse against a white page -- `editor` was the worst at 1.23:1).
+  Moved to `surface-500`, the first shade that clears 3:1 in both light (4.76:1) and dark mode
+  (6.96:1) without a `dark:` variant. **User-visible effect: every form field's outline is now
+  noticeably darker/greyer at rest, not just on hover or focus.** Hover-only borders and
+  non-form-control borders (cards, tabs, `kbd`) were left unchanged.
+- **Hovering an idle field used to make its border fade, not darken.** Fixing the resting
+  borders above (to `surface-500`) left several `hover:` borders unchanged and lighter than the
+  new rest -- backwards. `input`, `select`, `textarea`, and `button`'s outline `secondary`
+  variant now hover to `surface-600` (single class, self-inverts in dark mode, no `dark:`
+  needed). The outline `success`/`warning` buttons and the checkbox/radio hover ring needed a
+  theme-aware split instead: accent colours get *less* visible against a dark page as they get
+  darker (the opposite of the surface scale), so a naive "one step darker" would have fixed
+  light mode and broken dark mode. Both now hover to a darker shade in light and keep their
+  original, already-correct brighter shade in dark via an explicit `dark:hover:` override.
+  **User-visible effect: hovering any of these controls now visibly darkens the border, as
+  before this task started, in both themes.**
 - **`button`'s outline variants had the same problem.** An outline button has no fill, so its
   border is its entire boundary -- all five resting borders failed 3:1 (`-300` shades, 1.44:1
   to 1.90:1 against a white page). `primary`, `secondary`, and `danger` now use their `-500`

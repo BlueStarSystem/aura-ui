@@ -21,7 +21,7 @@
         "aura-input-{$size}",
         'w-full min-h-[100px] py-2.5 px-3.5 font-[inherit] text-sm leading-relaxed text-aura-surface-900 bg-aura-surface-100 border border-aura-surface-500 rounded-aura-md outline-none resize-y aura-transition box-border',
         'placeholder:text-aura-surface-400',
-        'hover:border-aura-surface-300 hover:bg-aura-surface-50',
+        'hover:border-aura-surface-600 hover:bg-aura-surface-50',
         'focus:border-aura-primary-500 focus:bg-aura-surface-0 focus:shadow-[var(--aura-glow-primary)]',
     ];
     if ($error) $textareaClasses[] = 'aura-input-error';

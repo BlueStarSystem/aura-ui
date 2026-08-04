@@ -108,7 +108,7 @@
     @endif
 
     <div
-        class="aura-file-upload-zone flex flex-col items-center justify-center p-8 border-2 border-dashed border-aura-surface-500 rounded-aura-lg cursor-pointer aura-transition-fast hover:border-aura-primary-400 hover:bg-aura-primary-50/30"
+        class="aura-file-upload-zone flex flex-col items-center justify-center p-8 border-2 border-dashed border-aura-surface-500 rounded-aura-lg cursor-pointer aura-transition-fast hover:border-aura-primary-600 dark:hover:border-aura-primary-400 hover:bg-aura-primary-50/30"
         x-bind:class="{
             'aura-file-upload-dragging': dragging,
             'aura-file-upload-disabled opacity-50 pointer-events-none cursor-not-allowed': {{ $disabled ? 'true' : 'false' }},

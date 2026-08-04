@@ -135,6 +135,32 @@ dataset('non-text UI surfaces', [
     'button outline success border vs light page' => ['#ffffff', '#059669'],
     'button outline warning border vs light page' => ['#ffffff', '#d97706'],
     'button outline danger border vs light page' => ['#ffffff', '#ef4444'],
+
+    // Task 6f adversarial-review fix 1: editor.blade.php was missed by the original
+    // sweep -- it grepped `border-aura-surface-300` and only widened to `-200` on
+    // components already being touched, never as a full `-200` sweep. Its resting
+    // border was `surface-200` (1.23 light, worse than any other control found).
+    // It is a genuine form control (label, error state, disabled state, toolbar) --
+    // same fix, same token.
+    'editor resting border vs light page' => ['#ffffff', '#64748b'],
+
+    // Task 6f adversarial-review fix 2: hover-affordance inversions. Hover states
+    // aren't governed by 1.4.11, but changing a resting border to `surface-500`
+    // (darker) while leaving its `hover:` at a lighter shade made hovering an idle
+    // control visibly FADE instead of darken -- backwards, and unflagged the first
+    // time. Not asserted against the 3:1 threshold (that's not what these guard),
+    // but the ratios are recorded here so hover can never again end up numerically
+    // less prominent than rest without a test noticing. `surface-600` inverts the
+    // same way `surface-500` does, so input/select/textarea and the outline
+    // `secondary` button need no `dark:` variant; accent hues (success/warning
+    // outline borders, checkbox/radio hover) do NOT invert monotonically against a
+    // dark page, so those needed an explicit `dark:hover:` split back to the
+    // already-correct `-500`/`primary-400` value -- see task-6f-report.md.
+    'input/select/textarea hover border (surface-600) vs light page' => ['#ffffff', '#475569'],
+    'button outline secondary hover border (surface-600) vs light page' => ['#ffffff', '#475569'],
+    'button outline success hover border (success-700) vs light page' => ['#ffffff', '#047857'],
+    'button outline warning hover border (warning-700) vs light page' => ['#ffffff', '#b45309'],
+    'checkbox/radio hover border (primary-600) vs light page' => ['#ffffff', '#4f46e5'],
 ]);
 
 it('renders every non-text UI surface at WCAG AA large-text/UI threshold or better', function (string $adjacent, string $element) {
@@ -217,6 +243,34 @@ dataset('dark non-text UI surfaces', [
     'button outline success border vs dark page' => ['#0f172a', '#059669'],
     'button outline warning border vs dark page' => ['#0f172a', '#d97706'],
     'button outline danger border vs dark page' => ['#0f172a', '#fb7185'],
+
+    // Task 6f adversarial-review fix 1: editor.blade.php, same token as the other
+    // form controls -- no `dark:` variant needed (surface scale self-inverts).
+    'editor resting border vs dark page' => ['#0f172a', '#94a3b8'],
+
+    // Task 6f adversarial-review fix 2: hover-affordance inversions, dark-theme
+    // side. `surface-600` inverts to `#cbd5e1` under `.dark` and stays more
+    // prominent than the `surface-500` rest (12.02 > 6.96) with no `dark:` needed.
+    // The accent hues do NOT behave the same way -- going darker along an accent
+    // scale makes a colour LESS visible against a near-black page, not more (the
+    // same reason dark-mode.css brightens `-500` instead of darkening it further).
+    // `success-700`/`warning-700` unredefined-dark values would have UNDER-shot
+    // their own `-600` resting border in dark mode (3.26 < 4.74, 3.56 < 5.60) --
+    // caught by hand before it shipped, not by this test. Fixed with an explicit
+    // `dark:hover:` back to `-500` (already brightened, already correct), so these
+    // two rows assert the light-only `-700` hover value; the dark hover value is
+    // identical to the already-asserted `button outline success/warning border vs
+    // dark page` rows two above (same `-500` accent, unchanged).
+    'input/select/textarea hover border (surface-600, dark ovr) vs dark page' => ['#0f172a', '#cbd5e1'],
+    'button outline secondary hover border (surface-600, dark ovr) vs dark page' => ['#0f172a', '#cbd5e1'],
+
+    // checkbox/radio hover: same accent-scale trap. Plain `primary-600` in dark
+    // mode (unredefined, light value #4f46e5) would drop to 2.84 against the dark
+    // page -- well under the 6.96 resting border it's supposed to beat. Kept the
+    // pre-existing (and already-passing, if narrowly: 7.02 > 6.96) `primary-400`
+    // for dark via an explicit `.dark` override in residual.css; only light mode
+    // moved to `primary-600`.
+    'checkbox/radio hover border (primary-400, dark-preserved) vs dark page' => ['#0f172a', '#60a5fa'],
 ]);
 
 it('renders every dark non-text UI surface at WCAG AA large-text/UI threshold or better', function (string $adjacent, string $element) {

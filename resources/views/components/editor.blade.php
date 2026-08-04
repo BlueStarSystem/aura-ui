@@ -80,7 +80,7 @@
         <label class="aura-label">{{ $label }}</label>
     @endif
 
-    <div class="aura-editor border border-aura-surface-200 rounded-aura-md overflow-hidden {{ $error ? 'aura-editor-error border-aura-danger-500' : '' }} {{ $disabled ? 'aura-editor-disabled opacity-50 pointer-events-none' : '' }}">
+    <div class="aura-editor border border-aura-surface-500 rounded-aura-md overflow-hidden {{ $error ? 'aura-editor-error border-aura-danger-500' : '' }} {{ $disabled ? 'aura-editor-disabled opacity-50 pointer-events-none' : '' }}">
         {{-- Toolbar --}}
         <div class="aura-editor-toolbar flex items-center gap-0.5 px-2 py-1.5 border-b border-aura-surface-200 bg-aura-surface-50">
             @foreach($toolbarItems as $item)
