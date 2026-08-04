@@ -22,6 +22,7 @@ class DoctorCommand extends Command
     protected $signature = 'aura:doctor
         {--path=* : Directories to scan (defaults to resources/views)}
         {--json : Output findings as JSON}
+        {--a11y : Also run the accessibility checks}
         {--skip-setup : Only run the Blade checks}';
 
     protected $description = 'Check an app for Aura UI setup and component usage problems';
@@ -135,6 +136,10 @@ class DoctorCommand extends Command
         }
 
         $this->checkIconOnlyButtons($contents, $relative);
+
+        if ($this->option('a11y')) {
+            $this->checkAccessibility($contents, $relative);
+        }
     }
 
     private function checkVariant(string $component, string $attributes, string $file, int $line): void
@@ -186,6 +191,164 @@ class DoctorCommand extends Command
             $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
 
             $this->add('error', 'a11y', 'Icon-only <x-aura::button> has no accessible name. Add aria-label="…".', $file, $line);
+        }
+    }
+
+    /** Components whose accessible name comes from a label prop. */
+    private const LABELLED = ['input', 'select', 'textarea', 'floating-input', 'checkbox', 'radio', 'toggle', 'multiselect'];
+
+    private const GENERIC_LINK_TEXT = ['clicca qui', 'qui', 'leggi di più', 'click here', 'here', 'read more', 'learn more'];
+
+    private function checkAccessibility(string $contents, string $file): void
+    {
+        $this->checkFieldLabels($contents, $file);
+        $this->checkImageAlt($contents, $file);
+        $this->checkTabIndex($contents, $file);
+        $this->checkLinkText($contents, $file);
+        $this->checkDialogTitles($contents, $file);
+        $this->checkHeadingOrder($contents, $file);
+    }
+
+    private function checkFieldLabels(string $contents, string $file): void
+    {
+        $names = implode('|', self::LABELLED);
+
+        // The (?![\w.-]) boundary stops e.g. <x-aura::select.option> being
+        // mistaken for a bare, unlabelled <x-aura::select> -- without it every
+        // sub-component tag whose name starts with a labelled component's name
+        // was misread as that component's opening tag.
+        preg_match_all('/<x-aura::('.$names.')(?![\w.-])((?:[^>"\']|"[^"]*"|\'[^\']*\')*)\/?>/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $attributes = $match[2][0];
+
+            // :label="$x", label="..." and aria-label all give it a name;
+            // wire:model alone does not.
+            if (preg_match('/(^|\s):?label\s*=|(^|\s)aria-label\s*=|(^|\s)aria-labelledby\s*=/i', $attributes) === 1) {
+                continue;
+            }
+
+            $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
+
+            $this->add('error', 'a11y', "<x-aura::{$match[1][0]}> has no accessible name. Add label=\"…\" or aria-label=\"…\".", $file, $line);
+        }
+    }
+
+    private function checkImageAlt(string $contents, string $file): void
+    {
+        preg_match_all('/<img\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $attributes = $match[1][0];
+
+            if (preg_match('/(^|\s):?alt\s*=/i', $attributes) === 1) {
+                continue;
+            }
+
+            $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
+
+            $this->add('error', 'a11y', '<img> has no alt attribute. Use alt="" if the image is decorative.', $file, $line);
+        }
+    }
+
+    private function checkTabIndex(string $contents, string $file): void
+    {
+        preg_match_all('/\btabindex\s*=\s*"([0-9]+)"/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            if ((int) $match[1][0] <= 0) {
+                continue;
+            }
+
+            $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
+
+            $this->add('error', 'a11y', 'Positive tabindex overrides the natural focus order. Use 0 or -1.', $file, $line);
+        }
+    }
+
+    private function checkLinkText(string $contents, string $file): void
+    {
+        preg_match_all('/<a\b[^>]*>(.*?)<\/a>/is', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $text = strtolower(trim(strip_tags($match[1][0])));
+
+            if (! in_array($text, self::GENERIC_LINK_TEXT, true)) {
+                continue;
+            }
+
+            $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
+
+            $this->add('warning', 'a11y', "Link text \"{$text}\" makes no sense out of context to someone listing the links on the page.", $file, $line);
+        }
+    }
+
+    /**
+     * <x-aura::modal> and <x-aura::drawer> both take a `title` prop. Without it
+     * -- or an explicit aria-label -- the dialog opens and a screen reader
+     * announces nothing about what it is.
+     *
+     * `title` can arrive either as an attribute (`title="…"`) or as a named
+     * slot (`<x-slot:title>…</x-slot:title>` / `<x-slot name="title">…`),
+     * since Blade binds a named slot to the same variable an attribute would.
+     * Missing the slot form would flag every dialog that uses it -- a false
+     * positive on a first-class, common pattern.
+     */
+    private function checkDialogTitles(string $contents, string $file): void
+    {
+        preg_match_all('/<x-aura::(modal|drawer)(?![\w.-])((?:[^>"\']|"[^"]*"|\'[^\']*\')*)(\/)?>/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            $tag = $match[1][0];
+            $attributes = $match[2][0];
+            $selfClosing = isset($match[3]) && $match[3][0] !== '';
+            $offset = (int) $match[0][1];
+
+            if (preg_match('/(^|\s):?title\s*=|(^|\s)aria-label\s*=|(^|\s)aria-labelledby\s*=/i', $attributes) === 1) {
+                continue;
+            }
+
+            if (! $selfClosing) {
+                $tagEnd = $offset + strlen($match[0][0]);
+                $closeTagPos = stripos($contents, "</x-aura::{$tag}>", $tagEnd);
+                $body = $closeTagPos !== false
+                    ? substr($contents, $tagEnd, $closeTagPos - $tagEnd)
+                    : substr($contents, $tagEnd);
+
+                if (preg_match('/<x-slot:title\b|<x-slot\s+name\s*=\s*["\']title["\']/i', $body) === 1) {
+                    continue;
+                }
+            }
+
+            $line = substr_count(substr($contents, 0, $offset), "\n") + 1;
+
+            $this->add('error', 'a11y', "<x-aura::{$tag}> has no accessible name. Add title=\"…\" or aria-label=\"…\".", $file, $line);
+        }
+    }
+
+    /**
+     * Skipping a heading level breaks the outline screen-reader users navigate by.
+     *
+     * A warning, never an error: a Blade file is usually a fragment of a page,
+     * so a file that opens at h3 may be perfectly correct once included. Only
+     * skips *within the same file* are reported, and only forward ones.
+     */
+    private function checkHeadingOrder(string $contents, string $file): void
+    {
+        preg_match_all('/<h([1-6])\b|<x-aura::heading[^>]*\blevel\s*=\s*"([1-6])"/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        $previous = null;
+
+        foreach ($matches as $match) {
+            $level = (int) ($match[1][0] !== '' ? $match[1][0] : $match[2][0]);
+
+            if ($previous !== null && $level > $previous + 1) {
+                $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
+
+                $this->add('warning', 'a11y', "Heading jumps from h{$previous} to h{$level}, leaving a gap in the document outline.", $file, $line);
+            }
+
+            $previous = $level;
         }
     }
 

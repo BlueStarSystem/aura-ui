@@ -78,3 +78,132 @@ it('reports findings as JSON when asked', function () {
 
     File::deleteDirectory($dir);
 });
+
+describe('--a11y', function () {
+    beforeEach(function () {
+        $this->views = sys_get_temp_dir().'/aura-doctor-'.uniqid();
+        File::makeDirectory($this->views, 0777, true);
+    });
+
+    afterEach(function () {
+        File::deleteDirectory($this->views);
+    });
+
+    function writeView(string $dir, string $name, string $contents): void
+    {
+        File::put($dir.'/'.$name.'.blade.php', $contents);
+    }
+
+    it('flags an input with neither label nor aria-label', function () {
+        writeView($this->views, 'page', '<x-aura::input name="email" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
+    it('does not flag an input that has a label', function () {
+        writeView($this->views, 'page', '<x-aura::input name="email" label="Email" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('does not flag an input that has an aria-label', function () {
+        writeView($this->views, 'page', '<x-aura::input name="email" aria-label="Email" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('does not flag a dynamic label', function () {
+        writeView($this->views, 'page', '<x-aura::input name="email" :label="$label" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('flags an img without alt', function () {
+        writeView($this->views, 'page', '<img src="/logo.png">');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
+    it('accepts an empty alt as a deliberate decorative image', function () {
+        writeView($this->views, 'page', '<img src="/deco.png" alt="">');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('warns without failing on generic link text', function () {
+        writeView($this->views, 'page', '<a href="/x">clicca qui</a>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();   // warning, non error
+    });
+
+    it('flags a positive tabindex', function () {
+        writeView($this->views, 'page', '<div tabindex="3">x</div>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
+    it('does not flag tabindex="-1" or tabindex="0"', function () {
+        writeView($this->views, 'page', '<div tabindex="-1">a</div><div tabindex="0">b</div>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('flags a modal with no accessible name', function () {
+        writeView($this->views, 'page', '<x-aura::modal name="confirm">body</x-aura::modal>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
+    it('does not flag a modal that has a title', function () {
+        writeView($this->views, 'page', '<x-aura::modal name="confirm" title="Confirm">body</x-aura::modal>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('does not flag a modal whose title comes from a named slot', function () {
+        writeView($this->views, 'page', '<x-aura::modal name="confirm"><x-slot:title>Confirm</x-slot:title>body</x-aura::modal>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('does not flag <x-aura::select.option> as an unlabelled select', function () {
+        writeView($this->views, 'page', '<x-aura::select label="Plan"><x-aura::select.option value="a">A</x-aura::select.option></x-aura::select>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('warns without failing when a heading level is skipped', function () {
+        writeView($this->views, 'page', '<h1>Title</h1><h3>Sub</h3>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();   // warning, non error
+    });
+
+    it('does not warn on a well-ordered outline, nor on going back up', function () {
+        writeView($this->views, 'page', '<h1>A</h1><h2>B</h2><h3>C</h3><h2>D</h2>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--json' => true, '--skip-setup' => true])
+            ->expectsOutputToContain('"warnings": 0')
+            ->assertSuccessful();
+    });
+
+    it('runs no a11y checks without the flag', function () {
+        writeView($this->views, 'page', '<x-aura::input name="email" />');
+
+        $this->artisan('aura:doctor', ['--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+});
