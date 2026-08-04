@@ -88,15 +88,20 @@ final class PaletteGenerator
         return [$L, $C, $h];
     }
 
-    /** @param array<string,string> $palette @return array<string,float> */
+    /**
+     * @param  array<string,string>  $palette
+     * @return array<string,float>
+     *
+     * @deprecated Use Contrast::ratio(). Kept for backwards compatibility; it
+     *             used to feed OKLCH lightness into the WCAG formula and
+     *             reported ratios well below the real ones.
+     */
     public static function contrastVsWhite(array $palette): array
     {
         $out = [];
-        foreach ($palette as $shade => $oklch) {
-            if (preg_match('/oklch\(([0-9.]+)\s/', $oklch, $m)) {
-                $L = (float) $m[1];
-                $out[$shade] = round((1.0 + 0.05) / ($L + 0.05), 2);
-            }
+
+        foreach ($palette as $shade => $color) {
+            $out[$shade] = Contrast::ratio($color, '#ffffff');
         }
 
         return $out;
