@@ -8,8 +8,15 @@ permissions:
   contents: write
 
 jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+
   release:
+    needs: tests
     runs-on: ubuntu-latest
+    concurrency:
+      group: release-${{ github.ref }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,7 +38,13 @@ jobs:
           MSG=$(git log -1 --pretty=%B)
           echo "Commit message: $MSG"
 
-          if echo "$MSG" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$MSG" | grep -q 'BREAKING CHANGE'; then
+          if [ -n "$(git tag --points-at HEAD)" ]; then
+            # HEAD already carries a tag -> a release for this exact commit already
+            # happened (or is in flight). Skip to make the job idempotent under
+            # double-fire (e.g. two push events for the same push).
+            echo "type=none" >> "$GITHUB_OUTPUT"
+            echo "HEAD is already tagged ($(git tag --points-at HEAD)) — skipping release"
+          elif echo "$MSG" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$MSG" | grep -q 'BREAKING CHANGE'; then
             echo "type=major" >> "$GITHUB_OUTPUT"
           elif echo "$MSG" | grep -qE '^feat(\(.+\))?:'; then
             echo "type=minor" >> "$GITHUB_OUTPUT"
