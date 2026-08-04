@@ -257,12 +257,23 @@ dataset('dark non-text UI surfaces', [
     // `success-700`/`warning-700` unredefined-dark values would have UNDER-shot
     // their own `-600` resting border in dark mode (3.26 < 4.74, 3.56 < 5.60) --
     // caught by hand before it shipped, not by this test. Fixed with an explicit
-    // `dark:hover:` back to `-500` (already brightened, already correct), so these
-    // two rows assert the light-only `-700` hover value; the dark hover value is
-    // identical to the already-asserted `button outline success/warning border vs
-    // dark page` rows two above (same `-500` accent, unchanged).
+    // `dark:hover:border-aura-<hue>-500` (the already-brightened, already-correct
+    // dark override), so these first two rows assert the light-only `-700` hover
+    // value.
     'input/select/textarea hover border (surface-600, dark ovr) vs dark page' => ['#0f172a', '#cbd5e1'],
     'button outline secondary hover border (surface-600, dark ovr) vs dark page' => ['#0f172a', '#cbd5e1'],
+
+    // The next two rows are the actual `dark:hover:` value for success/warning --
+    // NOT the same as the `-600` resting border two blocks above. A previous
+    // version of this comment claimed they were "identical to the already-asserted
+    // button outline success/warning border vs dark page rows" -- that was wrong:
+    // those rows assert `#059669`/`#d97706` (the unredefined `-600` resting
+    // border); the real `dark:hover:` class renders the `-500` accent, which
+    // dark-mode.css brightens to `#34d399`/`#fbbf24`. No row tested that value
+    // until this fix, so a future retune of dark-mode.css's `-500` overrides could
+    // have silently broken the shipped hover state without failing the suite.
+    'button outline success hover border (success-500, dark ovr) vs dark page' => ['#0f172a', '#34d399'],
+    'button outline warning hover border (warning-500, dark ovr) vs dark page' => ['#0f172a', '#fbbf24'],
 
     // checkbox/radio hover: same accent-scale trap. Plain `primary-600` in dark
     // mode (unredefined, light value #4f46e5) would drop to 2.84 against the dark
