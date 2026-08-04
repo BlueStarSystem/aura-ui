@@ -124,6 +124,17 @@ dataset('non-text UI surfaces', [
     // top-px/left-px) so the 1px border doesn't shift the knob off-centre -- see
     // task-6f-report.md for the full geometry check across sm/md/lg.
     'toggle OFF-track border vs light page' => ['#ffffff', '#64748b'],
+
+    // Task 6f follow-up: button.blade.php's outline variants have no fill -- the
+    // border IS the button's boundary, so unlike a filled button its resting border
+    // is squarely a 3:1 (non-text UI) case, not exempt. All five were failing
+    // (`-300` shades, 1.44-1.90). `success`/`warning` needed `-600` (their `-500` still
+    // fails, 2.54/3.53); `primary`/`danger`/`secondary` clear at `-500`.
+    'button outline primary border vs light page' => ['#ffffff', '#6366f1'],
+    'button outline secondary border vs light page' => ['#ffffff', '#64748b'],
+    'button outline success border vs light page' => ['#ffffff', '#059669'],
+    'button outline warning border vs light page' => ['#ffffff', '#d97706'],
+    'button outline danger border vs light page' => ['#ffffff', '#ef4444'],
 ]);
 
 it('renders every non-text UI surface at WCAG AA large-text/UI threshold or better', function (string $adjacent, string $element) {
@@ -195,6 +206,17 @@ dataset('dark non-text UI surfaces', [
     // can't silently regress it: #cbd5e1 (dark-mode value of surface-600) vs the
     // dark page clears with wide margin (12.02).
     'floating-input resting border vs dark page' => ['#0f172a', '#cbd5e1'],
+
+    // Task 6f follow-up: outline button borders in the dark theme. `primary`/`danger`
+    // are `-500` accents, which dark-mode.css brightens for the glow effect (#818cf8,
+    // #fb7185) -- still clears easily. `success`/`warning`/`secondary` are `-600`/
+    // surface tokens, unredefined or inverted by `.dark`, so no `dark:` variant is
+    // needed for any of the five.
+    'button outline primary border vs dark page' => ['#0f172a', '#818cf8'],
+    'button outline secondary border vs dark page' => ['#0f172a', '#94a3b8'],
+    'button outline success border vs dark page' => ['#0f172a', '#059669'],
+    'button outline warning border vs dark page' => ['#0f172a', '#d97706'],
+    'button outline danger border vs dark page' => ['#0f172a', '#fb7185'],
 ]);
 
 it('renders every dark non-text UI surface at WCAG AA large-text/UI threshold or better', function (string $adjacent, string $element) {

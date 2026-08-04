@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (4.76:1) and dark mode (6.96:1) without a `dark:` variant. **User-visible effect: every form
   field's outline is now noticeably darker/greyer at rest, not just on hover or focus.**
   Hover-only borders and non-form-control borders (cards, tabs, `kbd`) were left unchanged.
+- **`button`'s outline variants had the same problem.** An outline button has no fill, so its
+  border is its entire boundary -- all five resting borders failed 3:1 (`-300` shades, 1.44:1
+  to 1.90:1 against a white page). `primary`, `secondary`, and `danger` now use their `-500`
+  shade (4.47:1 / 4.76:1 / 3.76:1); `success` and `warning` needed `-600` instead, since their
+  `-500` still fails (2.54:1 / 3.53:1) -- `success-600` and `warning-600` clear at 3.77:1 and
+  3.19:1. All five also clear in dark mode without a `dark:` variant. **User-visible effect:
+  outline button borders are now visibly darker/more saturated at rest.**
 - **The toggle's OFF track had no visible boundary at all** (a `surface-300` fill only, 1.48:1
   against a white page — its extent wasn't perceivable). Added a `surface-500` border to the
   track and compensated the knob's inset (`top-0.5`/`left-0.5` → `top-px`/`left-px`) so the new

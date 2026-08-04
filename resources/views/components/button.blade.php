@@ -39,12 +39,12 @@
     // Override variant classes when outline mode is active
     if ($outline) {
         $variantClasses = match($variant) {
-            'primary' => 'bg-transparent text-aura-primary-600 dark:text-aura-primary-400 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
-            'secondary' => 'bg-transparent text-aura-surface-700 border-aura-surface-300 hover:bg-aura-surface-50 hover:border-aura-surface-400 focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.2)]',
-            'success' => 'bg-transparent text-aura-success-700 dark:text-aura-success-400 border-aura-success-300 hover:bg-aura-success-50 hover:border-aura-success-500 focus-visible:shadow-[var(--aura-glow-success)]',
-            'warning' => 'bg-transparent text-aura-warning-700 dark:text-aura-warning-400 border-aura-warning-300 hover:bg-aura-warning-50 hover:border-aura-warning-500 focus-visible:shadow-[var(--aura-glow-warning)]',
-            'danger' => 'bg-transparent text-aura-danger-600 dark:text-aura-danger-400 border-aura-danger-300 hover:bg-aura-danger-50 hover:border-aura-danger-500 focus-visible:shadow-[var(--aura-glow-danger)]',
-            default => 'bg-transparent text-aura-primary-600 border-aura-primary-300 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
+            'primary' => 'bg-transparent text-aura-primary-600 dark:text-aura-primary-400 border-aura-primary-500 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
+            'secondary' => 'bg-transparent text-aura-surface-700 border-aura-surface-500 hover:bg-aura-surface-50 hover:border-aura-surface-400 focus-visible:shadow-[0_0_0_3px_rgba(100,116,139,0.2)]',
+            'success' => 'bg-transparent text-aura-success-700 dark:text-aura-success-400 border-aura-success-600 hover:bg-aura-success-50 hover:border-aura-success-500 focus-visible:shadow-[var(--aura-glow-success)]',
+            'warning' => 'bg-transparent text-aura-warning-700 dark:text-aura-warning-400 border-aura-warning-600 hover:bg-aura-warning-50 hover:border-aura-warning-500 focus-visible:shadow-[var(--aura-glow-warning)]',
+            'danger' => 'bg-transparent text-aura-danger-600 dark:text-aura-danger-400 border-aura-danger-500 hover:bg-aura-danger-50 hover:border-aura-danger-500 focus-visible:shadow-[var(--aura-glow-danger)]',
+            default => 'bg-transparent text-aura-primary-600 border-aura-primary-500 hover:bg-aura-primary-50 hover:border-aura-primary-500 focus-visible:shadow-[var(--aura-glow-primary)]',
         };
     }
 
