@@ -239,8 +239,11 @@ class DoctorCommand extends Command
         // was misread as that component's opening tag.
         preg_match_all('/<x-aura::('.$names.')(?![\w.-])((?:[^>"\']|"[^"]*"|\'[^\']*\')*)\/?>/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
 
+        $wrappingLabels = $this->nativeLabelRanges($contents);
+
         foreach ($matches as $match) {
             $attributes = $match[2][0];
+            $offset = (int) $match[0][1];
 
             // :label="$x", label="..." and aria-label all give it a name;
             // wire:model alone does not.
@@ -252,7 +255,11 @@ class DoctorCommand extends Command
                 continue;
             }
 
-            $line = substr_count(substr($contents, 0, (int) $match[0][1]), "\n") + 1;
+            if ($this->isWithinLabelRange($offset, $wrappingLabels)) {
+                continue;
+            }
+
+            $line = substr_count(substr($contents, 0, $offset), "\n") + 1;
 
             $this->add('error', 'a11y', "<x-aura::{$match[1][0]}> has no accessible name. Add label=\"…\" or aria-label=\"…\".", $file, $line);
         }
@@ -287,6 +294,64 @@ class DoctorCommand extends Command
         }
 
         return preg_match('/<label\b[^>]*\bfor\s*=\s*["\']'.preg_quote($id, '/').'["\'][^>]*>/i', $contents) === 1;
+    }
+
+    /**
+     * The other canonical WCAG pattern: a <label> that wraps the control
+     * instead of pointing at it with for/id -- the association comes from
+     * containment. <label> elements don't legitimately nest, so opening and
+     * closing tags are paired in file order with a stack: the Nth </label>
+     * closes the Nth-from-the-end still-open <label>. That correctly leaves
+     * an earlier, already-closed <label>...</label> out of every later
+     * pair's range, so it cannot wrongly "cover" a component that comes
+     * after it -- only a component that is genuinely between a specific
+     * pair's open and close tags falls inside that pair's range.
+     *
+     * An unterminated <label> (no matching </label>) never completes a pair,
+     * so nothing inside it is treated as wrapped; that is the conservative
+     * side of an already-invalid-markup edge case, not the one this check
+     * exists to protect against.
+     *
+     * @return list<array{0: int, 1: int}> [start, end) byte-offset ranges,
+     *                                     one per matched <label>...</label> pair
+     */
+    private function nativeLabelRanges(string $contents): array
+    {
+        preg_match_all('/<label\b[^>]*>|<\/label\s*>/i', $contents, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
+        $openTagEnds = [];
+        $ranges = [];
+
+        foreach ($matches as $match) {
+            $tag = $match[0][0];
+            $offset = (int) $match[0][1];
+
+            if (stripos($tag, '</label') === 0) {
+                if ($openTagEnds !== []) {
+                    $ranges[] = [array_pop($openTagEnds), $offset];
+                }
+
+                continue;
+            }
+
+            $openTagEnds[] = $offset + strlen($tag);
+        }
+
+        return $ranges;
+    }
+
+    /**
+     * @param  list<array{0: int, 1: int}>  $ranges
+     */
+    private function isWithinLabelRange(int $offset, array $ranges): bool
+    {
+        foreach ($ranges as [$start, $end]) {
+            if ($offset >= $start && $offset < $end) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function checkImageAlt(string $contents, string $file): void

@@ -131,6 +131,28 @@ describe('--a11y', function () {
             ->assertSuccessful();
     });
 
+    it('does not flag an input wrapped by a <label> with no for/id', function () {
+        writeView($this->views, 'page', '<label>Email <x-aura::input name="email" /></label>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('still flags an unlabelled input that follows an unrelated, already-closed <label>', function () {
+        writeView($this->views, 'page', '<label>Something else</label><x-aura::input name="email" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
+    it('flags a second, genuinely unlabelled input that follows a wrapping label', function () {
+        writeView($this->views, 'page', '<label>Email <x-aura::input name="email" /></label><x-aura::input name="name" />');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--json' => true, '--skip-setup' => true])
+            ->expectsOutputToContain('"errors": 1')
+            ->assertFailed();
+    });
+
     it('still flags an input that has an id but no matching <label for>', function () {
         writeView($this->views, 'page', '<x-aura::input name="email" id="email" />');
 
