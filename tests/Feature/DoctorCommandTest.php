@@ -287,4 +287,88 @@ describe('--a11y', function () {
             ->expectsOutputToContain('"line": 5')
             ->assertFailed();
     });
+
+    describe('theme contrast', function () {
+        it('flags a custom primary that fails AA against white', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #7dd3fc; }');   // 1.7:1 against white
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views]])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();
+
+            File::delete($css);
+        });
+
+        it('accepts a custom primary that passes AA', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #4338ca; }');   // 7.9:1
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
+
+        it('warns instead of failing when a ratio is borderline close to the AA threshold', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #777777; }');   // 4.48:1, just under 4.5
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('borderline')
+                ->assertSuccessful();   // warning, not error -- the tool cannot be certain this close to the line
+
+            File::delete($css);
+        });
+
+        it('warns on a borderline pass too, since the tool cannot assert certainty either side of the margin', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #767676; }');   // 4.54:1, just over 4.5
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('borderline')
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
+
+        it('warns rather than errors when no @theme block is present, since Aura defaults already pass AA', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@import "tailwindcss";');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('No Aura colour overrides found')
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
+
+        it('skips a colour Contrast cannot parse with a warning instead of crashing the scan', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: not-a-colour; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('Could not read')
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
+
+        it('does not run the theme check without --a11y', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #7dd3fc; }');   // would otherwise fail
+
+            $this->artisan('aura:doctor', ['--path' => [$this->views], '--skip-setup' => true])
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
+    });
 });

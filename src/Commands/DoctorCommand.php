@@ -2,9 +2,12 @@
 
 namespace BlueStarSystem\AuraUI\Commands;
 
+use BlueStarSystem\AuraUI\Support\Contrast;
+use BlueStarSystem\AuraUI\Support\ThemeColors;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use InvalidArgumentException;
 
 /**
  * Static checks for an application that consumes Aura UI.
@@ -39,6 +42,34 @@ class DoctorCommand extends Command
         'alert' => ['success', 'warning', 'danger', 'info'],
     ];
 
+    /**
+     * Shades that components render as a solid background under white (or, for
+     * warning, dark) text. A customer who overrides these owns the contrast
+     * problem, and today nothing tells them. Verified 2026-08-04 against the
+     * current Blade (button.blade.php's $variantClasses match()): 'primary' is
+     * bg-aura-primary-600, 'success' is bg-aura-success-700, 'danger' is
+     * bg-aura-danger-600, all text-white; 'warning' is bg-aura-warning-500
+     * text-aura-surface-900 (#0f172a). These shades changed since Aura's
+     * earlier releases -- do not assume this list without re-checking the Blade.
+     *
+     * @var array<string, string> shade => text colour rendered on top
+     */
+    private const SOLID_ON_TEXT = [
+        'primary-600' => '#ffffff',
+        'success-700' => '#ffffff',
+        'danger-600' => '#ffffff',
+        'warning-500' => '#0f172a',
+    ];
+
+    /**
+     * Contrast conversion for oklch() colours round-trips through 8-bit-per-
+     * channel hex, which carries roughly ±0.2% of error. A ratio computed this
+     * close to the WCAG AA line could be wrong on either side of it, so a
+     * result inside this margin is reported as inconclusive rather than as a
+     * definite pass or fail.
+     */
+    private const BORDERLINE_MARGIN = 0.05;
+
     /** @var list<array{level: string, check: string, message: string, file: string|null, line: int|null}> */
     private array $findings = [];
 
@@ -46,6 +77,10 @@ class DoctorCommand extends Command
     {
         if (! $this->option('skip-setup')) {
             $this->checkCssSetup();
+        }
+
+        if ($this->option('a11y')) {
+            $this->checkThemeContrast();
         }
 
         $this->checkBladeUsage();
@@ -84,6 +119,88 @@ class DoctorCommand extends Command
                 'resources/css/app.css'
             );
         }
+    }
+
+    /**
+     * The piece no competing library checks: not Aura's own palette, but the
+     * one the customer overrode. A colour that fails AA under the text
+     * components render on top of it is invisible-in-practice, and nothing
+     * else would catch it before a real user does.
+     *
+     * Never blocks CI on something it could not read: a missing app.css is
+     * checkCssSetup's problem, an empty/absent @theme block is not an error
+     * (Aura's own defaults already pass AA), and a colour Contrast cannot
+     * parse is skipped with a warning rather than crashing the scan.
+     *
+     * Only covers the colours as written in the top-level @theme block. This
+     * app's dark mode is not a `dark:` utility system -- dark-mode.css
+     * redefines --color-aura-* again inside a `.dark` selector, inverting the
+     * surface scale and re-pointing only the -500 accents. A customer's
+     * override here applies in *both* themes unless they also wrote their own
+     * `.dark` block, and this check has no visibility into that second block
+     * at all. It is a light-mode (and shared-value) check only.
+     */
+    private function checkThemeContrast(): void
+    {
+        $path = resource_path('css/app.css');
+
+        if (! File::exists($path)) {
+            return;   // checkCssSetup has already warned about this
+        }
+
+        $colors = ThemeColors::parse((string) File::get($path));
+
+        if ($colors === []) {
+            $this->add('warning', 'a11y-theme', 'No Aura colour overrides found in a @theme block — using Aura defaults, which meet WCAG AA.', 'resources/css/app.css');
+
+            return;
+        }
+
+        foreach (self::SOLID_ON_TEXT as $shade => $text) {
+            if (! isset($colors[$shade])) {
+                continue;
+            }
+
+            try {
+                $ratio = Contrast::ratio($colors[$shade], $text);
+            } catch (InvalidArgumentException) {
+                $this->add('warning', 'a11y-theme', "Could not read --color-aura-{$shade} (\"{$colors[$shade]}\") — skipping its contrast check.", 'resources/css/app.css');
+
+                continue;
+            }
+
+            $this->reportThemeContrast($shade, $text, $ratio);
+        }
+    }
+
+    private function reportThemeContrast(string $shade, string $text, float $ratio): void
+    {
+        $borderline = abs($ratio - Contrast::AA_NORMAL) <= self::BORDERLINE_MARGIN;
+        $passes = $ratio >= Contrast::AA_NORMAL;
+
+        if ($passes && ! $borderline) {
+            return;   // clearly fine, nothing to say
+        }
+
+        $rendersAs = "Components render this shade as a solid background under {$text} text, so the label will be ".($passes ? 'hard to read if the true ratio is actually lower than measured' : 'hard to read').'.';
+
+        if ($borderline) {
+            $this->add(
+                'warning',
+                'a11y-theme',
+                "--color-aura-{$shade} gives {$ratio}:1 against {$text}, within ".self::BORDERLINE_MARGIN.' of the WCAG AA minimum of '.Contrast::AA_NORMAL.":1 -- borderline, verify manually. Aura's contrast check converts oklch() colours through a lossy round-trip, so a ratio this close to the line is not a reliable pass or fail. {$rendersAs}",
+                'resources/css/app.css'
+            );
+
+            return;
+        }
+
+        $this->add(
+            'error',
+            'a11y-theme',
+            "--color-aura-{$shade} gives {$ratio}:1 against {$text}, below the WCAG AA minimum of ".Contrast::AA_NORMAL.":1. {$rendersAs} Pick a darker shade.",
+            'resources/css/app.css'
+        );
     }
 
     private function checkBladeUsage(): void
