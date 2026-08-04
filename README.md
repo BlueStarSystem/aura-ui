@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/bluestarsystem/aura-ui.svg?style=flat-square)](https://packagist.org/packages/bluestarsystem/aura-ui)
 [![License](https://img.shields.io/packagist/l/bluestarsystem/aura-ui.svg?style=flat-square)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-690%20passing-brightgreen?style=flat-square)]()
+[![Tests](https://github.com/BlueStarSystem/aura-ui/actions/workflows/tests.yml/badge.svg)](https://github.com/BlueStarSystem/aura-ui/actions/workflows/tests.yml)
 [![PHP](https://img.shields.io/badge/php-8.3%2B-8892BF?style=flat-square)]()
 [![Laravel](https://img.shields.io/badge/laravel-12-FF2D20?style=flat-square)]()
 [![Tailwind CSS](https://img.shields.io/badge/tailwind-4-38BDF8?style=flat-square)]()
