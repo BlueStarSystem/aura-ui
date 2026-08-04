@@ -22,6 +22,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Ensure full tag history is available
+        # Belt and braces on top of fetch-depth: 0. A shallow or stale view of
+        # tags here would make every step below compute a wrong bump silently
+        # (under- or over-releasing) - too costly to leave to one safeguard.
+        run: git fetch --tags --force
+
       - name: Get latest tag
         id: latest_tag
         run: |
@@ -44,21 +50,39 @@ jobs:
           fi
 
       - name: Determine version bump from commit message
+        # Scans every commit since the last ancestor tag, not just the tip, so a
+        # fix:/feat: whose release gets blocked by the gate can't be buried by a
+        # later docs:/ci:/chore: commit becoming the new tip. Bump = max severity
+        # found in the range (major > minor > patch > none).
         id: bump
         run: |
-          MSG=$(git log -1 --pretty=%B)
-          echo "Commit message: $MSG"
-
-          if echo "$MSG" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$MSG" | grep -q 'BREAKING CHANGE'; then
-            echo "type=major" >> "$GITHUB_OUTPUT"
-          elif echo "$MSG" | grep -qE '^feat(\(.+\))?:'; then
-            echo "type=minor" >> "$GITHUB_OUTPUT"
-          elif echo "$MSG" | grep -qE '^(fix|perf|refactor)(\(.+\))?:'; then
-            echo "type=patch" >> "$GITHUB_OUTPUT"
+          TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          if [ -n "$TAG" ]; then
+            RANGE="$TAG..HEAD"
+            echo "Scanning commits since $TAG ($RANGE)"
           else
-            # docs/test/chore/ci/build/style change no shipped code -> no release (avoids version churn)
-            echo "type=none" >> "$GITHUB_OUTPUT"
+            RANGE="HEAD"
+            echo "No ancestor tag found; scanning full history"
           fi
+
+          SEVERITY=0
+          while IFS= read -r -d '' MSG; do
+            if echo "$MSG" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$MSG" | grep -q 'BREAKING CHANGE'; then
+              [ "$SEVERITY" -lt 3 ] && SEVERITY=3
+            elif echo "$MSG" | grep -qE '^feat(\(.+\))?:'; then
+              [ "$SEVERITY" -lt 2 ] && SEVERITY=2
+            elif echo "$MSG" | grep -qE '^(fix|perf|refactor)(\(.+\))?:'; then
+              [ "$SEVERITY" -lt 1 ] && SEVERITY=1
+            fi
+          done < <(git log $RANGE --pretty=format:%B%x00 2>/dev/null)
+
+          case "$SEVERITY" in
+            3) echo "type=major" >> "$GITHUB_OUTPUT" ;;
+            2) echo "type=minor" >> "$GITHUB_OUTPUT" ;;
+            1) echo "type=patch" >> "$GITHUB_OUTPUT" ;;
+            # docs/test/chore/ci/build/style-only range, no shipped code -> no release
+            *) echo "type=none" >> "$GITHUB_OUTPUT" ;;
+          esac
 
       - name: Calculate new version
         id: version
