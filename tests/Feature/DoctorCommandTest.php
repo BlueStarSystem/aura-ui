@@ -514,6 +514,49 @@ describe('--a11y', function () {
 
             File::delete($css);
         });
+
+        it('flushes the last declaration before the closing brace even without a trailing semicolon', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #7dd3fc }');   // legal CSS, no trailing ";"
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();   // must not present as "no overrides found"
+
+            File::delete($css);
+        });
+
+        it('does not treat "url(" embedded inside a longer identifier as a url() token, so a real override is not swallowed', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --x: notaurl(void; --color-aura-primary-600: #7dd3fc); }');
+
+            // Without the fix, "notaurl(" would be treated as url(), silently
+            // swallowing the override and the ";" that ends it -- reporting
+            // "no overrides found" instead. Here the override is captured
+            // (with a stray, unmatched ")" trailing its value, from
+            // "notaurl("'s own unbalanced paren), which Contrast::ratio()
+            // cannot parse as a colour -- a warning, not silence and not an
+            // error, is the correct, honest result for this malformed input.
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertSuccessful();
+
+            File::delete($css);
+        });
+
+        it('does not let a declaration inside a nested at-rule mask a real, failing top-level override', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --color-aura-primary-600: #7dd3fc; @media (min-width:0) { --color-aura-primary-600: #4338ca; } }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();   // the passing nested value must not mask the failing top-level one
+
+            File::delete($css);
+        });
     });
 
     it('degrades a check that throws to a warning and still runs the others', function () {

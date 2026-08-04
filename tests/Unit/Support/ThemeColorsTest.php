@@ -65,7 +65,7 @@ it('reads a live override that sits next to a commented-out one in the same bloc
     ]);
 });
 
-it('does not let a nested at-rule truncate the @theme block early', function () {
+it('does not let a nested at-rule truncate the @theme block early, and does not let its conditional override mask the real one', function () {
     $css = <<<'CSS'
     @theme {
         --color-aura-primary-500: #111111;
@@ -76,8 +76,15 @@ it('does not let a nested at-rule truncate the @theme block early', function () 
     }
     CSS;
 
+    // Recording is gated to depth 1 (see the "gate recording to depth 1"
+    // fixes below): a declaration inside a nested at-rule only applies
+    // conditionally, under that at-rule, so it must not silently overwrite
+    // the unconditional top-level value -- previously it did, which could
+    // mask a genuinely failing top-level colour behind a passing
+    // conditional one. success-700, declared after the nested block closes,
+    // proves the block was not truncated early either.
     expect(ThemeColors::parse($css))->toBe([
-        'primary-500' => '#222222',
+        'primary-500' => '#111111',
         'success-700' => '#333333',
     ]);
 });
@@ -186,6 +193,45 @@ it('keeps the full value of a url() containing a semicolon, such as a base64 dat
 
     expect(ThemeColors::parse($css))->toBe([
         'primary-600' => 'url("data:image/png;base64,AAAA//8=")',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('flushes the last declaration before a closing brace even without a trailing semicolon', function () {
+    $css = '@theme { --color-aura-primary-600: #7dd3fc }';   // legal CSS, no trailing ";"
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#7dd3fc',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('does not treat "url(" embedded inside a longer identifier as a url() token', function () {
+    // Without a left word-boundary check, "notaurl(" matches at its "url(",
+    // and everything up to the *next* unescaped ")" -- including the real
+    // override and the ";" that should terminate it -- is swallowed as
+    // opaque url content. The override must not disappear because of that;
+    // it is still captured here (with the stray, unmatched ")" from
+    // "notaurl(" trailing its value, since that paren is not itself
+    // structural to this scanner) -- what matters is it is not lost.
+    $css = '@theme { --x: notaurl(void; --color-aura-primary-600: #7dd3fc); }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#7dd3fc)',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('does not let a declaration inside a nested at-rule mask a real top-level one, nested before top', function () {
+    $css = '@theme { @media (min-width:0) { --color-aura-primary-600: #000000; } --color-aura-primary-600: #7dd3fc; }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#7dd3fc',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('does not let a declaration inside a nested at-rule mask a real top-level one, nested after top', function () {
+    $css = '@theme { --color-aura-primary-600: #7dd3fc; @media (min-width:0) { --color-aura-primary-600: #000000; } }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#7dd3fc',
     ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
 });
 

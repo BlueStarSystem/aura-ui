@@ -159,7 +159,10 @@ final class ThemeColors
             // quote branch above and is handled as a normal string, closing
             // paren included -- the common url("data:...;base64,...") case
             // needs no special casing at all this way.
-            if ($ch === 'u' || $ch === 'U') {
+            if (($ch === 'u' || $ch === 'U') && ! ($i > 0 && self::isIdentChar($css[$i - 1]))) {
+                // Left word-boundary check: without it, "notaurl(" matches
+                // at its embedded "url(", the same way "@theme-custom" would
+                // wrongly match "@theme" without the boundary check below.
                 $afterParen = self::urlTokenParenEnd($css, $i, $length);
 
                 if ($afterParen !== null) {
@@ -210,16 +213,31 @@ final class ThemeColors
                     $themeDepth++;
                     $declaration = '';
                 } elseif ($ch === '}') {
+                    // CSS allows the last declaration in a block to omit its
+                    // trailing semicolon before the closing brace -- flush
+                    // whatever is pending before adjusting depth, or a
+                    // semicolon-less top-level declaration is silently lost.
+                    // Gated to depth 1 for the same reason the `;` branch
+                    // below is: this closing brace might belong to a nested
+                    // at-rule, whose own trailing declaration is not a
+                    // top-level theme override either.
+                    if ($themeDepth === 1) {
+                        self::recordDeclaration($colors, $declaration);
+                    }
                     $themeDepth--;
                     $declaration = '';
                 } elseif ($ch === ';') {
                     // A semicolon reached in normal mode, inside the theme
-                    // block, at any nesting depth, terminates a real
-                    // declaration -- record it immediately, while the scan
-                    // still knows exactly what belongs to it, rather than
-                    // deferring to a second pass that would have to
-                    // re-discover the same quote/url boundaries blind.
-                    self::recordDeclaration($colors, $declaration);
+                    // block, terminates a real declaration -- but only a
+                    // depth-1 (top-level) one counts as a theme override.
+                    // A declaration inside a nested at-rule (e.g. @media)
+                    // only applies conditionally, under that at-rule, and
+                    // recording it unconditionally would let a passing
+                    // conditional value mask a failing unconditional one --
+                    // exactly the state this file exists to prevent.
+                    if ($themeDepth === 1) {
+                        self::recordDeclaration($colors, $declaration);
+                    }
                     $declaration = '';
                 } else {
                     $declaration .= $ch;
