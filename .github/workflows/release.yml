@@ -67,7 +67,7 @@ jobs:
 
           SEVERITY=0
           while IFS= read -r -d '' MSG; do
-            if echo "$MSG" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$MSG" | grep -q 'BREAKING CHANGE'; then
+            if echo "$MSG" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$MSG" | grep -qE '^BREAKING[ -]CHANGE:'; then
               [ "$SEVERITY" -lt 3 ] && SEVERITY=3
             elif echo "$MSG" | grep -qE '^feat(\(.+\))?:'; then
               [ "$SEVERITY" -lt 2 ] && SEVERITY=2
