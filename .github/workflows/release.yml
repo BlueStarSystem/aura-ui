@@ -29,14 +29,29 @@ jobs:
         run: git fetch --tags --force
 
       - name: Get latest tag
+        # Single source of truth for "the last tag", reused by both the bump-range
+        # scan below and the version arithmetic. Previously this used
+        # `git tag --sort=-v:refname | head -1` (the highest semver string ANYWHERE
+        # in the tag namespace) while the bump step used `git describe` (the
+        # nearest ANCESTOR tag) - two different algorithms that silently diverge
+        # the moment a stray tag exists that isn't reachable from HEAD (this repo
+        # has had two such stray tags today). A version computed from one history
+        # and a bump computed from another is a release disconnected from reality.
+        # `tag` is empty when no ancestor tag exists at all (fresh repo); `base`
+        # is the same value with the documented v0.0.0 starting point as fallback,
+        # for the arithmetic below (which needs actual numbers to increment).
         id: latest_tag
         run: |
-          TAG=$(git tag --sort=-v:refname | head -1)
+          TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
           if [ -z "$TAG" ]; then
-            TAG="v0.0.0"
+            echo "tag=" >> "$GITHUB_OUTPUT"
+            echo "base=v0.0.0" >> "$GITHUB_OUTPUT"
+            echo "No ancestor tag found on this branch"
+          else
+            echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+            echo "base=$TAG" >> "$GITHUB_OUTPUT"
+            echo "Latest ancestor tag: $TAG"
           fi
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "Latest tag: $TAG"
 
       - name: Check if HEAD is already tagged
         id: head_tag
@@ -73,9 +88,26 @@ jobs:
         # major). Reading the raw message (%B) and splitting on the first
         # physical line ourselves gives a true first-line subject regardless of
         # blank lines.
+        #
+        # Two further edge cases found by review: a leading blank physical line
+        # (reachable via --cleanup=verbatim, commit-tree, or the GitHub web UI/
+        # Action commits) would make `head -n1` grab the blank line as the
+        # "subject" and hide a real feat:/fix: in the body, where the prefix
+        # regex never looks - so the subject is the first NON-empty physical
+        # line, not simply the first one. And leading whitespace on that line
+        # (git's default --cleanup=strip only trims trailing whitespace) would
+        # otherwise dodge every subject anchor - so the extracted subject is
+        # trimmed of leading whitespace before matching. The body is
+        # deliberately NOT trimmed: a BREAKING CHANGE: footer must sit at column
+        # zero per the spec, and an indented one must keep failing to match.
+        #
+        # This step reuses the single ancestor tag resolved in "Get latest tag"
+        # (steps.latest_tag.outputs.tag) instead of calling `git describe` again,
+        # so the range scanned here and the version incremented below can never
+        # disagree about what "the last tag" is.
         id: bump
         run: |
-          TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          TAG="${{ steps.latest_tag.outputs.tag }}"
           if [ -n "$TAG" ]; then
             RANGE="$TAG..HEAD"
             echo "Scanning commits since $TAG ($RANGE)"
@@ -87,8 +119,12 @@ jobs:
           SEVERITY=0
           while IFS= read -r HASH; do
             FULL=$(git log -1 --pretty=format:%B "$HASH")
-            SUBJECT=$(printf '%s\n' "$FULL" | head -n 1)
-            BODY=$(printf '%s\n' "$FULL" | tail -n +2)
+            SUBJECT_LINE=$(printf '%s\n' "$FULL" | awk '/[^[:space:]]/{print NR; exit}')
+            if [ -z "$SUBJECT_LINE" ]; then
+              SUBJECT_LINE=1
+            fi
+            SUBJECT=$(printf '%s\n' "$FULL" | sed -n "${SUBJECT_LINE}p" | sed 's/^[[:space:]]*//')
+            BODY=$(printf '%s\n' "$FULL" | tail -n +$((SUBJECT_LINE + 1)))
 
             if echo "$SUBJECT" | grep -qE '^(feat|fix|refactor|perf|style|docs|test|chore|ci|build)(\(.+\))?!:' || echo "$BODY" | grep -qE '^BREAKING[ -]CHANGE:'; then
               [ "$SEVERITY" -lt 3 ] && SEVERITY=3
@@ -113,7 +149,7 @@ jobs:
         # doesn't have one yet. Re-runs and double-fires must never mint a second tag.
         if: steps.bump.outputs.type != 'none' && steps.head_tag.outputs.tag == ''
         run: |
-          TAG="${{ steps.latest_tag.outputs.tag }}"
+          TAG="${{ steps.latest_tag.outputs.base }}"
           VERSION="${TAG#v}"
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
 
