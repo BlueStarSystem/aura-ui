@@ -235,6 +235,52 @@ it('does not let a declaration inside a nested at-rule mask a real top-level one
     ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
 });
 
+it('treats a non-ASCII character immediately before "url(" as an identifier character too, so it cannot open a fake token', function () {
+    // isIdentChar() was ASCII-only ([a-zA-Z0-9_-]), so a non-ASCII letter
+    // right before "url(" was invisible to the left word-boundary check --
+    // "\xc3\xb1url(" ("nurl(" with a Latin small letter n with tilde) still
+    // matched at its embedded "url(", swallowing the real override and the
+    // ";" meant to end it, just like the ASCII "notaurl(" case. Per the CSS
+    // Syntax spec an identifier code point is [a-zA-Z0-9_-] plus any code
+    // point U+0080 and above, so isIdentChar() must treat any byte >= 0x80
+    // as an identifier character -- not a special case for this one letter.
+    $css = '@theme { --x: ñurl(void; --color-aura-primary-600: #7dd3fc); --color-aura-danger-600: #000000; }';
+
+    expect(ThemeColors::parse($css))->toBe([
+        'primary-600' => '#7dd3fc)',   // captured, not swallowed (see the ASCII notaurl( test for the trailing ")")
+        'danger-600' => '#000000',
+    ])->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();
+});
+
+it('does not treat "@theme" as a theme block start when immediately preceded by a non-ASCII identifier character', function () {
+    // Sharing isIdentChar() with the url() fix hardens the @theme
+    // left-boundary check the same way. "à@theme" must not be recognised as
+    // a genuine @theme block start any more than an ASCII letter directly
+    // before it would be.
+    $css = 'à@theme { --color-aura-primary-500: #111111; }';
+
+    expect(ThemeColors::parse($css))->toBe([])
+        ->and(ThemeColors::hasUnreadableThemeBlock($css))->toBeFalse();   // no @theme block recognised -- not "unreadable", just none found
+});
+
+it('still recognises a legitimate bare @theme, @theme with a Tailwind 4 modifier, and still rejects @theme-custom', function () {
+    // Confirms the isIdentChar() byte-range change did not disturb the
+    // existing right-boundary behaviour it is shared with.
+    expect(ThemeColors::parse('@theme { --color-aura-primary-500: #111111; }'))->toBe([
+        'primary-500' => '#111111',
+    ])->and(ThemeColors::parse('@theme inline { --color-aura-primary-500: #111111; }'))->toBe([
+        'primary-500' => '#111111',
+    ])->and(ThemeColors::parse('@theme-custom { --color-aura-primary-500: #111111; }'))->toBe([]);
+});
+
+it('still recognises a genuine url() at the start of a buffer, after whitespace, and after a colon', function () {
+    expect(ThemeColors::parse('@theme { --color-aura-primary-600: url(http://x.com/a); }'))->toBe([
+        'primary-600' => 'url(http://x.com/a)',
+    ])->and(ThemeColors::parse('@theme {   url(http://x.com/a); --color-aura-primary-600: url(http://x.com/a); }'))->toBe([
+        'primary-600' => 'url(http://x.com/a)',
+    ]);
+});
+
 // A prior revision of this scanner ran a whole-block regex
 // (`--color-aura-...` via preg_match_all) once a block's closing brace was
 // found, and a test here proved a PCRE failure (e.g. pcre.backtrack_limit=1)

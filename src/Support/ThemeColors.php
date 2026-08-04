@@ -182,12 +182,18 @@ final class ThemeColors
             }
 
             if ($themeDepth === 0 && ! $awaitingBrace && $ch === '@' && stripos($css, '@theme', $i) === $i) {
-                // Word-boundary check: "@theme-custom" is a different,
+                // Right word-boundary check: "@theme-custom" is a different,
                 // hypothetical at-rule that merely starts with the same six
-                // characters and must not be mistaken for "@theme".
+                // characters and must not be mistaken for "@theme". Left
+                // boundary check mirrors the same defensive posture as the
+                // url() token detection below -- an identifier character
+                // (ASCII or not) directly preceding the "@" is treated as
+                // ruling this out, the same way "notaurl(" is ruled out as a
+                // url() token.
+                $precededByIdent = $i > 0 && self::isIdentChar($css[$i - 1]);
                 $boundary = $i + 6 < $length ? $css[$i + 6] : '';
 
-                if ($boundary === '' || ! self::isIdentChar($boundary)) {
+                if (! $precededByIdent && ($boundary === '' || ! self::isIdentChar($boundary))) {
                     $awaitingBrace = true;
                     $i += 6;   // strlen('@theme')
 
@@ -305,9 +311,21 @@ final class ThemeColors
         return $j < $length && $css[$j] === '(' ? $j + 1 : null;
     }
 
+    /**
+     * Per the CSS Syntax spec, an identifier code point is [a-zA-Z0-9_-]
+     * *plus any code point U+0080 and above* -- accented letters, CJK, emoji,
+     * and everything else non-ASCII are all valid identifier characters.
+     * Checked byte-wise (this scanner is byte-oriented throughout): any byte
+     * >= 0x80 is necessarily part of a multi-byte UTF-8 sequence for such a
+     * code point, so this is correct without decoding UTF-8 at all. Without
+     * this, a non-ASCII character immediately before "url(" (e.g. an accented
+     * identifier) was invisible to the left-boundary check below, letting a
+     * fake token like "\xc3\xb1url(" ("nurl(" with a combining/accented n)
+     * swallow real content as if it were a genuine url() call.
+     */
     private static function isIdentChar(string $ch): bool
     {
-        return $ch !== '' && preg_match('/[a-zA-Z0-9_-]/', $ch) === 1;
+        return $ch !== '' && (preg_match('/[a-zA-Z0-9_-]/', $ch) === 1 || ord($ch) >= 0x80);
     }
 
     /**

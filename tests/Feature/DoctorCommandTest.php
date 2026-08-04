@@ -557,6 +557,18 @@ describe('--a11y', function () {
 
             File::delete($css);
         });
+
+        it('treats a non-ASCII character before "url(" as an identifier character too, so a real override is not swallowed', function () {
+            $css = resource_path('css/app.css');
+            File::ensureDirectoryExists(dirname($css));
+            File::put($css, '@theme { --x: ñurl(void; --color-aura-primary-600: #7dd3fc); --color-aura-danger-600: #7dd3fc; }');
+
+            $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+                ->expectsOutputToContain('a11y-theme')
+                ->assertFailed();   // danger-600 is a genuine, un-lost failing (1.7:1) override
+
+            File::delete($css);
+        });
     });
 
     it('degrades a check that throws to a warning and still runs the others', function () {
