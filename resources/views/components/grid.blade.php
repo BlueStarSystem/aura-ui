@@ -5,6 +5,7 @@
 ])
 
 @php
+    $tag = \BlueStarSystem\AuraUI\Support\Html::tag($as);
     // Explicit responsive class strings, not interpolation: Tailwind scans the
     // source for literal class names and generates nothing for `grid-cols-{{ $n }}`.
     $colsClass = match((string) $cols) {
@@ -25,6 +26,6 @@
     };
 @endphp
 
-<{{ $as }} {{ $attributes->class(['aura-grid grid', $colsClass, $gapClass]) }}>
+<{{ $tag }} {{ $attributes->class(['aura-grid grid', $colsClass, $gapClass]) }}>
     {{ $slot }}
-</{{ $as }}>
+</{{ $tag }}>

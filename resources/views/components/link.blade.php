@@ -4,13 +4,22 @@
     'underline' => true,
 ])
 
+@php
+    // Blade's {{ }} escapes < > & " ' and stops there, so `javascript:alert(1)`
+    // survives it intact and becomes a click away from executing. An
+    // application that renders a URL somebody typed — a profile website, a
+    // link in a comment — would be handing that through. Unknown schemes
+    // become '#': visibly inert rather than silently dangerous.
+    $safeHref = \BlueStarSystem\AuraUI\Support\Html::url($href);
+@endphp
+
 {{--
     An external link opens a new tab, and says so: rel="noopener" closes the
     window.opener hole, and the visually-hidden suffix tells a screen-reader
     user what the icon tells everyone else.
 --}}
 <a
-    href="{{ $href }}"
+    href="{{ $safeHref }}"
     @if($external) target="_blank" rel="noopener noreferrer" @endif
     {{ $attributes->class([
         'aura-link text-aura-primary-700 dark:text-aura-primary-400',

@@ -5,6 +5,7 @@
 ])
 
 @php
+    $tag = \BlueStarSystem\AuraUI\Support\Html::tag($as);
     $gapClass = match($gap) {
         'none' => 'gap-0',
         'xs' => 'gap-1',
@@ -23,6 +24,6 @@
     };
 @endphp
 
-<{{ $as }} {{ $attributes->class(['aura-stack flex flex-col', $gapClass, $alignClass]) }}>
+<{{ $tag }} {{ $attributes->class(['aura-stack flex flex-col', $gapClass, $alignClass]) }}>
     {{ $slot }}
-</{{ $as }}>
+</{{ $tag }}>

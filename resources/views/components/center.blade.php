@@ -4,6 +4,7 @@
 ])
 
 @php
+    $safeMinHeight = \BlueStarSystem\AuraUI\Support\Html::cssValue($minHeight);
     // Blade maps the kebab attribute `min-height="60vh"` onto $minHeight, so
     // both spellings work from the template author's side.
     $axisClass = match($axis) {
@@ -15,7 +16,7 @@
 
 <div
     {{ $attributes->class(['aura-center', $axisClass]) }}
-    @if($minHeight) style="min-height: {{ $minHeight }}" @endif
+    @if($safeMinHeight) style="min-height: {{ $safeMinHeight }}" @endif
 >
     {{ $slot }}
 </div>
