@@ -452,7 +452,30 @@ class DoctorCommand extends Command
             return true;
         }
 
-        return preg_match('/<label\b[^>]*\bfor\s*=\s*["\']'.preg_quote($id, '/').'["\'][^>]*>/i', $contents) === 1;
+        $quoted = preg_quote($id, '/');
+
+        if (preg_match('/<label\b[^>]*\bfor\s*=\s*["\']'.$quoted.'["\'][^>]*>/i', $contents) === 1) {
+            return true;
+        }
+
+        // <x-aura::field for="x" label="…"> renders exactly that <label for="x">,
+        // and it is the pattern Aura's own docs teach. Without this branch the
+        // recommended way to name a field is reported as unnamed. The label
+        // attribute is required: the component renders no <label> without one,
+        // so `for` alone would name nothing.
+        preg_match_all('/<x-aura::field(?![\w.-])((?:[^>"\']|"[^"]*"|\'[^\']*\')*)\/?>/i', $contents, $fields, PREG_SET_ORDER);
+
+        foreach ($fields as $field) {
+            if (preg_match('/(^|\s)for\s*=\s*["\']'.$quoted.'["\']/i', $field[1]) !== 1) {
+                continue;
+            }
+
+            if (preg_match('/(^|\s):?label\s*=/i', $field[1]) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -716,8 +739,19 @@ class DoctorCommand extends Command
         }
 
         $this->newLine();
-        $this->components->error(count($errors).' error(s), '.(count($this->findings) - count($errors)).' warning(s).');
 
-        return $errors === [] ? self::SUCCESS : self::FAILURE;
+        $summary = count($errors).' error(s), '.(count($this->findings) - count($errors)).' warning(s).';
+
+        // A red ERROR box over "0 error(s)" reads as a failure to anyone who
+        // has just fixed everything the command asked for.
+        if ($errors === []) {
+            $this->components->warn($summary);
+
+            return self::SUCCESS;
+        }
+
+        $this->components->error($summary);
+
+        return self::FAILURE;
     }
 }

@@ -167,6 +167,35 @@ describe('--a11y', function () {
             ->assertSuccessful();
     });
 
+    it('reports a warnings-only run as a success, not as a red failure', function () {
+        writeView($this->views, 'page', '<a href="/x">click here</a>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->expectsOutputToContain('0 error(s), 1 warning(s).')
+            ->assertSuccessful();
+    });
+
+    it('does not flag an input named by the <x-aura::field for> pattern the docs teach', function () {
+        writeView($this->views, 'page', '<x-aura::field for="email" label="Email"><x-aura::input id="email" /></x-aura::field>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertSuccessful();
+    });
+
+    it('still flags an input inside a field that has no label to render', function () {
+        writeView($this->views, 'page', '<x-aura::field for="email"><x-aura::input id="email" /></x-aura::field>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
+    it('still flags an input whose id does not match the field it sits in', function () {
+        writeView($this->views, 'page', '<x-aura::field for="name" label="Name"><x-aura::input id="email" /></x-aura::field>');
+
+        $this->artisan('aura:doctor', ['--a11y' => true, '--path' => [$this->views], '--skip-setup' => true])
+            ->assertFailed();
+    });
+
     it('does not flag an input with a dynamic id, since the matching label cannot be resolved statically', function () {
         writeView($this->views, 'page', '<x-aura::input name="email" :id="$fieldId" />');
 
