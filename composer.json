@@ -26,6 +26,7 @@
         "orchestra/testbench": "^10.0",
         "pestphp/pest": "^3.0"
     },
+    "bin": ["bin/aura"],
     "autoload": {
         "psr-4": {
             "BlueStarSystem\\AuraUI\\": "src/"

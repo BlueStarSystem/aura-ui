@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Entry point for the standalone `aura` binary.
+ *
+ * Installed globally (`composer global require bluestarsystem/aura-ui`) this
+ * works in any directory; installed as a project dependency Composer also
+ * links it into vendor/bin/aura. The autoloader is found in either layout.
+ */
+$autoloaders = [
+    __DIR__.'/../../../autoload.php',   // inside a project's vendor/
+    __DIR__.'/../vendor/autoload.php',  // running from a clone of the package
+];
+
+$loaded = false;
+
+foreach ($autoloaders as $autoloader) {
+    if (is_file($autoloader)) {
+        require $autoloader;
+        $loaded = true;
+
+        break;
+    }
+}
+
+if (! $loaded) {
+    fwrite(STDERR, "Could not find the Composer autoloader. Run composer install.\n");
+
+    exit(1);
+}
+
+exit((new BlueStarSystem\AuraUI\Cli\Application)->run($argv));
