@@ -56,6 +56,8 @@
     --color-aura-success-500: #10b981;
     --color-aura-success-600: #059669;
     --color-aura-success-700: #047857;
+    --color-aura-success-800: #065f46;
+    --color-aura-success-900: #064e3b;
 
     /* ============================================
        WARNING (Amber)
@@ -68,6 +70,8 @@
     --color-aura-warning-500: #f59e0b;
     --color-aura-warning-600: #d97706;
     --color-aura-warning-700: #b45309;
+    --color-aura-warning-800: #92400e;
+    --color-aura-warning-900: #78350f;
 
     /* ============================================
        DANGER (Red/Coral)
@@ -80,6 +84,8 @@
     --color-aura-danger-500: #ef4444;
     --color-aura-danger-600: #dc2626;
     --color-aura-danger-700: #b91c1c;
+    --color-aura-danger-800: #991b1b;
+    --color-aura-danger-900: #7f1d1d;
 
     /* ============================================
        INFO (Sky)
@@ -92,6 +98,8 @@
     --color-aura-info-500: #0ea5e9;
     --color-aura-info-600: #0284c7;
     --color-aura-info-700: #0369a1;
+    --color-aura-info-800: #075985;
+    --color-aura-info-900: #0c4a6e;
 
     /* ============================================
        SURFACES (Light mode — warm whites)
@@ -107,6 +115,10 @@
     --color-aura-surface-700: #334155;
     --color-aura-surface-800: #1e293b;
     --color-aura-surface-900: #0f172a;
+
+    /* RGB channel variants (for rgba() compositing, e.g. glass/backdrop effects) */
+    --aura-surface-0-rgb:   255,255,255;
+    --aura-surface-200-rgb: 226,232,240;
 
     /* ============================================
        BORDER RADIUS

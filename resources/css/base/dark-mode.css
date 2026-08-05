@@ -16,6 +16,10 @@
     --color-aura-surface-800: #f1f5f9;
     --color-aura-surface-900: #f8fafc;
 
+    /* RGB channel variants (for rgba() compositing, e.g. glass/backdrop effects) */
+    --aura-surface-0-rgb:   15,23,42;
+    --aura-surface-200-rgb: 71,85,105;
+
     /* Accents glow brighter in dark mode */
     --color-aura-primary-500: #818cf8;
     --color-aura-success-500: #34d399;
