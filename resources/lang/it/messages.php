@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'opens_in_new_tab' => 'si apre in una nuova scheda',
+    'skip_to_content' => 'Vai al contenuto principale',
     'close' => 'Chiudi',
     'clear' => 'Cancella',
     'clear_all' => 'Cancella tutto',

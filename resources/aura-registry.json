@@ -28,6 +28,14 @@
         ],
         "deps": []
     },
+    "aspect-ratio": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "aspect-ratio.blade.php"
+        ],
+        "deps": []
+    },
     "auth-login": {
         "tier": "free",
         "type": "block",
@@ -72,6 +80,14 @@
         "deps": [
             "icon"
         ]
+    },
+    "blockquote": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "blockquote.blade.php"
+        ],
+        "deps": []
     },
     "brand": {
         "tier": "free",
@@ -121,6 +137,14 @@
         ],
         "deps": []
     },
+    "center": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "center.blade.php"
+        ],
+        "deps": []
+    },
     "chart": {
         "tier": "free",
         "type": "component",
@@ -136,6 +160,16 @@
             "checkbox.blade.php"
         ],
         "deps": []
+    },
+    "code": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "code.blade.php"
+        ],
+        "deps": [
+            "code-block"
+        ]
     },
     "collapsible": {
         "tier": "free",
@@ -339,6 +373,14 @@
         ],
         "deps": []
     },
+    "grid": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "grid.blade.php"
+        ],
+        "deps": []
+    },
     "header": {
         "tier": "free",
         "type": "component",
@@ -409,6 +451,16 @@
         ],
         "deps": []
     },
+    "link": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "link.blade.php"
+        ],
+        "deps": [
+            "visually-hidden"
+        ]
+    },
     "list": {
         "tier": "free",
         "type": "component",
@@ -425,6 +477,14 @@
         "type": "component",
         "files": [
             "main.blade.php"
+        ],
+        "deps": []
+    },
+    "mark": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "mark.blade.php"
         ],
         "deps": []
     },
@@ -526,6 +586,14 @@
         ],
         "deps": []
     },
+    "prose": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "prose.blade.php"
+        ],
+        "deps": []
+    },
     "radial-progress": {
         "tier": "free",
         "type": "component",
@@ -558,6 +626,25 @@
         ],
         "deps": []
     },
+    "row": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "row.blade.php"
+        ],
+        "deps": []
+    },
+    "section": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "section.blade.php"
+        ],
+        "deps": [
+            "heading",
+            "text"
+        ]
+    },
     "select": {
         "tier": "free",
         "type": "component",
@@ -583,6 +670,14 @@
         ],
         "deps": []
     },
+    "skip-link": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "skip-link.blade.php"
+        ],
+        "deps": []
+    },
     "slider": {
         "tier": "free",
         "type": "component",
@@ -591,11 +686,27 @@
         ],
         "deps": []
     },
+    "spacer": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "spacer.blade.php"
+        ],
+        "deps": []
+    },
     "spinner": {
         "tier": "free",
         "type": "component",
         "files": [
             "spinner.blade.php"
+        ],
+        "deps": []
+    },
+    "stack": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "stack.blade.php"
         ],
         "deps": []
     },
@@ -752,6 +863,14 @@
         "type": "component",
         "files": [
             "tooltip.blade.php"
+        ],
+        "deps": []
+    },
+    "visually-hidden": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "visually-hidden.blade.php"
         ],
         "deps": []
     }

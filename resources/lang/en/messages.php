@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'opens_in_new_tab' => 'opens in a new tab',
+    'skip_to_content' => 'Skip to main content',
     'close' => 'Close',
     'clear' => 'Clear',
     'clear_all' => 'Clear all',

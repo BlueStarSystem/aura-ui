@@ -1,0 +1,42 @@
+/*
+ * Accessibility utilities.
+ *
+ * In @layer base because a production Tailwind 4 build drops rules it finds
+ * outside a layer — the package lost all its keyframes that way once, and the
+ * same silence would take the skip link with it.
+ */
+@layer base {
+    /*
+     * The clip-rect technique: the text stays in the accessibility tree, which
+     * `display: none` and `visibility: hidden` do not. 1px rather than 0
+     * because some screen readers skip zero-sized boxes.
+     */
+    .aura-visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+    /* Reveals itself when it takes keyboard focus — how a skip link works. */
+    .aura-visually-hidden-focusable:focus,
+    .aura-visually-hidden-focusable:focus-within {
+        position: fixed;
+        top: 0.75rem;
+        left: 0.75rem;
+        width: auto;
+        height: auto;
+        padding: revert;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        clip-path: none;
+        white-space: normal;
+    }
+}

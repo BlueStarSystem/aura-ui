@@ -430,6 +430,7 @@
 
 /* Internal imports */
 @import "./compat/variables-compat.css";
+@import "./base/a11y.css";
 @import "./base/dark-mode.css";
 @import "./base/keyframes.css";
 @import "./base/glass.css";
