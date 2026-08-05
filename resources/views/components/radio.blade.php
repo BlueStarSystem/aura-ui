@@ -6,7 +6,9 @@
     'disabled' => false,
 ])
 
-@php $descriptionId = $description ? 'aura-radio-desc-' . uniqid() : null; @endphp
+@php $descriptionId = $description
+    ? 'aura-radio-desc-'.\BlueStarSystem\AuraUI\Support\Html::fieldId($attributes->get('id'), $attributes->get('name'), $label ?? null)
+    : null; @endphp
 
 <label class="aura-radio flex items-start gap-2.5 cursor-pointer relative select-none" @if($disabled) aria-disabled="true" @endif>
     <input

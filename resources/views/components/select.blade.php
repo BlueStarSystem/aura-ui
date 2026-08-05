@@ -7,8 +7,21 @@
     'size' => 'md',
 ])
 
-@php $inputId = $attributes->get('id') ?? 'aura-input-' . uniqid(); @endphp
-@php $descriptionId = $inputId . '-description'; @endphp
+@php
+    use BlueStarSystem\AuraUI\Support\Html;
+
+    // Stable across renders: uniqid() handed the field a different id on every
+    // Livewire round trip, rewriting the label's `for` and the
+    // aria-describedby that points at the error text.
+    $inputId = Html::fieldId($attributes->get('id'), $attributes->get('name'), $label ?? null);
+    $descriptionId = $inputId.'-description';
+
+    // Merged, not replaced: the bag may already carry an aria-describedby the
+    // application attached to its own help text.
+    $describedBy = ($error || ($hint ?? null))
+        ? Html::describedBy($attributes->get('aria-describedby'), $descriptionId)
+        : $attributes->get('aria-describedby');
+@endphp
 
 @php
     $sizeClasses = match($size) {
@@ -40,8 +53,8 @@
         id="{{ $inputId }}"
         @if($disabled) disabled @endif
         @if($error) aria-invalid="true" @endif
-        @if($error || $hint) aria-describedby="{{ $descriptionId }}" @endif
-        {{ $attributes->except('id')->class($selectClasses) }}
+        @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
+        {{ $attributes->except(['id', 'aria-describedby'])->class($selectClasses) }}
     >
         @if($placeholder)
             <option value="" disabled selected>{{ $placeholder }}</option>
@@ -50,7 +63,7 @@
     </select>
 
     @if($error)
-        <p id="{{ $descriptionId }}" class="aura-input-error-text text-xs text-aura-danger-500 font-medium flex items-center gap-1 aura-animate-shake">{{ $error }}</p>
+        <p id="{{ $descriptionId }}" role="alert" class="aura-input-error-text text-xs text-aura-danger-500 font-medium flex items-center gap-1 aura-animate-shake">{{ $error }}</p>
     @elseif($hint)
         <p id="{{ $descriptionId }}" class="aura-input-hint text-xs text-aura-surface-400 leading-snug">{{ $hint }}</p>
     @endif

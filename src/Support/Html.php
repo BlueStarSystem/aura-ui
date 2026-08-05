@@ -39,6 +39,61 @@ final class Html
     }
 
     /**
+     * A stable id for a form control.
+     *
+     * The components used `uniqid()`, which produces a different id on every
+     * render. Livewire re-renders on a new request, so the label's `for` and
+     * the input's `id` were being rewritten under the user on each round trip,
+     * and any `aria-describedby` pointing at the error text went with them.
+     *
+     * Derived from the id, then the name, then the label: an input with none
+     * of the three is already unusable, and only then do we fall back to
+     * something generated.
+     */
+    public static function fieldId(mixed $id, mixed $name = null, mixed $label = null): string
+    {
+        foreach ([$id, $name] as $candidate) {
+            if (is_string($candidate) && trim($candidate) !== '') {
+                // A name like `contact[email]` is not a valid id fragment.
+                return trim(preg_replace('/[^A-Za-z0-9_-]+/', '-', trim($candidate)) ?? '', '-');
+            }
+        }
+
+        if (is_string($label) && trim($label) !== '') {
+            return 'aura-field-'.substr(md5(trim($label)), 0, 8);
+        }
+
+        return 'aura-field-'.substr(md5(uniqid('', true)), 0, 8);
+    }
+
+    /**
+     * Merge an id into an existing aria-describedby rather than replacing it.
+     *
+     * The components emitted their own `aria-describedby` while the attribute
+     * bag also rendered whatever the consumer passed, leaving two of the same
+     * attribute on one element — browsers keep the first and drop the help
+     * text the application deliberately attached.
+     */
+    public static function describedBy(mixed $existing, ?string ...$ids): ?string
+    {
+        $parts = [];
+
+        if (is_string($existing) && trim($existing) !== '') {
+            $parts = preg_split('/\s+/', trim($existing)) ?: [];
+        }
+
+        foreach ($ids as $id) {
+            if (is_string($id) && trim($id) !== '') {
+                $parts[] = trim($id);
+            }
+        }
+
+        $parts = array_values(array_unique(array_filter($parts)));
+
+        return $parts === [] ? null : implode(' ', $parts);
+    }
+
+    /**
      * Schemes a link may navigate to. `javascript:` and `data:` are the two
      * that turn a URL into code; `vbscript:` is the same idea, older.
      *

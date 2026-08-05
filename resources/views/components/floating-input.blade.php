@@ -8,8 +8,18 @@
     'error' => null,
 ])
 
-@php $inputId = $attributes->get('id') ?? 'aura-fi-' . $name . '-' . uniqid(); @endphp
-@php $descriptionId = $inputId . '-description'; @endphp
+@php
+    use BlueStarSystem\AuraUI\Support\Html;
+
+    // Stable across renders: uniqid() gave the field a new id on every Livewire
+    // round trip, rewriting the label's `for` and the aria-describedby.
+    $inputId = Html::fieldId($attributes->get('id'), $name, $label);
+    $descriptionId = $inputId.'-description';
+
+    $describedBy = $error
+        ? Html::describedBy($attributes->get('aria-describedby'), $descriptionId)
+        : $attributes->get('aria-describedby');
+@endphp
 
 <div
     {{ $attributes->only('class')->class([
@@ -31,13 +41,14 @@
             @if($value) value="{{ $value }}" @endif
             @if($required) required @endif
             @if($disabled) disabled @endif
-            @if($error) aria-invalid="true" aria-describedby="{{ $descriptionId }}" @endif
+            @if($error) aria-invalid="true" @endif
+            @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
             class="aura-floating-input__input"
             :class="{ 'aura-floating-input__input--active': active }"
             x-on:focus="focused = true"
             x-on:blur="focused = false; filled = $el.value.length > 0"
             x-on:input="filled = $el.value.length > 0"
-            {{ $attributes->except(['class', 'id']) }}
+            {{ $attributes->except(['class', 'id', 'aria-describedby']) }}
         />
         <label
             for="{{ $inputId }}"
@@ -52,6 +63,8 @@
     </div>
 
     @if ($error)
-        <p id="{{ $descriptionId }}" class="aura-floating-input__error">{{ $error }}</p>
+        {{-- role="alert" so an error inserted after a Livewire submit is
+             announced immediately, not only when the user returns to the field. --}}
+        <p id="{{ $descriptionId }}" role="alert" class="aura-floating-input__error">{{ $error }}</p>
     @endif
 </div>
