@@ -99,6 +99,18 @@ dataset('non-text UI surfaces', [
     // dataset below, alongside its ratified `dark:text-aura-surface-0` fix.
     'fab secondary fill vs white icon' => ['#475569', '#ffffff'],
 
+    // fab.blade.php had never been aligned with the corrected button shades. At
+    // rest `danger` was danger-500 (3.76) and the default was primary-500 (4.47),
+    // and `success` HOVERED to success-600 (3.77) -- lighter than its own resting
+    // state, so the one variant that passed at rest failed when you pointed at it.
+    // All four now match button.blade.php: base -600/-700, hover one step darker.
+    'fab primary fill vs white icon' => ['#4f46e5', '#ffffff'],          // primary-600
+    'fab primary hover vs white icon' => ['#4338ca', '#ffffff'],         // primary-700
+    'fab success hover vs white icon' => ['#065f46', '#ffffff'],         // success-800
+    'fab danger fill vs white icon' => ['#dc2626', '#ffffff'],           // danger-600
+    'fab danger hover vs white icon' => ['#b91c1c', '#ffffff'],          // danger-700
+    'fab secondary hover vs white icon' => ['#334155', '#ffffff'],       // surface-700
+
     // Task 6f: resting borders of form controls were `surface-300` (1.48) or, on
     // several controls (input/select/textarea/multiselect/tags/otp/date-picker time
     // inputs), an even lighter `surface-200` -- both fail. `surface-500` is the first
@@ -218,6 +230,12 @@ dataset('dark non-text UI surfaces', [
     // without a fix). Ratified fix inverts the icon with it: `dark:text-aura-surface-0`.
     // See the light-theme row of the same name in "non-text UI surfaces" above.
     'fab secondary fill vs white icon dark' => ['#cbd5e1', '#0f172a'],
+
+    // Same inversion one step further: the hover state is surface-700, which
+    // under `.dark` becomes #e2e8f0 -- lighter still, against the same inverted
+    // icon. The other three fab variants need no dark row: they now use only
+    // -600/-700/-800 accents, which `.dark` leaves at their light values.
+    'fab secondary hover vs white icon dark' => ['#e2e8f0', '#0f172a'],
 
     // Task 6f: `surface-500` is a single class, correct in both themes without a
     // `dark:` variant -- `.dark` redefines the underlying custom property to

@@ -31,7 +31,7 @@ it('renders top-right position', function () {
 it('renders default primary color', function () {
     $html = Blade::render('<x-aura::fab />');
 
-    expect($html)->toContain('bg-aura-primary-500');
+    expect($html)->toContain('bg-aura-primary-600');
 });
 
 it('renders success color', function () {
@@ -39,6 +39,28 @@ it('renders success color', function () {
 
     expect($html)->toContain('bg-aura-success-700');
 });
+
+it('renders danger color', function () {
+    $html = Blade::render('<x-aura::fab color="danger" />');
+
+    expect($html)->toContain('bg-aura-danger-600');
+});
+
+/**
+ * Every variant darkens on hover. `success` used to go 700 -> 600, i.e.
+ * lighter, which also dropped its white icon to 3.77:1 on the one state a
+ * pointer guarantees you will see.
+ */
+it('darkens rather than lightens on hover, in every colour', function (string $color, string $hover) {
+    $html = Blade::render('<x-aura::fab color="'.$color.'" />');
+
+    expect($html)->toContain($hover);
+})->with([
+    ['primary', 'hover:bg-aura-primary-700'],
+    ['success', 'hover:bg-aura-success-800'],
+    ['danger', 'hover:bg-aura-danger-700'],
+    ['secondary', 'hover:bg-aura-surface-700'],
+]);
 
 it('renders medium size by default', function () {
     $html = Blade::render('<x-aura::fab />');
