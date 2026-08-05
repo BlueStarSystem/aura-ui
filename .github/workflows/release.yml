@@ -105,6 +105,18 @@ jobs:
         # (steps.latest_tag.outputs.tag) instead of calling `git describe` again,
         # so the range scanned here and the version incremented below can never
         # disagree about what "the last tag" is.
+        #
+        # CRITICAL, cost a release on this exact repo: `--pretty=format:%H` does
+        # NOT terminate the final entry with a newline, and a `while read` loop
+        # does not run its body for a trailing line with no terminator - so the
+        # LAST commit of every range was silently dropped. On a multi-commit
+        # range some other commit usually still carried the max severity, which
+        # is why this stayed hidden; on a single-commit range (one fix:/feat:
+        # pushed alone) it always produced none. Using `tformat:%H` instead
+        # (which does terminate every entry, including the last) fixes the root
+        # cause; `read -r HASH || [ -n "$HASH" ]` is kept too, belt-and-braces,
+        # so a trailing unterminated line would still be processed even if some
+        # future edit reintroduces a non-terminating format.
         id: bump
         run: |
           TAG="${{ steps.latest_tag.outputs.tag }}"
@@ -117,7 +129,7 @@ jobs:
           fi
 
           SEVERITY=0
-          while IFS= read -r HASH; do
+          while IFS= read -r HASH || [ -n "$HASH" ]; do
             FULL=$(git log -1 --pretty=format:%B "$HASH")
             SUBJECT_LINE=$(printf '%s\n' "$FULL" | awk '/[^[:space:]]/{print NR; exit}')
             if [ -z "$SUBJECT_LINE" ]; then
@@ -133,7 +145,7 @@ jobs:
             elif echo "$SUBJECT" | grep -qE '^(fix|perf|refactor)(\(.+\))?:'; then
               [ "$SEVERITY" -lt 1 ] && SEVERITY=1
             fi
-          done < <(git log $RANGE --pretty=format:%H 2>/dev/null)
+          done < <(git log $RANGE --pretty=tformat:%H 2>/dev/null)
 
           case "$SEVERITY" in
             3) echo "type=major" >> "$GITHUB_OUTPUT" ;;
