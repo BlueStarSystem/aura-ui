@@ -101,3 +101,32 @@ it('still supports the legacy icon and iconRight props', function () {
     // Both icons render SVGs; with two icons we expect two <svg occurrences
     expect(substr_count($html, '<svg'))->toBe(2);
 });
+
+// Regression guard for the base `border border-transparent` class neutralising a
+// variant's own border color in the generated stylesheet (cascade order, not the
+// class string, decided which one won -- see button.blade.php history).
+//
+// NOTE: these assertions only prove the *source* of the conflict (an unconditional
+// `border-transparent` class sitting in the shared base string) is gone. They cannot
+// prove the rendered border is actually visible in a browser, because that depends on
+// Tailwind's generated CSS order, not on which classes appear in the HTML. Visual
+// verification still requires rendering the button.
+it('does not carry a base transparent border that could neutralise an outline variant border color', function (string $variant) {
+    $html = Blade::render("<x-aura::button variant=\"{$variant}\" outline>Test</x-aura::button>");
+
+    expect($html)->not->toContain('border-transparent');
+})->with(['primary', 'secondary', 'success', 'warning', 'danger']);
+
+it('applies its own transparent border on solid variants that want an invisible border', function (string $variant) {
+    $html = Blade::render("<x-aura::button variant=\"{$variant}\">Test</x-aura::button>");
+
+    expect($html)->toContain('border-transparent');
+})->with(['primary', 'success', 'warning', 'danger', 'ghost', 'link']);
+
+it('keeps the visible border color on the solid secondary variant', function () {
+    $html = Blade::render('<x-aura::button variant="secondary">Test</x-aura::button>');
+
+    expect($html)
+        ->toContain('border-aura-surface-300')
+        ->not->toContain('border-transparent');
+});
