@@ -3,18 +3,25 @@
 namespace BlueStarSystem\AuraUI\Support;
 
 use Closure;
-use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
 final class RemoteRegistry
 {
     /**
+     * The fetcher is injected rather than reached for, so this class carries no
+     * framework dependency: the artisan command hands it an Http-facade closure,
+     * the standalone `aura` binary hands it a plain-PHP one. Both then run the
+     * same host allowlist, size cap and path sanitisation — the security-relevant
+     * code exists once.
+     *
      * @param  array<int, string>  $allowedHosts
+     * @param  Closure(string): array{status:int, body:string}  $fetcher
      */
     public function __construct(
         private array $allowedHosts,
         private int $maxBytes,
         private Closure $confirmHost,
+        private Closure $fetcher,
     ) {}
 
     public static function isUrl(string $arg): bool
@@ -58,13 +65,14 @@ final class RemoteRegistry
             throw new RuntimeException("Aborted: registry host \"{$host}\" is not allowed. Pass --allow-host={$host} to trust it.");
         }
 
-        $response = Http::timeout(15)->acceptJson()->get($url);
+        $response = ($this->fetcher)($url);
+        $status = (int) ($response['status'] ?? 0);
 
-        if (! $response->successful()) {
-            throw new RuntimeException("Registry request failed ({$response->status()}): {$url}");
+        if ($status < 200 || $status >= 300) {
+            throw new RuntimeException("Registry request failed ({$status}): {$url}");
         }
 
-        $body = $response->body();
+        $body = (string) ($response['body'] ?? '');
 
         if (strlen($body) > $this->maxBytes) {
             throw new RuntimeException("Registry item exceeds the {$this->maxBytes}-byte limit: {$url}");
@@ -107,6 +115,15 @@ final class RemoteRegistry
             }
 
             $files[$file['path']] = $file['content'];
+        }
+
+        // A registry may legitimately withhold the implementation of a paid
+        // component while still describing it. Without this the install writes
+        // nothing and reports success, which reads as a bug.
+        if (($data['requires_license'] ?? false) === true || ($files === [] && ($data['tier'] ?? 'free') === 'pro')) {
+            $where = is_string($data['license_url'] ?? null) ? ' See '.$data['license_url'] : '';
+
+            throw new RuntimeException("\"{$name}\" is a Pro component: the registry does not publish its source. Run: composer require bluestarsystem/aura-ui-pro, then php artisan aura:add {$name}.".$where);
         }
 
         $deps = [];

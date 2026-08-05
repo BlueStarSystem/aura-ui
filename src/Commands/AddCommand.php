@@ -6,6 +6,7 @@ use BlueStarSystem\AuraUI\Support\ComponentInstaller;
 use BlueStarSystem\AuraUI\Support\ComponentManifest;
 use BlueStarSystem\AuraUI\Support\RemoteRegistry;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 
 class AddCommand extends Command
 {
@@ -132,7 +133,13 @@ class AddCommand extends Command
             return $this->confirm("Install from non-allowlisted registry host \"{$host}\"?", false);
         };
 
-        $registry = new RemoteRegistry($allowed, $maxBytes, $confirm);
+        $fetcher = function (string $url) use ($maxBytes): array {
+            $response = Http::timeout(15)->acceptJson()->get($url);
+
+            return ['status' => $response->status(), 'body' => substr($response->body(), 0, $maxBytes + 1)];
+        };
+
+        $registry = new RemoteRegistry($allowed, $maxBytes, $confirm, $fetcher);
         $installer = new ComponentInstaller(['free' => $dest], $dest);
 
         $report = ['written' => [], 'skipped' => []];
