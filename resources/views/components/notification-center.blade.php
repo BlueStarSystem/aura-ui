@@ -4,6 +4,12 @@
     'maxHeight' => '24rem',
 ])
 
+@php
+    // Falls back rather than emitting whatever arrived: this lands inside a
+    // style attribute, where a semicolon starts a second declaration.
+    $safeMaxHeight = \BlueStarSystem\AuraUI\Support\Html::cssValue($maxHeight) ?? '24rem';
+@endphp
+
 <div
     {{ $attributes->class(['aura-notification-center']) }}
     x-data="{ open: false }"
@@ -39,7 +45,7 @@
         role="region"
         aria-label="{{ __('aura-ui::messages.notifications') }}"
     >
-        <div class="aura-notification-center__list" style="max-height: {{ $maxHeight }}">
+        <div class="aura-notification-center__list" style="max-height: {{ $safeMaxHeight }}">
             @if ($slot->isEmpty() && isset($empty))
                 <div class="aura-notification-center__empty">
                     {{ $empty }}

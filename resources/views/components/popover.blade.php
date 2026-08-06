@@ -6,6 +6,9 @@
 ])
 
 @php
+    // Falls back rather than emitting whatever arrived: this lands inside a
+    // style attribute, where a semicolon starts a second declaration.
+    $safeWidth = \BlueStarSystem\AuraUI\Support\Html::cssValue($width) ?? '300px';
     $positionClasses = match($position) {
         'top' => 'bottom-full left-1/2 -translate-x-1/2 mb-2',
         'bottom' => 'top-full left-1/2 -translate-x-1/2 mt-2',
@@ -40,7 +43,7 @@
     {{-- Content --}}
     <div
         class="aura-popover absolute z-aura-dropdown {{ $positionClasses }} bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-xl aura-glass"
-        style="width: {{ $width }};"
+        style="width: {{ $safeWidth }};"
         x-show="open"
         x-transition:enter="aura-transition"
         x-transition:enter-start="opacity-0 scale-95"

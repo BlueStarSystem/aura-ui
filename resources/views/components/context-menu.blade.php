@@ -2,6 +2,12 @@
     'width' => '200px',
 ])
 
+@php
+    // Falls back rather than emitting whatever arrived: this lands inside a
+    // style attribute, where a semicolon starts a second declaration.
+    $safeWidth = \BlueStarSystem\AuraUI\Support\Html::cssValue($width) ?? '200px';
+@endphp
+
 <div
     {{ $attributes->class(['aura-context-menu-trigger relative inline-block']) }}
     x-data="{
@@ -35,7 +41,7 @@
 
     <div
         class="aura-context-menu absolute bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-xl z-aura-dropdown p-1 aura-glass"
-        style="width: {{ $width }};"
+        style="width: {{ $safeWidth }};"
         x-bind:style="'left: ' + x + 'px; top: ' + y + 'px;'"
         x-show="open"
         x-transition:enter="aura-transition-fast"

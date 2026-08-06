@@ -9,6 +9,9 @@
 ])
 
 @php
+    // Falls back rather than emitting whatever arrived: this lands inside a
+    // style attribute, where a semicolon starts a second declaration.
+    $safeMinHeight = \BlueStarSystem\AuraUI\Support\Html::cssValue($minHeight) ?? '150px';
     $toolbarItems = is_array($toolbar) ? $toolbar : array_map('trim', explode(',', $toolbar));
     $toolbarIcons = [
         'bold' => ['icon' => 'bold', 'cmd' => 'bold', 'label' => 'Bold'],
@@ -111,7 +114,7 @@
                 document.execCommand('insertText', false, text);
                 sync();
             "
-            style="min-height: {{ $minHeight }}"
+            style="min-height: {{ $safeMinHeight }}"
             role="textbox"
             aria-multiline="true"
             @if($placeholder) data-placeholder="{{ $placeholder }}" @endif

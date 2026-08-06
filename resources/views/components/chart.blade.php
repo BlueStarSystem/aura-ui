@@ -9,6 +9,9 @@
 ])
 
 @php
+    // Falls back rather than emitting whatever arrived: this lands inside a
+    // style attribute, where a semicolon starts a second declaration.
+    $safeHeight = \BlueStarSystem\AuraUI\Support\Html::cssValue($height) ?? '300px';
     $chartId = 'aura-chart-' . uniqid();
     $chartConfig = json_encode([
         'type' => $type === 'area' ? 'line' : $type,
@@ -33,7 +36,7 @@
 
 <div
     class="aura-chart relative"
-    style="height: {{ $height }};"
+    style="height: {{ $safeHeight }};"
     x-data="{
         chart: null,
         renderChart() {
