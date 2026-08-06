@@ -10,7 +10,9 @@
 
 @php
     $tag = $url ? 'a' : 'div';
-    $extraAttrs = $url ? 'href="' . e($url) . '"' : '';
+    $safeUrl = \BlueStarSystem\AuraUI\Support\Html::url($url, '');
+    // e() blocca l uscita dall attributo ma non lo schema: javascript: passava.
+    $extraAttrs = $safeUrl !== '' ? 'href="' . e($safeUrl) . '"' : '';
 @endphp
 
 <{{ $tag }}

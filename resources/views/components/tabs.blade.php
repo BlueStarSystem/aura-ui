@@ -25,9 +25,9 @@
                 type="button"
                 role="tab"
                 class="aura-tabs-trigger inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-aura-surface-500 border-b-2 border-transparent cursor-pointer bg-transparent aura-transition-fast hover:text-aura-surface-900 hover:border-aura-surface-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                :class="{ 'aura-tabs-active !text-aura-primary-600 !border-aura-primary-500 !font-semibold': activeTab === '{{ $tab['name'] }}' }"
-                :aria-selected="activeTab === '{{ $tab['name'] }}' ? 'true' : 'false'"
-                @click="activeTab = '{{ $tab['name'] }}'"
+                :class="{ 'aura-tabs-active !text-aura-primary-600 !border-aura-primary-500 !font-semibold': activeTab === {{ Js::from($tab['name']) }} }"
+                :aria-selected="activeTab === {{ Js::from($tab['name']) }} ? 'true' : 'false'"
+                @click="activeTab = {{ Js::from($tab['name']) }}"
                 @if(!empty($tab['disabled'])) disabled @endif
             >
                 @if(!empty($tab['icon']))

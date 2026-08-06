@@ -106,3 +106,29 @@ describe('cssValue', function () {
             ->toContain('aspect-ratio: 16/9');
     });
 });
+
+describe('href in components that build the attribute by hand', function () {
+    /**
+     * data-card and notification-center.item assemble `href="..."` as a string
+     * and print it with {!! !!}. e() stopped the value escaping the attribute
+     * but said nothing about the scheme, and both of these usually carry a URL
+     * from the database.
+     */
+    it('drops an executable scheme instead of linking to it', function (string $markup) {
+        $html = Blade::render($markup);
+
+        expect($html)
+            ->not->toContain('javascript:')
+            ->not->toContain('href=');
+    })->with([
+        '<x-aura::data-card title="T" value="1" href="javascript:alert(1)" />',
+        '<x-aura::notification-center.item title="T" url="javascript:alert(1)" />',
+    ]);
+
+    it('still links to a legitimate URL', function (string $markup, string $expected) {
+        expect(Blade::render($markup))->toContain($expected);
+    })->with([
+        ['<x-aura::data-card title="T" value="1" href="/orders/42" />', 'href="/orders/42"'],
+        ['<x-aura::notification-center.item title="T" url="https://example.com/n/1" />', 'href="https://example.com/n/1"'],
+    ]);
+});

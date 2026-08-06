@@ -12,15 +12,15 @@
 
 <div
     class="aura-accordion-item"
-    @if($open) x-init="openItems.push('{{ $itemName }}')" @endif
+    @if($open) x-init="openItems.push({{ Js::from($itemName) }})" @endif
     {{ $attributes }}
 >
     <button
         type="button"
         class="aura-accordion-trigger flex items-center justify-between w-full px-4 py-3.5 text-sm font-medium text-aura-surface-900 bg-transparent border-none cursor-pointer text-left aura-transition-fast hover:bg-aura-surface-50"
-        x-bind:class="{ 'aura-accordion-trigger-open bg-aura-surface-50': openItems.includes('{{ $itemName }}') }"
-        @click="toggle('{{ $itemName }}')"
-        x-bind:aria-expanded="openItems.includes('{{ $itemName }}') ? 'true' : 'false'"
+        x-bind:class="{ 'aura-accordion-trigger-open bg-aura-surface-50': openItems.includes({{ Js::from($itemName) }}) }"
+        @click="toggle({{ Js::from($itemName) }})"
+        x-bind:aria-expanded="openItems.includes({{ Js::from($itemName) }}) ? 'true' : 'false'"
         @if($disabled) disabled @endif
     >
         <span class="aura-accordion-trigger-text inline-flex items-center gap-2">
@@ -29,12 +29,12 @@
             @endif
             {{ $title }}
         </span>
-        <x-aura::icon name="chevron-down" size="sm" class="aura-accordion-chevron shrink-0 text-aura-surface-400 aura-transition-fast" x-bind:class="{ 'aura-accordion-chevron-open': openItems.includes('{{ $itemName }}') }" />
+        <x-aura::icon name="chevron-down" size="sm" class="aura-accordion-chevron shrink-0 text-aura-surface-400 aura-transition-fast" x-bind:class="{ 'aura-accordion-chevron-open': openItems.includes({{ Js::from($itemName) }}) }" />
     </button>
 
     <div
         class="aura-accordion-content"
-        x-show="openItems.includes('{{ $itemName }}')"
+        x-show="openItems.includes({{ Js::from($itemName) }})"
         x-collapse
         x-cloak
     >

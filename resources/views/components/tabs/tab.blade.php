@@ -5,7 +5,7 @@
 <div
     class="aura-tabs-panel"
     role="tabpanel"
-    x-show="activeTab === '{{ $name }}'"
+    x-show="activeTab === {{ Js::from($name) }}"
     x-cloak
     {{ $attributes }}
 >

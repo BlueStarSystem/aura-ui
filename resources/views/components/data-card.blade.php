@@ -10,7 +10,9 @@
 
 @php
     $tag = $href ? 'a' : 'div';
-    $extraAttrs = $href ? 'href="' . e($href) . '"' : '';
+    $safeUrl = \BlueStarSystem\AuraUI\Support\Html::url($href, '');
+    // e() blocca l uscita dall attributo ma non lo schema: javascript: passava.
+    $extraAttrs = $safeUrl !== '' ? 'href="' . e($safeUrl) . '"' : '';
     $changeClass = match($changeType) {
         'positive' => 'aura-data-card__change--positive',
         'negative' => 'aura-data-card__change--negative',
