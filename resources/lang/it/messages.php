@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'required' => 'Obbligatorio',
+    'optional' => 'facoltativo',
+    'show_password' => 'Mostra la password',
+    'hide_password' => 'Nascondi la password',
+    'increase' => 'Aumenta',
+    'decrease' => 'Diminuisci',
+    'minimum' => 'Minimo',
+    'maximum' => 'Massimo',
     'opens_in_new_tab' => 'si apre in una nuova scheda',
     'skip_to_content' => 'Vai al contenuto principale',
     'close' => 'Chiudi',

@@ -40,3 +40,46 @@
         white-space: normal;
     }
 }
+
+/*
+ * Two stacked range inputs on one track. Each input covers the whole track so
+ * both handles stay reachable, but a transparent input would swallow the
+ * pointer for the one underneath — so only the thumbs receive pointer events.
+ * Keyboard focus is unaffected: the inputs are still real, still tabbable.
+ */
+@layer base {
+    .aura-range-slider-input {
+        pointer-events: none;
+    }
+
+    .aura-range-slider-input::-webkit-slider-thumb {
+        pointer-events: auto;
+        appearance: none;
+        width: 1.125rem;
+        height: 1.125rem;
+        border-radius: 9999px;
+        background: var(--color-aura-surface-0, #fff);
+        border: 2px solid var(--color-aura-primary-600, #4f46e5);
+        cursor: grab;
+    }
+
+    .aura-range-slider-input::-moz-range-thumb {
+        pointer-events: auto;
+        width: 1.125rem;
+        height: 1.125rem;
+        border-radius: 9999px;
+        background: var(--color-aura-surface-0, #fff);
+        border: 2px solid var(--color-aura-primary-600, #4f46e5);
+        cursor: grab;
+    }
+
+    .aura-range-slider-input:focus-visible::-webkit-slider-thumb {
+        outline: 2px solid var(--color-aura-primary-600, #4f46e5);
+        outline-offset: 2px;
+    }
+
+    .aura-range-slider-input:focus-visible::-moz-range-thumb {
+        outline: 2px solid var(--color-aura-primary-600, #4f46e5);
+        outline-offset: 2px;
+    }
+}

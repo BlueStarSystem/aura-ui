@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'required' => 'Required',
+    'optional' => 'optional',
+    'show_password' => 'Show password',
+    'hide_password' => 'Hide password',
+    'increase' => 'Increase',
+    'decrease' => 'Decrease',
+    'minimum' => 'Minimum',
+    'maximum' => 'Maximum',
     'opens_in_new_tab' => 'opens in a new tab',
     'skip_to_content' => 'Skip to main content',
     'close' => 'Close',

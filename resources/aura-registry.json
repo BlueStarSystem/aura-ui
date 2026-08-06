@@ -443,6 +443,18 @@
         ],
         "deps": []
     },
+    "label": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "label.blade.php"
+        ],
+        "deps": [
+            "field",
+            "input",
+            "visually-hidden"
+        ]
+    },
     "layout": {
         "tier": "free",
         "type": "component",
@@ -530,6 +542,16 @@
             "icon"
         ]
     },
+    "number-input": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "number-input.blade.php"
+        ],
+        "deps": [
+            "label"
+        ]
+    },
     "otp": {
         "tier": "free",
         "type": "component",
@@ -546,6 +568,17 @@
         ],
         "deps": [
             "icon"
+        ]
+    },
+    "password-input": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "password-input.blade.php"
+        ],
+        "deps": [
+            "icon",
+            "label"
         ]
     },
     "popover": {
@@ -615,6 +648,14 @@
         "type": "component",
         "files": [
             "radio-group.blade.php"
+        ],
+        "deps": []
+    },
+    "range-slider": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "range-slider.blade.php"
         ],
         "deps": []
     },
