@@ -7,7 +7,10 @@
 <nav
     {{ $attributes->class([
         'aura-navbar w-full bg-aura-surface-0 z-aura-sticky',
-        'sticky top-0' => $sticky,
+        {{-- The marker is what the base stylesheet keys the page's
+             scroll-padding off, so a focused element is not scrolled under the
+             bar — WCAG 2.2 SC 2.4.11 Focus Not Obscured. --}}
+        'aura-navbar-sticky sticky top-0' => $sticky,
         'aura-glass backdrop-blur-lg bg-aura-surface-0/80' => $glass,
         'border-b border-aura-surface-200' => $bordered,
     ]) }}

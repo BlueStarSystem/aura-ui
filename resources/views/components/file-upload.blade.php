@@ -163,7 +163,7 @@
                     <span class="aura-file-upload-name block text-sm font-medium text-aura-surface-900 truncate" x-text="file.name"></span>
                     <span class="aura-file-upload-size block text-xs text-aura-surface-400" x-text="file.size"></span>
                 </div>
-                <button type="button" class="aura-file-upload-remove shrink-0 p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-danger-500 hover:bg-aura-danger-50" x-on:click.stop="removeFile(idx)" aria-label="{{ __('aura-ui::messages.remove') }}">
+                <button type="button" class="inline-flex items-center justify-center min-w-6 min-h-6 aura-file-upload-remove shrink-0 p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-danger-500 hover:bg-aura-danger-50" x-on:click.stop="removeFile(idx)" aria-label="{{ __('aura-ui::messages.remove') }}">
                     <x-aura::icon name="x" size="xs" />
                 </button>
             </div>

@@ -16,4 +16,4 @@
         'focus:z-[100] focus:rounded-md focus:bg-aura-primary-600 focus:px-4 focus:py-2',
         'focus:text-white focus:shadow-aura-lg focus:outline-none focus:ring-2 focus:ring-aura-primary-600 focus:ring-offset-2',
     ]) }}
->{{ $slot->isEmpty() ? __('aura-ui::messages.skip_to_content') : $slot }}</a>
+>{{ \BlueStarSystem\AuraUI\Support\Html::slotIsEmpty($slot) ? __('aura-ui::messages.skip_to_content') : $slot }}</a>

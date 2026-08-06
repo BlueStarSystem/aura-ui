@@ -3,7 +3,7 @@
     'description' => null,
     'time' => null,
     'read' => false,
-    'icon' => 'heroicon-o-bell',
+    'icon' => 'bell',
     'color' => 'primary',
     'url' => null,
 ])

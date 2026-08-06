@@ -83,3 +83,21 @@
         outline-offset: 2px;
     }
 }
+
+/*
+ * WCAG 2.2 SC 2.4.11 Focus Not Obscured (Minimum).
+ *
+ * A sticky navbar covers the top of the viewport, so tabbing to something just
+ * above the fold scrolls it underneath the bar: focused, invisible, and the
+ * keyboard user has no way to know where they are.
+ *
+ * scroll-padding belongs to the scrolling element, which a component cannot
+ * reach from its own markup — :has() lets the stylesheet apply it only when a
+ * sticky navbar is actually on the page, with no prop for the developer to
+ * remember. The value is the bar's height plus room to breathe.
+ */
+@layer base {
+    html:has(.aura-navbar-sticky) {
+        scroll-padding-top: 5rem;
+    }
+}

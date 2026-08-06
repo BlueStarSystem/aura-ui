@@ -202,7 +202,7 @@
         />
         <div class="aura-datepicker-icons absolute right-0 top-0 h-full flex items-center gap-1 pr-2">
             @if($clearable)
-                <button type="button" class="aura-datepicker-clear p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-surface-700" x-show="displayValue" x-on:click.stop="clear()" aria-label="{{ __('aura-ui::messages.clear') }}">
+                <button type="button" class="inline-flex items-center justify-center min-w-6 min-h-6 aura-datepicker-clear p-1 bg-transparent border-none text-aura-surface-400 cursor-pointer rounded-aura-sm aura-transition-fast hover:text-aura-surface-700" x-show="displayValue" x-on:click.stop="clear()" aria-label="{{ __('aura-ui::messages.clear') }}">
                     <x-aura::icon name="x" size="xs" />
                 </button>
             @endif

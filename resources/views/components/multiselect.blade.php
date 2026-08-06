@@ -66,7 +66,7 @@
         <template x-for="v in selected" :key="v">
             <span class="aura-multiselect-chip inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-aura-primary-50 text-aura-primary-700 rounded-aura-full">
                 <span x-text="labelFor(v)"></span>
-                <button type="button" class="inline-flex items-center justify-center p-0.5 bg-transparent border-none text-aura-primary-400 cursor-pointer rounded-full hover:text-aura-primary-700 hover:bg-aura-primary-100" x-on:click.stop="remove(v)" aria-label="{{ __('aura-ui::messages.remove') }}">
+                <button type="button" class="inline-flex items-center justify-center min-w-6 min-h-6 p-0.5 bg-transparent border-none text-aura-primary-400 cursor-pointer rounded-full hover:text-aura-primary-700 hover:bg-aura-primary-100" x-on:click.stop="remove(v)" aria-label="{{ __('aura-ui::messages.remove') }}">
                     <x-aura::icon name="x" size="xs" />
                 </button>
             </span>

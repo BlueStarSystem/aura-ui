@@ -39,6 +39,30 @@ final class Html
     }
 
     /**
+     * Whether a slot is empty in the way a template author means it.
+     *
+     * `ComponentSlot::isEmpty()` trims and compares, which is right until
+     * Livewire is involved: it wraps every @if and @forelse in
+     * `<!--[if BLOCK]><![endif]-->` markers, and trim() does not remove a
+     * comment. A slot holding nothing but those markers therefore reports as
+     * full, and any component choosing an empty state from isEmpty() silently
+     * stops offering one.
+     *
+     * Reported by the BeautyFlow instance after their notification list stayed
+     * blank instead of showing its empty state.
+     */
+    public static function slotIsEmpty(mixed $slot): bool
+    {
+        if ($slot === null) {
+            return true;
+        }
+
+        $html = is_object($slot) && method_exists($slot, 'toHtml') ? $slot->toHtml() : (string) $slot;
+
+        return trim((string) preg_replace('/<!--.*?-->/s', '', $html)) === '';
+    }
+
+    /**
      * A stable id for a form control.
      *
      * The components used `uniqid()`, which produces a different id on every

@@ -2,12 +2,19 @@
     'count' => 0,
     'position' => 'bottom-end',
     'maxHeight' => '24rem',
+    'label' => null,
 ])
 
 @php
     // Falls back rather than emitting whatever arrived: this lands inside a
     // style attribute, where a semicolon starts a second declaration.
     $safeMaxHeight = \BlueStarSystem\AuraUI\Support\Html::cssValue($maxHeight) ?? '24rem';
+
+    // Overridable, because the attribute bag lands on the wrapper and never
+    // reached the button — there was no way to change this from outside.
+    $triggerLabel = $label ?? ((int) $count > 0
+        ? __('aura-ui::messages.notifications_unread', ['count' => (int) $count])
+        : __('aura-ui::messages.notifications'));
 @endphp
 
 <div
@@ -20,7 +27,12 @@
         type="button"
         class="aura-notification-center__trigger"
         @click="open = !open"
-        aria-label="{{ __('aura-ui::messages.notifications') }}"
+        {{-- The label carries the count when there is one. An aria-label
+             REPLACES the button's content for a screen reader, so the badge's
+             number was being read by nobody: a sighted user saw "2", everyone
+             else heard "Notifications, button". Reported by the BeautyFlow
+             instance, who had to bolt a live region beside the component. --}}
+        aria-label="{{ $triggerLabel }}"
         :aria-expanded="open"
     >
         <svg class="aura-notification-center__bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -46,7 +58,7 @@
         aria-label="{{ __('aura-ui::messages.notifications') }}"
     >
         <div class="aura-notification-center__list" style="max-height: {{ $safeMaxHeight }}">
-            @if ($slot->isEmpty() && isset($empty))
+            @if (\BlueStarSystem\AuraUI\Support\Html::slotIsEmpty($slot) && isset($empty))
                 <div class="aura-notification-center__empty">
                     {{ $empty }}
                 </div>

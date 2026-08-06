@@ -48,7 +48,7 @@
     </svg>
     @if($showLabel)
         <span class="absolute inset-0 flex items-center justify-center font-semibold {{ $dimensions['text'] }}">
-            {{ $slot->isEmpty() ? $val . '%' : $slot }}
+            {{ \BlueStarSystem\AuraUI\Support\Html::slotIsEmpty($slot) ? $val . '%' : $slot }}
         </span>
     @endif
 </div>

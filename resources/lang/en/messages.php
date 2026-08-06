@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'notifications_unread' => 'Notifications (:count unread)',
     'required' => 'Required',
     'optional' => 'optional',
     'show_password' => 'Show password',

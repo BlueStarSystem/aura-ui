@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'notifications_unread' => 'Notifiche (:count da leggere)',
     'required' => 'Obbligatorio',
     'optional' => 'facoltativo',
     'show_password' => 'Mostra la password',
