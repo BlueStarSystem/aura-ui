@@ -136,3 +136,19 @@ it('merges custom attributes', function () {
 
     expect($html)->toContain('id="cmd"');
 });
+
+it('opens on a window event, not only on Ctrl+K', function () {
+    $html = Blade::render('<x-aura::command-palette>c</x-aura::command-palette>');
+
+    expect($html)
+        ->toContain('open-command-palette.window="openPalette()"')
+        ->toContain('close-command-palette.window="closePalette()"');
+});
+
+it('only answers events carrying its own name', function () {
+    $html = Blade::render('<x-aura::command-palette name="search">c</x-aura::command-palette>');
+
+    expect($html)
+        ->toContain("\$event.detail === 'search'")
+        ->toContain('openPalette()');
+});

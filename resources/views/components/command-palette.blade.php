@@ -2,7 +2,23 @@
     'placeholder' => 'Search commands...',
     'emptyText' => 'No results found.',
     'shortcut' => 'Cmd+K',
+    'name' => null,
 ])
+
+@php
+    /**
+     * Ctrl+K was the only way in, which leaves out anyone on a touch device
+     * and anyone driving the page from Livewire. The window events mirror
+     * modal and drawer: the name, when given, travels as the event detail.
+     */
+    $openCondition = $name === null
+        ? 'openPalette()'
+        : sprintf('if ($event.detail === %s) openPalette()', \Illuminate\Support\Js::from($name));
+
+    $closeCondition = $name === null
+        ? 'closePalette()'
+        : sprintf('if ($event.detail === %s) closePalette()', \Illuminate\Support\Js::from($name));
+@endphp
 
 <div
     class="aura-command-palette"
@@ -33,6 +49,8 @@
     x-on:keydown.meta.k.window.prevent="open ? closePalette() : openPalette()"
     x-on:keydown.ctrl.k.window.prevent="open ? closePalette() : openPalette()"
     x-on:keydown.escape.window="closePalette()"
+    x-on:open-command-palette.window="{!! $openCondition !!}"
+    x-on:close-command-palette.window="{!! $closeCondition !!}"
     {{ $attributes }}
 >
     <template x-teleport="body">
