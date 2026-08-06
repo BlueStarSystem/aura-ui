@@ -323,6 +323,12 @@
 .dark .aura-notification-center__item:hover { background: rgba(255,255,255,0.04); }
 .dark .aura-notification-center__badge { border-color: var(--color-aura-surface-0); }
 
+/* Accents do NOT invert with the surfaces, so a shade that clears 4.5:1 on
+   white can fail on the dark card. success-700 is 5.02:1 in light and 3.26:1
+   in dark; the -400 shades are the readable ones there. */
+.dark .aura-data-card__change--positive { color: var(--color-aura-success-400); }
+.dark .aura-data-card__change--negative { color: var(--color-aura-danger-400); }
+
 /* Data Card */
 .aura-data-card {
     display: flex; flex-direction: column; gap: 0.5rem;

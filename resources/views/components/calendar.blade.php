@@ -185,6 +185,19 @@
             return date.toLocaleString({{ Js::from($locale) }}, { weekday: 'short', day: 'numeric' });
         },
 
+        themeTick: 0,
+
+        init() {
+            // Chip ink is derived from the background, so it has to be
+            // recomputed when the theme changes. A class landing on <html> is
+            // not reactive, so the styles otherwise keep the ink they were
+            // first given.
+            if (typeof MutationObserver !== 'undefined') {
+                new MutationObserver(() => { this._inkCache = {}; this.themeTick++; })
+                    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            }
+        },
+
         isToday(date) {
             const today = new Date();
             return date.toDateString() === today.toDateString();
@@ -199,8 +212,16 @@
          * demo with.
          */
         eventTextColor(background) {
+            // Read so Alpine treats the theme as a dependency of this style.
+            this.themeTick;
+
             const fallback = '#ffffff';
             if (!background) return fallback;
+
+            // Called for every event on every reactive render; without the
+            // cache this is pure repeated work on each keystroke and scroll.
+            this._inkCache = this._inkCache || {};
+            if (this._inkCache[background]) return this._inkCache[background];
 
             let r, g, b;
             const hex = background.trim().replace('#', '');
@@ -210,16 +231,38 @@
             } else if (/^[0-9a-f]{3}$/i.test(hex)) {
                 [r, g, b] = [...hex].map((c) => parseInt(c + c, 16));
             } else {
-                const m = background.match(/\d+/g);
-                if (!m || m.length < 3) return fallback;
-                [r, g, b] = m.slice(0, 3).map(Number);
+                // Named colours ('orange'), hsl(), oklch(): let the browser
+                // resolve whatever CSS accepts rather than guessing. Reading
+                // digits out of the string returned nothing for 'orange' and
+                // the chip fell back to white text on amber — 2.14:1.
+                const probe = document.createElement('span');
+                probe.style.cssText = 'position:absolute;visibility:hidden';
+                probe.style.color = background;
+                document.body.appendChild(probe);
+                const resolved = getComputedStyle(probe).color.match(/\d+/g);
+                probe.remove();
+
+                if (!resolved || resolved.length < 3) return fallback;
+                [r, g, b] = resolved.slice(0, 3).map(Number);
             }
 
             const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
             const L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+            const against = (l) => (Math.max(l, L) + 0.05) / (Math.min(l, L) + 0.05);
 
-            // Contrast against white vs against the darkest surface; take whichever wins.
-            return (1.05 / (L + 0.05)) >= ((L + 0.05) / 0.0631) ? '#ffffff' : '#0f172a';
+            // The near-black of the theme reads better on a chip than pure
+            // black, so it is tried first — but on a saturated red it reaches
+            // only 4.46:1, and looking right matters less than being legible.
+            const candidates = [
+                ['#0f172a', against(0.0111)],
+                ['#ffffff', against(1)],
+                ['#000000', against(0)],
+            ];
+
+            const best = candidates.find(([, ratio]) => ratio >= 4.5)
+                ?? candidates.sort((a, b) => b[1] - a[1])[0];
+
+            return (this._inkCache[background] = best[0]);
         },
 
         dateStr(date) {
