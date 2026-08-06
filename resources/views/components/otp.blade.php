@@ -41,11 +41,25 @@
         }
     }"
 >
+    @php
+        $otpId = 'aura-otp-'.\Illuminate\Support\Str::random(8);
+        $otpDescribedBy = $error ? $otpId.'-error' : ($hint ? $otpId.'-hint' : null);
+    @endphp
+
     @if($label)
-        <label class="aura-label">{{ $label }}</label>
+        <span class="aura-label" id="{{ $otpId }}-label">{{ $label }}</span>
     @endif
 
-    <div class="aura-otp-inputs flex items-center gap-2" x-on:paste="onPaste($event)">
+    {{-- Each box is a separate input, so without a name of its own a screen
+         reader announces six identical unlabelled fields. The group carries the
+         label, each box says which digit it is. --}}
+    <div
+        class="aura-otp-inputs flex items-center gap-2"
+        role="group"
+        @if($label) aria-labelledby="{{ $otpId }}-label" @else aria-label="{{ __('aura-ui::messages.verification_code') }}" @endif
+        @if($otpDescribedBy) aria-describedby="{{ $otpDescribedBy }}" @endif
+        x-on:paste="onPaste($event)"
+    >
         @for($i = 0; $i < $len; $i++)
             <input
                 type="text"
@@ -57,14 +71,19 @@
                 x-on:input="onInput($event, {{ $i }})"
                 x-on:keydown="onKeydown($event, {{ $i }})"
                 @if($disabled) disabled @endif
-                autocomplete="off"
+                aria-label="{{ __('aura-ui::messages.digit_n_of_max', ['n' => $i + 1, 'max' => $len]) }}"
+                @if($error) aria-invalid="true" @endif
+                {{-- one-time-code lets the phone offer the SMS it just received;
+                     "off" told it not to. Only the first box, or the OS fills
+                     every one of them with the whole code. --}}
+                autocomplete="{{ $i === 0 ? 'one-time-code' : 'off' }}"
             />
         @endfor
     </div>
 
     @if($error)
-        <p class="aura-input-error-text">{{ $error }}</p>
+        <p class="aura-input-error-text" id="{{ $otpId }}-error">{{ $error }}</p>
     @elseif($hint)
-        <p class="aura-input-hint">{{ $hint }}</p>
+        <p class="aura-input-hint" id="{{ $otpId }}-hint">{{ $hint }}</p>
     @endif
 </div>

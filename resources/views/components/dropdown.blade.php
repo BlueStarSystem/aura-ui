@@ -10,7 +10,20 @@
 @endphp
 
 <div class="aura-dropdown relative inline-block" x-data="{ open: false }" {{ $attributes }}>
-    <div x-on:click="open = !open" class="aura-dropdown-trigger" x-ref="auraDropdownTrigger" aria-haspopup="menu" :aria-expanded="open">
+    {{-- The ARIA used to sit on this wrapper, which has no role and therefore
+         allows neither attribute — so the menu's open state was announced by
+         nothing. It belongs on whatever interactive element the caller put in
+         the trigger slot, which is also the thing that takes focus. --}}
+    <div
+        x-on:click="open = !open"
+        class="aura-dropdown-trigger"
+        x-ref="auraDropdownTrigger"
+        x-effect="
+            const trigger = $el.querySelector('button, [role=button], a[href], input, summary') ?? $el;
+            trigger.setAttribute('aria-haspopup', 'menu');
+            trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        "
+    >
         {{ $trigger }}
     </div>
 

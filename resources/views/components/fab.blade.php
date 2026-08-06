@@ -3,6 +3,7 @@
     'size' => 'md',
     'color' => 'primary',
     'icon' => null,
+    'label' => null,
     'expandable' => false,
 ])
 
@@ -26,6 +27,9 @@
         default => 'h-5 w-5',
     };
 
+    $fabAriaLabel = $attributes->get('aria-label');
+    $attributes = $attributes->except('aria-label');
+
     $colorClass = match($color) {
         'success' => 'bg-aura-success-700 hover:bg-aura-success-800 text-white',
         'danger' => 'bg-aura-danger-600 hover:bg-aura-danger-700 text-white',
@@ -47,8 +51,13 @@
         </div>
     @endif
 
+    {{-- This button never has visible text, so without a name of its own a
+         screen reader announces it as just "button". An aria-label passed by
+         the caller lands on the wrapper div, where it names nothing, so it is
+         lifted out of the bag above. --}}
     <button type="button"
-            @if($expandable) x-on:click="open = !open" @endif
+            @if($expandable) x-on:click="open = !open" x-bind:aria-expanded="open ? 'true' : 'false'" @endif
+            aria-label="{{ $label ?: ($fabAriaLabel ?: __('aura-ui::messages.add')) }}"
             class="aura-fab-button {{ $sizeClass }} {{ $colorClass }} inline-flex items-center justify-center rounded-full shadow-lg aura-transition hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2">
         @if($icon)
             <x-aura::icon :name="$icon" :class="$iconSize" />

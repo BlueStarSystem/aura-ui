@@ -17,9 +17,14 @@
         @endif
 
         @if($showPerPage && !$simple)
+            @php $perPageId = 'aura-per-page-'.\Illuminate\Support\Str::random(8); @endphp
+
             <div class="aura-pagination-per-page flex items-center gap-1.5">
-                <label class="aura-pagination-per-page-label text-[13px] text-aura-surface-500 whitespace-nowrap">Rows:</label>
-                <select class="aura-select aura-input-sm aura-pagination-per-page-select w-auto min-w-[60px] py-1 px-2 pr-6 text-[13px] border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 text-aura-surface-900" wire:model.live="perPage">
+                {{-- The label had no `for` and the select no id, so the select was
+                     announced with no name; "Rows:" was also the one string in
+                     this component that never went through translation. --}}
+                <label for="{{ $perPageId }}" class="aura-pagination-per-page-label text-[13px] text-aura-surface-500 whitespace-nowrap">{{ __('aura-ui::messages.rows_per_page') }}</label>
+                <select id="{{ $perPageId }}" class="aura-select aura-input-sm aura-pagination-per-page-select w-auto min-w-[60px] py-1 px-2 pr-6 text-[13px] border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 text-aura-surface-900" wire:model.live="perPage">
                     @foreach($perPageOptions as $option)
                         <option value="{{ $option }}">{{ $option }}</option>
                     @endforeach

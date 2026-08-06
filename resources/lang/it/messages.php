@@ -26,6 +26,17 @@ return [
     'no_options' => 'Nessuna opzione',
     'rating' => 'Valutazione',
     'rate' => 'Valuta :n di :max',
+    'verification_code' => 'Codice di verifica',
+    'digit_n_of_max' => 'Cifra :n di :max',
+    'progress' => 'Avanzamento',
+    'rows_per_page' => 'Righe per pagina',
+    'toggle' => 'Interruttore',
+    'editor_content' => 'Contenuto editor',
+
+    'value' => 'Valore',
+
+    'add' => 'Aggiungi',
+
     'date_picker' => [
         'previous_year' => 'Anno precedente',
         'previous_month' => 'Mese precedente',

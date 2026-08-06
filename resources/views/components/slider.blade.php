@@ -16,6 +16,11 @@
 @php
     $initialValue = $value ?? $min;
     $initialPercentage = $max > $min ? (($initialValue - $min) / ($max - $min)) * 100 : 0;
+
+    // An aria-label passed by the caller has to reach the range input; left in
+    // the attribute bag it lands on the wrapper div, where it names nothing.
+    $sliderAriaLabel = $attributes->get('aria-label');
+    $attributes = $attributes->except('aria-label');
 @endphp
 
 <div
@@ -30,10 +35,18 @@
         }
     }"
 >
+    @php
+        $sliderId = $attributes->get('id') ?: 'aura-slider-'.\Illuminate\Support\Str::random(8);
+        $sliderDescribedBy = $error ? $sliderId.'-error' : ($hint ? $sliderId.'-hint' : null);
+    @endphp
+
     @if($label || $showValue)
         <div class="aura-slider-header flex items-center justify-between">
             @if($label)
-                <label class="aura-label">{{ $label }}</label>
+                {{-- The `for` is the whole point: without it the label sits beside
+                     the track and names nothing, and the range input is announced
+                     with no name at all. --}}
+                <label class="aura-label" for="{{ $sliderId }}">{{ $label }}</label>
             @endif
             @if($showValue)
                 <span class="aura-slider-value text-sm font-medium text-aura-surface-700">
@@ -46,11 +59,15 @@
     <div class="aura-slider-track-wrapper py-1">
         <input
             type="range"
+            id="{{ $sliderId }}"
             class="aura-slider aura-slider-{{ $color }}"
             x-model="value"
             min="{{ $min }}"
             max="{{ $max }}"
             step="{{ $step }}"
+            @unless($label) aria-label="{{ $sliderAriaLabel ?: __('aura-ui::messages.value') }}" @endunless
+            @if($sliderDescribedBy) aria-describedby="{{ $sliderDescribedBy }}" @endif
+            @if($error) aria-invalid="true" @endif
             @if($disabled) disabled @endif
             style="--aura-slider-progress: {{ $initialPercentage }}%"
             x-bind:style="'--aura-slider-progress: ' + percentage + '%'"

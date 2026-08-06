@@ -33,6 +33,11 @@
 
 <div {{ $attributes->class(['aura-radial-progress inline-flex items-center justify-center relative', $colorClass]) }}
      role="progressbar"
+     {{-- Values without a name leave a screen reader announcing a bare
+          percentage, with nothing to say what is progressing. --}}
+     @unless($attributes->has('aria-label') || $attributes->has('aria-labelledby'))
+         aria-label="{{ __('aura-ui::messages.progress') }}"
+     @endunless
      aria-valuenow="{{ $val }}"
      aria-valuemin="0"
      aria-valuemax="100">

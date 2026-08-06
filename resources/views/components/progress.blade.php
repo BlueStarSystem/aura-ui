@@ -40,7 +40,10 @@
     if ($animated) $barClasses[] = 'aura-progress-animated';
 @endphp
 
-<div {{ $attributes->class(['aura-progress', "aura-progress-{$size}", 'w-full']) }} role="progressbar" aria-valuenow="{{ $value }}" aria-valuemin="0" aria-valuemax="{{ $max }}">
+{{-- A progressbar with values but no name is announced as a bare percentage,
+     with nothing to say what is progressing. The `label` prop is a boolean that
+     shows the figure, so it cannot serve as the name. --}}
+<div {{ $attributes->class(['aura-progress', "aura-progress-{$size}", 'w-full']) }} role="progressbar" @unless($attributes->has('aria-label') || $attributes->has('aria-labelledby')) aria-label="{{ __('aura-ui::messages.progress') }}" @endunless aria-valuenow="{{ $value }}" aria-valuemin="0" aria-valuemax="{{ $max }}">
     <div class="aura-progress-track w-full bg-aura-surface-200 rounded-aura-full overflow-hidden {{ $trackHeight }}">
         <div class="{{ implode(' ', $barClasses) }}" style="width: {{ $percentage }}%">
             @if($label && $size !== 'sm')

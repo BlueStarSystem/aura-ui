@@ -79,8 +79,15 @@
         }
     }"
 >
+    @php
+        $editorId = 'aura-editor-'.\Illuminate\Support\Str::random(8);
+        $editorDescribedBy = $error ? $editorId.'-error' : ($hint ? $editorId.'-hint' : null);
+    @endphp
+
     @if($label)
-        <label class="aura-label">{{ $label }}</label>
+        {{-- A contenteditable div is not a form control, so `for` would not bind
+             to it. aria-labelledby is what names a role="textbox". --}}
+        <span class="aura-label" id="{{ $editorId }}-label">{{ $label }}</span>
     @endif
 
     <div class="aura-editor border border-aura-surface-500 rounded-aura-md overflow-hidden {{ $error ? 'aura-editor-error border-aura-danger-500' : '' }} {{ $disabled ? 'aura-editor-disabled opacity-50 pointer-events-none' : '' }}">
@@ -117,13 +124,17 @@
             style="min-height: {{ $safeMinHeight }}"
             role="textbox"
             aria-multiline="true"
+            @if($label) aria-labelledby="{{ $editorId }}-label" @else aria-label="{{ __('aura-ui::messages.editor_content') }}" @endif
+            @if($editorDescribedBy) aria-describedby="{{ $editorDescribedBy }}" @endif
+            @if($error) aria-invalid="true" @endif
+            @if($disabled) aria-disabled="true" @endif
             @if($placeholder) data-placeholder="{{ $placeholder }}" @endif
         ></div>
     </div>
 
     @if($error)
-        <p class="aura-input-error-text">{{ $error }}</p>
+        <p class="aura-input-error-text" id="{{ $editorId }}-error">{{ $error }}</p>
     @elseif($hint)
-        <p class="aura-input-hint">{{ $hint }}</p>
+        <p class="aura-input-hint" id="{{ $editorId }}-hint">{{ $hint }}</p>
     @endif
 </div>

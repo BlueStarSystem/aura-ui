@@ -107,9 +107,15 @@ it('marks dropdown as a menu with proper trigger semantics', function () {
 
     expect($html)
         ->toContain('role="menu"')
-        ->toContain('aria-haspopup="menu"')
         ->toContain('role="menuitem"')
         ->toContain('role="separator"');
+
+    // aria-haspopup and aria-expanded are put on the caller's own trigger
+    // element, not on the wrapper div: the wrapper has no role, and neither
+    // attribute is allowed on a role-less element, so it announced nothing.
+    expect($html)
+        ->toContain("setAttribute('aria-haspopup', 'menu')")
+        ->toContain("setAttribute('aria-expanded'");
 });
 
 it('marks command-palette dialog with role and aria-modal', function () {
@@ -118,4 +124,69 @@ it('marks command-palette dialog with role and aria-modal', function () {
     expect($html)
         ->toContain('role="dialog"')
         ->toContain('aria-modal="true"');
+});
+
+/**
+ * These nine were found by running every component through a real browser with
+ * axe-core on 2026-08-06. The PHP suite was green throughout: it never looked
+ * at accessible names.
+ */
+it('names each OTP box and the group around them', function () {
+    $html = Blade::render('<x-aura::otp label="Verification code" :length="4" />');
+
+    expect($html)
+        ->toContain('role="group"')
+        ->toContain('aria-label="Digit 1 of 4"')
+        ->toContain('aria-label="Digit 4 of 4"')
+        ->toContain('autocomplete="one-time-code"');
+});
+
+it('ties the slider label to the range input', function () {
+    $html = Blade::render('<x-aura::slider label="Volume" />');
+
+    expect($html)->toMatch('/<label[^>]+for="(aura-slider-[^"]+)"[\s\S]+id="\1"/');
+});
+
+it('names a slider that has no visible label', function () {
+    expect(Blade::render('<x-aura::slider />'))->toContain('aria-label="Value"');
+});
+
+it('names the FAB, which never has visible text', function () {
+    expect(Blade::render('<x-aura::fab />'))->toContain('aria-label="Add"');
+    expect(Blade::render('<x-aura::fab label="New order" />'))->toContain('aria-label="New order"');
+});
+
+it('makes the swap a button so a keyboard can reach it', function () {
+    $html = Blade::render('<x-aura::swap label="Dark mode"><x-slot:on>on</x-slot:on><x-slot:off>off</x-slot:off></x-aura::swap>');
+
+    expect($html)
+        ->toContain('<button')
+        ->toContain('role="switch"')
+        ->toContain('aria-label="Dark mode"');
+});
+
+it('names both progress bars', function () {
+    expect(Blade::render('<x-aura::progress :value="40" />'))->toContain('aria-label="Progress"');
+    expect(Blade::render('<x-aura::radial-progress :value="40" />'))->toContain('aria-label="Progress"');
+});
+
+it('names the rows-per-page select and translates its label', function () {
+    $paginator = new Illuminate\Pagination\LengthAwarePaginator(range(1, 10), 137, 10, 1, ['path' => '']);
+    $html = Blade::render('<x-aura::pagination :paginator="$p" />', ['p' => $paginator]);
+
+    expect($html)
+        ->toContain('Rows per page')
+        ->toMatch('/<label for="(aura-per-page-[^"]+)"[\s\S]+<select id="\1"/');
+});
+
+it('gives the date and time pickers a role that allows aria-expanded', function () {
+    expect(Blade::render('<x-aura::date-picker />'))->toContain('role="combobox"');
+    expect(Blade::render('<x-aura::time-picker />'))->toContain('role="combobox"');
+});
+
+it('names the editor content area', function () {
+    expect(Blade::render('<x-aura::editor />'))->toContain('aria-label="Editor content"');
+
+    $labelled = Blade::render('<x-aura::editor label="Body" />');
+    expect($labelled)->toMatch('/id="(aura-editor-[^"]+)-label"[\s\S]+aria-labelledby="\1-label"/');
 });

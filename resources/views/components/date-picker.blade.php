@@ -197,6 +197,10 @@
             readonly
             @if($disabled) disabled @endif
             x-on:click="if (!{{ $disabled ? 'true' : 'false' }}) open = !open"
+            {{-- role="combobox" is what makes aria-expanded and
+                 aria-haspopup legal here: a plain text input does not allow
+                 them, so the state was being announced by nothing. --}}
+            role="combobox"
             aria-haspopup="dialog"
             x-bind:aria-expanded="open"
         />

@@ -26,6 +26,17 @@ return [
     'no_options' => 'No options',
     'rating' => 'Rating',
     'rate' => 'Rate :n of :max',
+    'verification_code' => 'Verification code',
+    'digit_n_of_max' => 'Digit :n of :max',
+    'progress' => 'Progress',
+    'rows_per_page' => 'Rows per page',
+    'toggle' => 'Toggle',
+    'editor_content' => 'Editor content',
+
+    'value' => 'Value',
+
+    'add' => 'Add',
+
     'date_picker' => [
         'previous_year' => 'Previous year',
         'previous_month' => 'Previous month',
