@@ -90,3 +90,44 @@ it('keeps checkbox and radio description ids stable across renders', function (s
     '<x-aura::checkbox name="terms" label="Accept" description="Required to continue" />',
     '<x-aura::radio name="plan" value="a" label="Alpha" description="The cheap one" />',
 ]);
+
+/**
+ * From the BeautyFlow instance's follow-up, docs/proposals/2026-08-06: the
+ * generated branch of fieldId() was still random per render. In a Livewire app
+ * a field often has no id, no name and no label on the component — the label
+ * is a separate element and there is no HTML submit to need a name — so 45 of
+ * their 194 fields landed there.
+ */
+it('derives a stable id from wire:model when nothing else is given', function () {
+    $markup = '<x-aura::input wire:model="allergies.0.allergen" />';
+    $html = Blade::render($markup);
+
+    expect($html)->toContain('id="aura-allergies-0-allergen"');
+    expect($html)->toBe(Blade::render($markup));
+});
+
+it('reads wire:model through its modifiers', function (string $attribute) {
+    expect(Blade::render('<x-aura::input '.$attribute.'="email" />'))->toContain('id="aura-email"');
+})->with(['wire:model', 'wire:model.live', 'wire:model.blur', 'wire:model.live.debounce.500ms']);
+
+it('prefixes the wire:model id so it cannot collide with a hand-written one', function () {
+    // BeautyFlow had <input id="bookingColor"> beside a component bound to the
+    // same property; without the prefix the page would carry two of that id.
+    expect(Blade::render('<x-aura::input wire:model="bookingColor" />'))
+        ->toContain('id="aura-bookingColor"')
+        ->not->toContain('id="bookingColor"');
+});
+
+it('still prefers an explicit id, a name and a label over wire:model', function () {
+    expect(Blade::render('<x-aura::input id="chosen" wire:model="prop" />'))->toContain('id="chosen"');
+    expect(Blade::render('<x-aura::input name="chosen" wire:model="prop" />'))->toContain('id="chosen"');
+});
+
+it('gives every control the same wire:model fallback', function (string $markup, string $expected) {
+    expect(Blade::render($markup))->toContain($expected);
+})->with([
+    'textarea' => ['<x-aura::textarea wire:model="notes" />', 'id="aura-notes"'],
+    'select' => ['<x-aura::select wire:model="plan" />', 'id="aura-plan"'],
+    'number-input' => ['<x-aura::number-input wire:model="qty" />', 'id="aura-qty"'],
+    'password-input' => ['<x-aura::password-input wire:model="secret" />', 'id="aura-secret"'],
+]);

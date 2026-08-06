@@ -9,7 +9,7 @@
 @php
     use BlueStarSystem\AuraUI\Support\Html;
 
-    $inputId = Html::fieldId($attributes->get('id'), $attributes->get('name'), $label);
+    $inputId = Html::fieldId($attributes->get('id'), $attributes->get('name'), $label, Html::wireModelFrom($attributes->getAttributes()));
     $descriptionId = $inputId.'-description';
 
     $describedBy = ($error || $hint)

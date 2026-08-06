@@ -13,7 +13,7 @@
 
     // Stable across renders: uniqid() gave the field a new id on every Livewire
     // round trip, rewriting the label's `for` and the aria-describedby.
-    $inputId = Html::fieldId($attributes->get('id'), $name, $label);
+    $inputId = Html::fieldId($attributes->get('id'), $name, $label, Html::wireModelFrom($attributes->getAttributes()));
     $descriptionId = $inputId.'-description';
 
     $describedBy = $error

@@ -46,17 +46,32 @@ final class Html
      * the input's `id` were being rewritten under the user on each round trip,
      * and any `aria-describedby` pointing at the error text went with them.
      *
-     * Derived from the id, then the name, then the label: an input with none
-     * of the three is already unusable, and only then do we fall back to
-     * something generated.
+     * Derived from the id, then the name, then wire:model, then the label.
+     *
+     * wire:model was added on the BeautyFlow instance's report: a Livewire app
+     * often has no id, no name and no label on the component itself — the label
+     * is a separate element and there is no HTML submit to need a name — and
+     * 45 of their 194 fields fell through to the generated branch, which was
+     * still random per render. The property a field is bound to is stable by
+     * definition.
+     *
+     * @param  mixed  $wireModel  the wire:model value, if the caller has one
      */
-    public static function fieldId(mixed $id, mixed $name = null, mixed $label = null): string
+    public static function fieldId(mixed $id, mixed $name = null, mixed $label = null, mixed $wireModel = null): string
     {
         foreach ([$id, $name] as $candidate) {
             if (is_string($candidate) && trim($candidate) !== '') {
                 // A name like `contact[email]` is not a valid id fragment.
-                return trim(preg_replace('/[^A-Za-z0-9_-]+/', '-', trim($candidate)) ?? '', '-');
+                return self::slugForId(trim($candidate));
             }
+        }
+
+        if (is_string($wireModel) && trim($wireModel) !== '') {
+            // Prefixed on purpose: deriving straight from the property would
+            // collide with a hand-written id="bookingColor" elsewhere on the
+            // page, and two elements sharing an id break `for` and
+            // aria-describedby for both.
+            return 'aura-'.self::slugForId(trim($wireModel));
         }
 
         if (is_string($label) && trim($label) !== '') {
@@ -64,6 +79,28 @@ final class Html
         }
 
         return 'aura-field-'.substr(md5(uniqid('', true)), 0, 8);
+    }
+
+    /**
+     * Pull the bound property out of an attribute bag: wire:model and every
+     * modifier of it (.live, .blur, .debounce.500ms …).
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    public static function wireModelFrom(array $attributes): ?string
+    {
+        foreach ($attributes as $key => $value) {
+            if (($key === 'wire:model' || str_starts_with((string) $key, 'wire:model.')) && is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+        }
+
+        return null;
+    }
+
+    private static function slugForId(string $value): string
+    {
+        return trim((string) preg_replace('/[^A-Za-z0-9_-]+/', '-', $value), '-');
     }
 
     /**

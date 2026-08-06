@@ -16,7 +16,7 @@
 @php
     use BlueStarSystem\AuraUI\Support\Html;
 
-    $groupId = Html::fieldId($attributes->get('id'), $attributes->get('name'), $label);
+    $groupId = Html::fieldId($attributes->get('id'), $attributes->get('name'), $label, Html::wireModelFrom($attributes->getAttributes()));
     $descriptionId = $groupId.'-description';
 
     $min = (float) $min;

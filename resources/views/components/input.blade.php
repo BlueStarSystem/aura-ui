@@ -20,7 +20,7 @@
     // Stable across renders: uniqid() gave the field a different id on every
     // Livewire round trip, which rewrote the label's `for` and the
     // aria-describedby pointing at the error text underneath the user.
-    $inputId = Html::fieldId($attributes->get('id'), $attributes->get('name'), $label);
+    $inputId = Html::fieldId($attributes->get('id'), $attributes->get('name'), $label, Html::wireModelFrom($attributes->getAttributes()));
     $descriptionId = $inputId.'-description';
 
     // Merged, not replaced: the bag may already carry an aria-describedby the
