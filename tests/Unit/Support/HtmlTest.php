@@ -85,7 +85,7 @@ describe('tag', function () {
 describe('cssValue', function () {
     it('accepts lengths, ratios and keywords', function (string $value) {
         expect(Html::cssValue($value))->toBe($value);
-    })->with(['16/9', '1/1', '60vh', '20rem', '100%', '320px', 'auto']);
+    })->with(['16/9', '1/1', '60vh', '20rem', '100%', '320px', 'auto', '#ef4444', '#fff', 'rebeccapurple']);
 
     it('rejects anything that could start a second declaration', function (mixed $value) {
         expect(Html::cssValue($value))->toBeNull();

@@ -143,9 +143,13 @@ final class Html
 
         $value = trim($value);
 
-        // Digits, letters, dot, slash, percent, space and hyphen cover
-        // `16/9`, `60vh`, `calc` is deliberately excluded: it brings
-        // parentheses, and parentheses bring url().
-        return preg_match('/^[0-9a-z.\/%\s-]+$/i', $value) === 1 ? $value : null;
+        // Digits, letters, dot, slash, percent, hash, comma, space and hyphen
+        // cover `16/9`, `60vh`, `#ef4444` and `auto`. None of them can end a
+        // declaration or open a function call.
+        //
+        // Parentheses are excluded on purpose, which also rules out `calc()`,
+        // `rgb()` and `var()`: they are the doorway `url()` comes through, and
+        // a component prop is not where those belong.
+        return preg_match('/^[0-9a-z.\/%#,\s-]+$/i', $value) === 1 ? $value : null;
     }
 }
