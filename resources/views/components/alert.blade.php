@@ -44,7 +44,9 @@
         @if(isset($title))
             <h4 class="aura-alert-title text-sm font-semibold mb-1 leading-snug">{{ $title }}</h4>
         @endif
-        <div class="aura-alert-body text-[13px] leading-normal opacity-85">{{ $slot }}</div>
+        {{-- opacity-85 dimmed otherwise-conforming text below 4.5:1. The colour was
+             never the problem; the transparency was. --}}
+        <div class="aura-alert-body text-[13px] leading-normal">{{ $slot }}</div>
         @if(isset($actions))
             <div class="aura-alert-actions">{{ $actions }}</div>
         @endif

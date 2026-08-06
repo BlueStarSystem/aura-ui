@@ -334,15 +334,15 @@
     background: color-mix(in oklab, var(--color-aura-primary-500), transparent 90%);
     color: var(--color-aura-primary-600); flex-shrink: 0;
 }
-.aura-data-card__title { font-size: 0.8125rem; font-weight: 500; color: var(--color-aura-surface-400); text-transform: uppercase; letter-spacing: 0.03em; }
+.aura-data-card__title { font-size: 0.8125rem; font-weight: 500; color: var(--color-aura-surface-600); text-transform: uppercase; letter-spacing: 0.03em; }
 
 .aura-data-card__body { display: flex; align-items: baseline; gap: 0.75rem; }
 .aura-data-card__value { font-size: 1.75rem; font-weight: 800; color: var(--color-aura-surface-900); letter-spacing: -0.025em; line-height: 1.1; }
 
 .aura-data-card__change { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.8125rem; font-weight: 600; }
-.aura-data-card__change--positive { color: #059669; }
-.aura-data-card__change--negative { color: #dc2626; }
-.aura-data-card__change--neutral { color: var(--color-aura-surface-400); }
+.aura-data-card__change--positive { color: var(--color-aura-success-700); }
+.aura-data-card__change--negative { color: var(--color-aura-danger-600); }
+.aura-data-card__change--neutral { color: var(--color-aura-surface-600); }
 .aura-data-card__change-icon { width: 1rem; height: 1rem; }
 
 .aura-data-card__sparkline { margin-top: 0.25rem; height: 2rem; color: var(--color-aura-primary-400); opacity: 0.7; }

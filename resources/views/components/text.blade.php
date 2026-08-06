@@ -18,7 +18,7 @@
         'muted' => 'text-aura-surface-400',
         'subtle' => 'text-aura-surface-500',
         'primary' => 'text-aura-primary-600',
-        'success' => 'text-aura-success-600',
+        'success' => 'text-aura-success-700',
         'danger' => 'text-aura-danger-600',
         'warning' => 'text-aura-warning-600',
         default => 'text-aura-surface-600',

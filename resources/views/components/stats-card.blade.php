@@ -9,9 +9,9 @@
 
 @php
     $changeClass = match($changeType) {
-        'positive' => 'aura-stats-change-positive text-aura-success-600 dark:text-aura-success-400',
+        'positive' => 'aura-stats-change-positive text-aura-success-700 dark:text-aura-success-400',
         'negative' => 'aura-stats-change-negative text-aura-danger-600 dark:text-aura-danger-400',
-        default => 'aura-stats-change-neutral text-aura-surface-400',
+        default => 'aura-stats-change-neutral text-aura-surface-600',
     };
     $changeIcon = match($changeType) {
         'positive' => 'trending-up',
