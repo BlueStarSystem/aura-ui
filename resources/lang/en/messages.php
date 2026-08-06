@@ -37,6 +37,13 @@ return [
 
     'add' => 'Add',
 
+    'copy' => 'Copy',
+    'copied' => 'Copied',
+
+    'scrollable_region' => 'Scrollable region',
+
+    'code' => 'Code',
+
     'date_picker' => [
         'previous_year' => 'Previous year',
         'previous_month' => 'Previous month',

@@ -127,6 +127,16 @@
             "icon"
         ]
     },
+    "callout": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "callout.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
     "card": {
         "tier": "free",
         "type": "component",
@@ -161,6 +171,16 @@
         ],
         "deps": []
     },
+    "clipboard-button": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "clipboard-button.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
     "code": {
         "tier": "free",
         "type": "component",
@@ -169,6 +189,16 @@
         ],
         "deps": [
             "code-block"
+        ]
+    },
+    "code-block": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "code-block.blade.php"
+        ],
+        "deps": [
+            "icon"
         ]
     },
     "collapsible": {
@@ -408,6 +438,14 @@
             "button",
             "card"
         ]
+    },
+    "highlight": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "highlight.blade.php"
+        ],
+        "deps": []
     },
     "icon": {
         "tier": "free",
@@ -675,6 +713,14 @@
         ],
         "deps": []
     },
+    "scroll-area": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "scroll-area.blade.php"
+        ],
+        "deps": []
+    },
     "section": {
         "tier": "free",
         "type": "component",
@@ -684,6 +730,16 @@
         "deps": [
             "heading",
             "text"
+        ]
+    },
+    "segmented-control": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "segmented-control.blade.php"
+        ],
+        "deps": [
+            "icon"
         ]
     },
     "select": {
@@ -781,6 +837,14 @@
         "deps": [
             "icon"
         ]
+    },
+    "sticky-panel": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "sticky-panel.blade.php"
+        ],
+        "deps": []
     },
     "subheading": {
         "tier": "free",
