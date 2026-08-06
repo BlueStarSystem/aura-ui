@@ -190,6 +190,38 @@
             return date.toDateString() === today.toDateString();
         },
 
+        /*
+         * Event chips took their background from whatever colour the caller
+         * passed and always drew the text in white, so a pale colour produced
+         * an unreadable chip and there was nothing the caller could do about
+         * it. Picking the text from the background's luminance makes the
+         * component correct for any colour, not only the ones we happened to
+         * demo with.
+         */
+        eventTextColor(background) {
+            const fallback = '#ffffff';
+            if (!background) return fallback;
+
+            let r, g, b;
+            const hex = background.trim().replace('#', '');
+
+            if (/^[0-9a-f]{6}$/i.test(hex)) {
+                [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+            } else if (/^[0-9a-f]{3}$/i.test(hex)) {
+                [r, g, b] = [...hex].map((c) => parseInt(c + c, 16));
+            } else {
+                const m = background.match(/\d+/g);
+                if (!m || m.length < 3) return fallback;
+                [r, g, b] = m.slice(0, 3).map(Number);
+            }
+
+            const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+            const L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+
+            // Contrast against white vs against the darkest surface; take whichever wins.
+            return (1.05 / (L + 0.05)) >= ((L + 0.05) / 0.0631) ? '#ffffff' : '#0f172a';
+        },
+
         dateStr(date) {
             return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
         },
@@ -274,9 +306,9 @@
         <span class="aura-calendar-title text-sm font-semibold text-aura-surface-900 capitalize" x-text="title"></span>
 
         <div class="aura-calendar-views flex items-center gap-0.5 bg-aura-surface-100 rounded-aura-md p-0.5">
-            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'month' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'month'" :aria-label="t.month" x-text="t.month"></button>
-            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'week' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'week'" :aria-label="t.week" x-text="t.week"></button>
-            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'day' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-500 hover:text-aura-surface-700'" @click="view = 'day'" :aria-label="t.day" x-text="t.day"></button>
+            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'month' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-600 hover:text-aura-surface-900'" @click="view = 'month'" :aria-label="t.month" x-text="t.month"></button>
+            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'week' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-600 hover:text-aura-surface-900'" @click="view = 'week'" :aria-label="t.week" x-text="t.week"></button>
+            <button type="button" class="aura-calendar-view-btn px-2.5 py-1 text-xs font-medium rounded-aura-sm aura-transition-fast cursor-pointer border-none" :class="view === 'day' ? 'bg-aura-surface-0 shadow-sm text-aura-surface-900' : 'bg-transparent text-aura-surface-600 hover:text-aura-surface-900'" @click="view = 'day'" :aria-label="t.day" x-text="t.day"></button>
         </div>
     </div>
 
@@ -298,8 +330,8 @@
                     <span class="aura-calendar-date inline-flex items-center justify-center w-6 h-6 text-xs font-medium rounded-full" x-bind:class="{ 'text-aura-surface-500': !cell.current, 'text-aura-surface-700': cell.current, 'bg-aura-primary-600 text-white': isToday(cell.date) }" x-text="cell.date.getDate()"></span>
                     <template x-for="ev in getEvents(cell.date)" :key="ev[eventTitleKey]">
                         <div
-                            class="aura-calendar-event mt-0.5 px-1 py-0.5 text-[10px] font-medium text-white rounded truncate"
-                            x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
+                            class="aura-calendar-event mt-0.5 px-1 py-0.5 text-[10px] font-medium rounded truncate"
+                            x-bind:style="'background-color: ' + (ev[eventColorKey] || 'var(--color-aura-primary-600)') + '; color: ' + eventTextColor(ev[eventColorKey] || '#4f46e5')"
                             x-text="ev[eventTitleKey]"
                         ></div>
                     </template>
@@ -325,8 +357,8 @@
                 <div class="p-0.5 border-l border-aura-surface-100 min-h-[32px]" :class="isToday(day) ? 'bg-aura-primary-50/30' : ''">
                     <template x-for="ev in getAllDayEvents(day)" :key="ev[eventTitleKey]">
                         <div
-                            class="aura-calendar-event px-1 py-0.5 text-[10px] font-medium text-white rounded truncate"
-                            x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
+                            class="aura-calendar-event px-1 py-0.5 text-[10px] font-medium rounded truncate"
+                            x-bind:style="'background-color: ' + (ev[eventColorKey] || 'var(--color-aura-primary-600)') + '; color: ' + eventTextColor(ev[eventColorKey] || '#4f46e5')"
                             x-text="ev[eventTitleKey]"
                         ></div>
                     </template>
@@ -342,8 +374,8 @@
                         <div class="min-h-[48px] p-0.5 border-l border-aura-surface-100" :class="isToday(day) ? 'bg-aura-primary-50/30' : ''">
                             <template x-for="ev in getEventsForHour(day, hour)" :key="ev[eventTitleKey]">
                                 <div
-                                    class="aura-calendar-event px-1.5 py-0.5 text-[10px] font-medium text-white rounded truncate"
-                                    x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
+                                    class="aura-calendar-event px-1.5 py-0.5 text-[10px] font-medium rounded truncate"
+                                    x-bind:style="'background-color: ' + (ev[eventColorKey] || 'var(--color-aura-primary-600)') + '; color: ' + eventTextColor(ev[eventColorKey] || '#4f46e5')"
                                     x-text="ev[eventStartKey] + ' ' + ev[eventTitleKey]"
                                 ></div>
                             </template>
@@ -362,7 +394,7 @@
                 <template x-for="ev in getAllDayEvents(currentDate)" :key="ev[eventTitleKey]">
                     <div
                         class="aura-calendar-event px-1.5 py-1 text-xs font-medium text-white rounded truncate mb-0.5"
-                        x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
+                        x-bind:style="'background-color: ' + (ev[eventColorKey] || 'var(--color-aura-primary-600)') + '; color: ' + eventTextColor(ev[eventColorKey] || '#4f46e5')"
                         x-text="ev[eventTitleKey]"
                     ></div>
                 </template>
@@ -377,7 +409,7 @@
                         <template x-for="ev in getEventsForHour(currentDate, hour)" :key="ev[eventTitleKey]">
                             <div
                                 class="aura-calendar-event px-1.5 py-1 text-xs font-medium text-white rounded truncate mb-0.5"
-                                x-bind:style="ev[eventColorKey] ? 'background-color: ' + ev[eventColorKey] : 'background-color: var(--color-aura-primary-600)'"
+                                x-bind:style="'background-color: ' + (ev[eventColorKey] || 'var(--color-aura-primary-600)') + '; color: ' + eventTextColor(ev[eventColorKey] || '#4f46e5')"
                                 x-text="ev[eventStartKey] + ' ' + ev[eventTitleKey]"
                             ></div>
                         </template>

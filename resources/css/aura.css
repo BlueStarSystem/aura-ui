@@ -311,10 +311,17 @@
 }
 
 /* Dark */
-.dark .aura-notification-center__dropdown { background: var(--color-aura-surface-800); border-color: var(--color-aura-surface-700); }
-.dark .aura-notification-center__item { border-bottom-color: var(--color-aura-surface-700); }
+/*
+ * Note on dark mode: the surface scale INVERTS in .dark (surface-0 becomes the
+ * darkest, surface-900 the lightest). A rule written as
+ * `.dark .thing { background: var(--color-aura-surface-800) }` therefore paints
+ * a nearly-white background. Five rules did exactly that and were removed on
+ * 2026-08-06 — the base rules already use surface-0 and surface-900, which
+ * invert on their own. Reach for a `.dark` override only when the inverted
+ * value is genuinely wrong, and check the computed colour in a browser.
+ */
 .dark .aura-notification-center__item:hover { background: rgba(255,255,255,0.04); }
-.dark .aura-notification-center__badge { border-color: var(--color-aura-surface-800); }
+.dark .aura-notification-center__badge { border-color: var(--color-aura-surface-0); }
 
 /* Data Card */
 .aura-data-card {
@@ -350,9 +357,6 @@
 
 .aura-data-card__footer { padding-top: 0.75rem; border-top: 1px solid var(--color-aura-surface-100); font-size: 0.8125rem; }
 
-.dark .aura-data-card { background: var(--color-aura-surface-800); border-color: var(--color-aura-surface-700); }
-.dark .aura-data-card__value { color: var(--color-aura-surface-100); }
-.dark .aura-data-card__footer { border-top-color: var(--color-aura-surface-700); }
 
 /* Floating Label Input */
 .aura-floating-input { position: relative; width: 100%; max-width: 340px; }
@@ -384,10 +388,8 @@
 
 .aura-floating-input--disabled .aura-floating-input__input { background: var(--color-aura-surface-50); cursor: not-allowed; opacity: 0.6; }
 
-.dark .aura-floating-input__input { color: var(--color-aura-surface-100); border-bottom-color: var(--color-aura-surface-600); }
 .dark .aura-floating-input__input:focus { border-bottom-color: var(--color-aura-primary-400); }
 .dark .aura-floating-input__label--float { color: var(--color-aura-primary-400); }
-.dark .aura-floating-input--disabled .aura-floating-input__input { background: var(--color-aura-surface-800); }
 
 /* Slider */
 .aura-slider {

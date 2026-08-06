@@ -48,16 +48,21 @@
                 this.renderChart();
                 return;
             }
-            const script = document.createElement('script');
-            script.src = '/js/vendor/chart.umd.min.js';
-            script.onload = () => this.renderChart();
-            script.onerror = () => {
-                const cdn = document.createElement('script');
-                cdn.src = 'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js';
-                cdn.onload = () => this.renderChart();
-                document.head.appendChild(cdn);
-            };
-            document.head.appendChild(script);
+            // Was '/js/vendor/chart.umd.min.js', a path no application ships,
+            // so every chart logged a 404 and a blocked-script error before
+            // falling back to the CDN. Two charts on a page also fetched the
+            // library twice; they share one load now.
+            if (window.__auraChartLoading) {
+                window.__auraChartLoading.then(() => this.renderChart());
+                return;
+            }
+            window.__auraChartLoading = new Promise((resolve) => {
+                const script = document.createElement('script');
+                script.src = {!! \Illuminate\Support\Js::from(config('aura-ui.chart.src', 'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js')) !!};
+                script.onload = resolve;
+                document.head.appendChild(script);
+            });
+            window.__auraChartLoading.then(() => this.renderChart());
         },
         destroy() {
             if (this.chart) this.chart.destroy();

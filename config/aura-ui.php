@@ -64,4 +64,21 @@ return [
         'allowed_hosts' => ['aura-ui.com'],
         'max_bytes' => 512 * 1024,
     ],
+    /*
+    |--------------------------------------------------------------------------
+    | Chart.js
+    |--------------------------------------------------------------------------
+    |
+    | Where the chart component loads Chart.js from when the page has not
+    | already loaded it. The default is the CDN because it is the only source
+    | that exists in a fresh install: the component used to try a local
+    | '/js/vendor/chart.umd.min.js' first, which no application ships, so every
+    | chart logged a 404 and a blocked-script error before falling back here.
+    |
+    | To self-host, put the UMD build under public/ and point this at it.
+    |
+    */
+    'chart' => [
+        'src' => env('AURA_CHART_SRC', 'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js'),
+    ],
 ];
