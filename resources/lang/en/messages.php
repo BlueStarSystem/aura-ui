@@ -52,6 +52,10 @@ return [
     'primary_navigation' => 'Primary',
     'toolbar' => 'Toolbar',
 
+    'announcement' => 'Announcement',
+    'dismiss_announcement' => 'Dismiss announcement',
+    'learn_more' => 'Learn more',
+
     'date_picker' => [
         'previous_year' => 'Previous year',
         'previous_month' => 'Previous month',

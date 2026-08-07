@@ -443,3 +443,9 @@
 @import "./base/keyframes.css";
 @import "./base/glass.css";
 @import "./components/residual.css";
+
+/* Logos read as a texture until you look at one. Colour returns on hover and
+   on focus-within, so a keyboard reaches the same affordance as a pointer. */
+.aura-logo-cloud-grayscale .aura-logo-cloud-item { filter: grayscale(1); opacity: 0.65; transition: filter 150ms ease, opacity 150ms ease; }
+.aura-logo-cloud-grayscale .aura-logo-cloud-item:hover,
+.aura-logo-cloud-grayscale .aura-logo-cloud-item:focus-within { filter: grayscale(0); opacity: 1; }

@@ -20,6 +20,16 @@
             "icon"
         ]
     },
+    "announcement-banner": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "announcement-banner.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
     "aside": {
         "tier": "free",
         "type": "component",
@@ -559,6 +569,15 @@
             "icon"
         ]
     },
+    "logo-cloud": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "logo-cloud.blade.php",
+            "logo-cloud/item.blade.php"
+        ],
+        "deps": []
+    },
     "main": {
         "tier": "free",
         "type": "component",
@@ -572,6 +591,14 @@
         "type": "component",
         "files": [
             "mark.blade.php"
+        ],
+        "deps": []
+    },
+    "mockup": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "mockup.blade.php"
         ],
         "deps": []
     },
@@ -953,6 +980,24 @@
         "deps": [
             "icon"
         ]
+    },
+    "team-member": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "team-member.blade.php"
+        ],
+        "deps": [
+            "avatar"
+        ]
+    },
+    "team-section": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "team-section.blade.php"
+        ],
+        "deps": []
     },
     "testimonials-grid": {
         "tier": "free",

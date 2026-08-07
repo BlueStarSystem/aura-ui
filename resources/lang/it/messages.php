@@ -52,6 +52,10 @@ return [
     'primary_navigation' => 'Principale',
     'toolbar' => 'Barra strumenti',
 
+    'announcement' => 'Annuncio',
+    'dismiss_announcement' => 'Chiudi annuncio',
+    'learn_more' => 'Scopri di più',
+
     'date_picker' => [
         'previous_year' => 'Anno precedente',
         'previous_month' => 'Mese precedente',
