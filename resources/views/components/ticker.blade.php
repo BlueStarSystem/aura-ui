@@ -6,6 +6,7 @@
     'suffix' => null,
     'decimals' => 0,
     'label' => null,
+    'locale' => null,
 ])
 
 @php
@@ -19,7 +20,26 @@
      * numbers, so the live region is deliberately absent and the accessible
      * name carries the final figure.
      */
-    $finalText = number_format((float) $value, (int) $decimals, ',', '.');
+    // Follows the application's locale. This was hardcoded to the European
+    // convention, which is the wrong number to an American reader — and the
+    // package ships to both.
+    $tickerLocale = $locale ?? app()->getLocale();
+
+    $finalText = (function (float $value, int $places, string $loc): string {
+        if (class_exists(\NumberFormatter::class)) {
+            $formatter = new \NumberFormatter($loc, \NumberFormatter::DECIMAL);
+            $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $places);
+            $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $places);
+
+            $formatted = $formatter->format($value);
+
+            if ($formatted !== false) {
+                return $formatted;
+            }
+        }
+
+        return number_format($value, $places);
+    })((float) $value, (int) $decimals, $tickerLocale);
     $spoken = trim(($label ? $label.': ' : '').($prefix ?? '').$finalText.($suffix ?? ''));
 @endphp
 
@@ -56,7 +76,7 @@
                 const eased = 1 - Math.pow(1 - progress, 3);
                 const current = from + (to - from) * eased;
 
-                this.shown = current.toLocaleString('it-IT', {
+                this.shown = current.toLocaleString({{ Js::from(str_replace('_', '-', $tickerLocale)) }}, {
                     minimumFractionDigits: decimals,
                     maximumFractionDigits: decimals,
                 });

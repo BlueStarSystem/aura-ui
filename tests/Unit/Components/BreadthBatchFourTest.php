@@ -36,7 +36,14 @@ it('gives a price one plain sentence instead of styled fragments', function () {
 
 it('formats a price without decimals when it has none', function () {
     expect(Blade::render('<x-aura::price :amount="12" />'))->toContain('>12<');
-    expect(Blade::render('<x-aura::price :amount="12.5" />'))->toContain('12,50');
+    expect(Blade::render('<x-aura::price :amount="12.5" />'))->toContain('12.50');
+});
+
+it('formats a price the way the reader’s locale writes numbers', function () {
+    // This was hardcoded to 1.234,56 — simply the wrong number to an American
+    // reader, in a package that ships to both.
+    expect(Blade::render('<x-aura::price :amount="1234.5" locale="en_US" />'))->toContain('1,234.50');
+    expect(Blade::render('<x-aura::price :amount="1234.5" locale="it_IT" />'))->toContain('1.234,50');
 });
 
 it('writes the usage state into the name, not only the colour', function () {
@@ -93,8 +100,8 @@ it('puts the final figure in the ticker markup rather than counting into a live 
     $html = Blade::render('<x-aura::ticker :value="1250" suffix="+" label="Tests" />');
 
     expect($html)
-        ->toContain('1.250')
-        ->toContain('aria-label="Tests: 1.250+"')
+        ->toContain('1,250')
+        ->toContain('aria-label="Tests: 1,250+"')
         ->toContain('prefers-reduced-motion: reduce')
         ->not->toContain('aria-live');
 });
@@ -131,4 +138,9 @@ it('falls back to unknown for a state it has no colour for', function () {
     expect($html)
         ->toContain('Unknown')
         ->not->toContain('status-tile-on fire');
+});
+
+it('counts in the reader’s locale, not in one we picked', function () {
+    expect(Blade::render('<x-aura::ticker :value="1250" locale="en_US" />'))->toContain('1,250');
+    expect(Blade::render('<x-aura::ticker :value="1250" locale="it_IT" />'))->toContain('1.250');
 });

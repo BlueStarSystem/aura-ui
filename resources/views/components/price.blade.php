@@ -12,17 +12,37 @@
     /**
      * A price is read aloud badly when it is only styled: "€" as a superscript
      * and "/mo" as small print become "euro sign twelve slash m o". The figure
-     * is therefore split visually for the eye and given one plain sentence for
-     * a screen reader.
+     * is split visually for the eye and given one plain sentence for a screen
+     * reader.
+     *
+     * The number itself follows the application's locale. This used to be
+     * hardcoded to the European convention — '1.234,56' — which is simply the
+     * wrong number to an American reader, and the component ships to both.
      */
-    $formatted = number_format(
-        (float) $amount,
-        $decimals ?? (fmod((float) $amount, 1.0) === 0.0 ? 0 : 2),
-        ',',
-        '.'
-    );
+    $activeLocale = $locale ?? app()->getLocale();
 
-    $wasFormatted = $was === null ? null : number_format((float) $was, $decimals ?? (fmod((float) $was, 1.0) === 0.0 ? 0 : 2), ',', '.');
+    $format = function (float $value) use ($activeLocale, $decimals): string {
+        $places = $decimals ?? (fmod($value, 1.0) === 0.0 ? 0 : 2);
+
+        // intl knows every convention; without it, fall back to PHP's default,
+        // which is the English one rather than a guess.
+        if (class_exists(\NumberFormatter::class)) {
+            $formatter = new \NumberFormatter($activeLocale, \NumberFormatter::DECIMAL);
+            $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $places);
+            $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $places);
+
+            $formatted = $formatter->format($value);
+
+            if ($formatted !== false) {
+                return $formatted;
+            }
+        }
+
+        return number_format($value, $places);
+    };
+
+    $formatted = $format((float) $amount);
+    $wasFormatted = $was === null ? null : $format((float) $was);
 
     $sizeClass = match ($size) {
         'sm' => 'text-xl',
