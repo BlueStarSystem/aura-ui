@@ -81,6 +81,22 @@
             "icon"
         ]
     },
+    "bento-cell": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "bento-cell.blade.php"
+        ],
+        "deps": []
+    },
+    "bento-grid": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "bento-grid.blade.php"
+        ],
+        "deps": []
+    },
     "blockquote": {
         "tier": "free",
         "type": "component",
@@ -88,6 +104,17 @@
             "blockquote.blade.php"
         ],
         "deps": []
+    },
+    "bottom-nav": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "bottom-nav.blade.php",
+            "bottom-nav/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
     },
     "brand": {
         "tier": "free",
@@ -393,6 +420,16 @@
         ],
         "deps": []
     },
+    "footer": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "footer.blade.php",
+            "footer/column.blade.php",
+            "footer/link.blade.php"
+        ],
+        "deps": []
+    },
     "form": {
         "tier": "free",
         "type": "component",
@@ -569,6 +606,17 @@
             "icon"
         ]
     },
+    "navigation-menu": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "navigation-menu.blade.php",
+            "navigation-menu/item.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
     "notification-center": {
         "tier": "free",
         "type": "component",
@@ -720,6 +768,16 @@
             "scroll-area.blade.php"
         ],
         "deps": []
+    },
+    "scroll-to-top": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "scroll-to-top.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
     },
     "section": {
         "tier": "free",
@@ -924,6 +982,16 @@
         ],
         "deps": []
     },
+    "theme-controller": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "theme-controller.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
     "time-picker": {
         "tier": "free",
         "type": "component",
@@ -960,6 +1028,14 @@
         "type": "component",
         "files": [
             "toggle.blade.php"
+        ],
+        "deps": []
+    },
+    "toolbar": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "toolbar.blade.php"
         ],
         "deps": []
     },

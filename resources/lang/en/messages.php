@@ -44,6 +44,14 @@ return [
 
     'code' => 'Code',
 
+    'theme' => 'Theme',
+    'theme_light' => 'Light',
+    'theme_dark' => 'Dark',
+    'theme_system' => 'System',
+    'back_to_top' => 'Back to top',
+    'primary_navigation' => 'Primary',
+    'toolbar' => 'Toolbar',
+
     'date_picker' => [
         'previous_year' => 'Previous year',
         'previous_month' => 'Previous month',

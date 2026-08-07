@@ -44,6 +44,14 @@ return [
 
     'code' => 'Codice',
 
+    'theme' => 'Tema',
+    'theme_light' => 'Chiaro',
+    'theme_dark' => 'Scuro',
+    'theme_system' => 'Sistema',
+    'back_to_top' => 'Torna su',
+    'primary_navigation' => 'Principale',
+    'toolbar' => 'Barra strumenti',
+
     'date_picker' => [
         'previous_year' => 'Anno precedente',
         'previous_month' => 'Mese precedente',
