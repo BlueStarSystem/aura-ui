@@ -56,6 +56,26 @@ return [
     'dismiss_announcement' => 'Dismiss announcement',
     'learn_more' => 'Learn more',
 
+    'status_online' => 'Online',
+    'status_offline' => 'Offline',
+    'status_busy' => 'Busy',
+    'status_away' => 'Away',
+
+    'price_was' => 'was :price',
+    'price_per' => 'per :period',
+    'usage' => 'Usage',
+    'usage_of' => ':used of :limit used',
+    'usage_warning' => 'approaching the limit',
+    'usage_danger' => 'almost at the limit',
+    'bulk_actions' => 'Bulk actions',
+    'selected_count' => ':count selected',
+    'service_status' => 'Service status',
+    'status_operational' => 'Operational',
+    'status_degraded' => 'Degraded',
+    'status_outage' => 'Outage',
+    'status_maintenance' => 'Maintenance',
+    'status_unknown' => 'Unknown',
+
     'date_picker' => [
         'previous_year' => 'Previous year',
         'previous_month' => 'Previous month',

@@ -163,6 +163,20 @@ final class Html
     public const ALLOWED_SCHEMES = ['http', 'https', 'mailto', 'tel', 'ftp', 'sms'];
 
     /**
+     * Where an image may come from.
+     *
+     * A src and an href have different threat models. `data:` as an href is an
+     * XSS vector — the browser navigates to it and runs what it finds. As an
+     * image source it is not: browsers refuse to run script in an SVG loaded
+     * through <img>, and any other media type simply fails to decode. Inline
+     * placeholders and small avatars are a real need, so images get their own
+     * list rather than being forced through the navigation one.
+     *
+     * @var list<string>
+     */
+    public const ALLOWED_SRC_SCHEMES = ['http', 'https', 'data', 'blob'];
+
+    /**
      * Resolve an href to something safe to navigate to. Relative URLs,
      * fragments and query strings pass through untouched; anything carrying an
      * unknown scheme becomes '#', which is inert and visible rather than
@@ -189,6 +203,40 @@ final class Html
         }
 
         return in_array(strtolower($found[1]), self::ALLOWED_SCHEMES, true) ? $href : $fallback;
+    }
+
+    /**
+     * The same treatment for an image source, with `data:` and `blob:`
+     * permitted — and `data:` narrowed to images, so a data URI carrying
+     * anything else never reaches the attribute.
+     */
+    public static function src(mixed $src, string $fallback = ''): string
+    {
+        if (! is_string($src) || trim($src) === '') {
+            return $fallback;
+        }
+
+        $src = trim($src);
+
+        if (preg_match('#^[^/?\#]*:#', $src) !== 1) {
+            return $src;
+        }
+
+        if (preg_match('#^([a-z][a-z0-9+.-]*):#i', $src, $found) !== 1) {
+            return $fallback;
+        }
+
+        $scheme = strtolower($found[1]);
+
+        if (! in_array($scheme, self::ALLOWED_SRC_SCHEMES, true)) {
+            return $fallback;
+        }
+
+        if ($scheme === 'data' && preg_match('#^data:image/[a-z0-9.+-]+[;,]#i', $src) !== 1) {
+            return $fallback;
+        }
+
+        return $src;
     }
 
     /**

@@ -132,3 +132,19 @@ describe('href in components that build the attribute by hand', function () {
         ['<x-aura::notification-center.item title="T" url="https://example.com/n/1" />', 'href="https://example.com/n/1"'],
     ]);
 });
+
+it('lets an image use a data URI while an href still cannot', function () {
+    // Different threat models: a data: href navigates and can run script; a
+    // data: image cannot — browsers refuse to run script in an SVG loaded
+    // through <img>.
+    $uri = 'data:image/svg+xml,%3Csvg%3E%3C/svg%3E';
+
+    expect(\BlueStarSystem\AuraUI\Support\Html::src($uri))->toBe($uri);
+    expect(\BlueStarSystem\AuraUI\Support\Html::url($uri))->toBe('#');
+});
+
+it('narrows a data src to images only', function () {
+    expect(\BlueStarSystem\AuraUI\Support\Html::src('data:text/html,<script>alert(1)</script>'))->toBe('');
+    expect(\BlueStarSystem\AuraUI\Support\Html::src('javascript:alert(1)'))->toBe('');
+    expect(\BlueStarSystem\AuraUI\Support\Html::src('/local/photo.jpg'))->toBe('/local/photo.jpg');
+});

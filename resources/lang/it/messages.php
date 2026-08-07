@@ -56,6 +56,26 @@ return [
     'dismiss_announcement' => 'Chiudi annuncio',
     'learn_more' => 'Scopri di più',
 
+    'status_online' => 'In linea',
+    'status_offline' => 'Non in linea',
+    'status_busy' => 'Occupato',
+    'status_away' => 'Assente',
+
+    'price_was' => 'prima :price',
+    'price_per' => 'al :period',
+    'usage' => 'Utilizzo',
+    'usage_of' => ':used di :limit utilizzati',
+    'usage_warning' => 'vicino al limite',
+    'usage_danger' => 'quasi al limite',
+    'bulk_actions' => 'Azioni multiple',
+    'selected_count' => ':count selezionati',
+    'service_status' => 'Stato dei servizi',
+    'status_operational' => 'Operativo',
+    'status_degraded' => 'Degradato',
+    'status_outage' => 'Non disponibile',
+    'status_maintenance' => 'Manutenzione',
+    'status_unknown' => 'Sconosciuto',
+
     'date_picker' => [
         'previous_year' => 'Anno precedente',
         'previous_month' => 'Mese precedente',

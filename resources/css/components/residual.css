@@ -393,6 +393,9 @@
 .aura-avatar-status-online { background: var(--color-aura-success-500); }
 .aura-avatar-status-offline { background: var(--color-aura-surface-400); }
 .aura-avatar-status-busy { background: var(--color-aura-danger-500); }
+/* `away` was accepted by the component and missing here, so the dot rendered
+   transparent — a white ring that looked like a clipped circle. */
+.aura-avatar-status-away { background: var(--color-aura-warning-500); }
 
 /* Avatar group overlap */
 .aura-avatar-group .aura-avatar {

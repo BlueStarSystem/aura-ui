@@ -61,6 +61,25 @@
     @endif
 
     @if($status)
-        <span class="aura-avatar-status aura-avatar-status-{{ $status }}"></span>
+        @php
+            /**
+             * The status used to be interpolated straight into the class name,
+             * so any value without a matching rule produced a transparent dot
+             * with only its white ring showing — it read as a clipped or broken
+             * circle, and nothing said otherwise. `away` was one such value: the
+             * component accepted it and the stylesheet had never heard of it.
+             *
+             * Unknown values now fall back to `offline`, which at least means
+             * something, and the dot carries a name so the state is not
+             * conveyed by colour alone.
+             */
+            $statusKey = in_array($status, ['online', 'offline', 'busy', 'away'], true) ? $status : 'offline';
+        @endphp
+
+        <span
+            class="aura-avatar-status aura-avatar-status-{{ $statusKey }}"
+            role="img"
+            aria-label="{{ __('aura-ui::messages.status_'.$statusKey) }}"
+        ></span>
     @endif
 </div>

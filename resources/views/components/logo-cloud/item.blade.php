@@ -13,7 +13,7 @@
      * of the section.
      */
     $inner = $src
-        ? '<img src="'.e(\BlueStarSystem\AuraUI\Support\Html::url($src)).'" alt="'.e($name ?? '').'" class="aura-logo-cloud-image max-h-full w-auto object-contain" style="height: '.e(\BlueStarSystem\AuraUI\Support\Html::cssValue($height) ?? '2rem').'" />'
+        ? '<img src="'.e(\BlueStarSystem\AuraUI\Support\Html::src($src)).'" alt="'.e($name ?? '').'" class="aura-logo-cloud-image max-h-full w-auto object-contain" style="height: '.e(\BlueStarSystem\AuraUI\Support\Html::cssValue($height) ?? '2rem').'" />'
         : null;
 @endphp
 

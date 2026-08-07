@@ -18,7 +18,7 @@
              empty alt would leave a screen-reader user with a role and a bio
              belonging to nobody. --}}
         <img
-            src="{{ \BlueStarSystem\AuraUI\Support\Html::url($avatar) }}"
+            src="{{ \BlueStarSystem\AuraUI\Support\Html::src($avatar) }}"
             alt="{{ $name }}"
             class="aura-team-avatar h-24 w-24 rounded-full object-cover"
         />
