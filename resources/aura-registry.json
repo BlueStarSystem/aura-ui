@@ -173,6 +173,74 @@
             "icon"
         ]
     },
+    "button-group": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "button-group.blade.php"
+        ],
+        "deps": []
+    },
+    "currency-input": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "currency-input.blade.php"
+        ],
+        "deps": []
+    },
+    "iban-field": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "iban-field.blade.php"
+        ],
+        "deps": []
+    },
+    "phone-input": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "phone-input.blade.php"
+        ],
+        "deps": []
+    },
+    "signature-pad": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "signature-pad.blade.php"
+        ],
+        "deps": []
+    },
+    "combobox": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "combobox.blade.php"
+        ],
+        "deps": [
+            "icon"
+        ]
+    },
+    "menubar": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "menubar.blade.php",
+            "menubar/menu.blade.php",
+            "menubar/item.blade.php"
+        ],
+        "deps": []
+    },
+    "qr-code": {
+        "tier": "free",
+        "type": "component",
+        "files": [
+            "qr-code.blade.php"
+        ],
+        "deps": []
+    },
     "calendar": {
         "tier": "free",
         "type": "component",

@@ -88,4 +88,31 @@ return [
     'time_picker' => [
         'filter' => 'Filtra...',
     ],
+    'menubar' => [
+        'label' => 'Menu principale',
+    ],
+    'qr_code' => [
+        'unavailable' => 'Installa bacon/bacon-qr-code per disegnare questo codice.',
+    ],
+    'combobox' => [
+        'no_results' => 'Nessun risultato',
+        'toggle' => 'Mostra i suggerimenti',
+    ],
+    'iban' => [
+        'hint' => 'Raggruppato come lo stampa la banca. Gli spazi non fanno parte del numero.',
+        'invalid' => 'Questo IBAN non è valido: controllalo sull\'estratto conto.',
+    ],
+    'currency' => [
+        'hint' => 'Importo in :currency. Virgola o punto, come preferisci.',
+    ],
+    'phone' => [
+        'country_code' => 'Prefisso internazionale',
+    ],
+    'signature' => [
+        'draw' => 'Firma qui',
+        'type' => 'Oppure scrivi il tuo nome',
+        'clear' => 'Cancella la firma',
+        'drawn' => 'Firma tracciata',
+        'empty' => 'Non hai ancora firmato',
+    ],
 ];

@@ -467,3 +467,40 @@
 .aura-logo-cloud-grayscale .aura-logo-cloud-item { filter: grayscale(1); opacity: 0.65; transition: filter 150ms ease, opacity 150ms ease; }
 .aura-logo-cloud-grayscale .aura-logo-cloud-item:hover,
 .aura-logo-cloud-grayscale .aura-logo-cloud-item:focus-within { filter: grayscale(0); opacity: 1; }
+
+/* A button group is one control made of several: the inner corners square off
+   and the borders overlap so there is a single line between two buttons rather
+   than two lines with a gap. Written here rather than as utilities on the
+   children, which would depend on what each child already carries. */
+.aura-button-group > :not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+}
+.aura-button-group > :not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+/* The pressed or hovered button has to sit above its neighbours, or its border
+   is painted over by the one that comes after it. */
+.aura-button-group > :hover,
+.aura-button-group > :focus-visible,
+.aura-button-group > [aria-pressed="true"] {
+    position: relative;
+    z-index: 1;
+}
+.aura-button-group-vertical > :not(:first-child) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-left: 0;
+    margin-top: -1px;
+}
+.aura-button-group-vertical > :not(:last-child) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.aura-button-group-vertical > :first-child {
+    border-top-left-radius: var(--radius-aura-md);
+    border-top-right-radius: var(--radius-aura-md);
+}

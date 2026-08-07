@@ -22,9 +22,13 @@
         "illuminate/view": "^12.0 || ^13.0"
     },
     "require-dev": {
+        "bacon/bacon-qr-code": "^3.0",
         "livewire/livewire": "^3.6 || ^4.0",
         "orchestra/testbench": "^10.0",
         "pestphp/pest": "^3.0"
+    },
+    "suggest": {
+        "bacon/bacon-qr-code": "Required by <x-aura::qr-code> to draw the code; without it the component still renders the value it would have encoded."
     },
     "bin": ["bin/aura"],
     "autoload": {

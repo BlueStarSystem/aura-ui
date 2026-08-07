@@ -88,4 +88,31 @@ return [
     'time_picker' => [
         'filter' => 'Filter...',
     ],
+    'menubar' => [
+        'label' => 'Main menu',
+    ],
+    'qr_code' => [
+        'unavailable' => 'Install bacon/bacon-qr-code to draw this code.',
+    ],
+    'combobox' => [
+        'no_results' => 'No matches',
+        'toggle' => 'Show suggestions',
+    ],
+    'iban' => [
+        'hint' => 'Grouped as your bank prints it. The spaces are not part of the number.',
+        'invalid' => 'That is not a valid IBAN — check it against your statement.',
+    ],
+    'currency' => [
+        'hint' => 'Amount in :currency. Comma or point, whichever you use.',
+    ],
+    'phone' => [
+        'country_code' => 'Country code',
+    ],
+    'signature' => [
+        'draw' => 'Sign here',
+        'type' => 'Or type your name',
+        'clear' => 'Clear the signature',
+        'drawn' => 'Signature drawn',
+        'empty' => 'Nothing signed yet',
+    ],
 ];

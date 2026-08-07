@@ -14,7 +14,14 @@
 ])
 
 @php
+    use BlueStarSystem\AuraUI\Support\Html;
     use BlueStarSystem\AuraUI\Support\InputStyle;
+
+    // The label was rendered without a `for`, and the input had no id: clicking
+    // the label did nothing and the field's only accessible name was its
+    // placeholder, which disappears the moment anyone types.
+    $autocompleteId = Html::fieldId($attributes->get('id'), null, $label, Html::wireModelFrom($attributes->getAttributes()));
+    $autocompleteListId = $autocompleteId.'-listbox';
 
     // The class name alone carries no CSS: this rendered as bare text.
     $inputClasses = [InputStyle::classes($size, (bool) $error, (bool) $disabled)];
@@ -100,11 +107,12 @@
     x-on:keydown.escape="open = false"
 >
     @if($label)
-        <label class="aura-label">{{ $label }}</label>
+        <label id="{{ $autocompleteId }}-label" for="{{ $autocompleteId }}" class="aura-label">{{ $label }}</label>
     @endif
 
     <div class="aura-autocomplete-input-wrap relative">
         <input
+            id="{{ $autocompleteId }}"
             type="text"
             class="{{ implode(' ', $inputClasses) }}"
             x-model="search"
@@ -115,7 +123,14 @@
             @if($disabled) disabled @endif
             role="combobox"
             aria-autocomplete="list"
+            aria-controls="{{ $autocompleteListId }}"
             x-bind:aria-expanded="open"
+            {{-- Arrowing down used to highlight an option visually and announce
+                 nothing at all: the focus never leaves the input, so the only
+                 way to say which option is current is to point at it. --}}
+            x-bind:aria-activedescendant="open && highlightIndex >= 0 && filtered[highlightIndex]
+                ? {{ Js::from($autocompleteId) }} + '-option-' + filtered[highlightIndex].value
+                : null"
             autocomplete="off"
         />
         <div class="aura-datepicker-icons absolute right-0 top-0 h-full flex items-center gap-1 pr-2">
@@ -138,11 +153,15 @@
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-1"
         x-cloak
+        id="{{ $autocompleteListId }}"
         role="listbox"
+        @if($label) aria-labelledby="{{ $autocompleteId }}-label" @endif
     >
+        {{-- Options, not buttons. A button inside a listbox is in the tab
+             order, so Tab walked into the popup and out the other side. --}}
         <template x-for="(opt, idx) in filtered" :key="opt.value">
-            <button
-                type="button"
+            <div
+                x-bind:id="{{ Js::from($autocompleteId) }} + '-option-' + opt.value"
                 class="aura-autocomplete-option block w-full text-left px-3 py-2 text-sm text-aura-surface-700 bg-transparent border-none cursor-pointer rounded-aura-sm aura-transition-fast hover:bg-aura-surface-100"
                 x-text="opt.label"
                 x-bind:class="{
@@ -152,7 +171,7 @@
                 x-on:click="select(opt)"
                 role="option"
                 x-bind:aria-selected="String(value) === String(opt.value)"
-            ></button>
+            ></div>
         </template>
     </div>
 
