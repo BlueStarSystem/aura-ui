@@ -14,9 +14,10 @@
 ])
 
 @php
-    $inputClasses = ['aura-input', "aura-input-{$size}"];
-    if ($error) $inputClasses[] = 'aura-input-error';
-    if ($disabled) $inputClasses[] = 'aura-input-disabled';
+    use BlueStarSystem\AuraUI\Support\InputStyle;
+
+    // The class name alone carries no CSS: this rendered as bare text.
+    $inputClasses = [InputStyle::classes($size, (bool) $error, (bool) $disabled)];
 
     // Normalize options to [{label, value}]
     $normalizedOptions = [];

@@ -32,22 +32,11 @@
 @endphp
 
 @php
-    $sizeClasses = match($size) {
-        'sm' => 'aura-input-sm py-1.5 px-2.5 text-[13px]',
-        'lg' => 'aura-input-lg py-3.5 px-[18px] text-[15px]',
-        default => 'py-2.5 px-3.5 text-sm',
-    };
+    use BlueStarSystem\AuraUI\Support\InputStyle;
 
-    $inputClasses = [
-        'aura-input',
-        "aura-input-{$size}",
-        'w-full font-[inherit] leading-normal text-aura-surface-900 bg-aura-surface-100 border border-aura-surface-500 rounded-aura-md outline-none aura-transition box-border',
-        'placeholder:text-aura-surface-400',
-        'hover:border-aura-surface-600 hover:bg-aura-surface-50',
-        'focus:border-aura-primary-500 focus:bg-aura-surface-0 focus:shadow-[var(--aura-glow-primary)]',
-        $sizeClasses,
-    ];
-    if ($error) $inputClasses[] = 'aura-input-error';
+    // The one place that knows what a field looks like. Components that only
+    // copied the class name rendered borderless, transparent boxes.
+    $inputClasses = [InputStyle::classes($size, (bool) $error, $disabled)];
 
     $wrapperClasses = ['aura-input-wrapper', 'flex flex-col gap-1.5 w-full max-w-[340px]'];
     if ($error) $wrapperClasses[] = 'aura-has-error';

@@ -56,7 +56,9 @@
         </div>
     @endif
 
-    <div class="aura-slider-track-wrapper py-1">
+    {{-- No vertical padding: the input now carries 24px of its own height so a
+         pointer has somewhere to land. --}}
+    <div class="aura-slider-track-wrapper flex items-center">
         <input
             type="range"
             id="{{ $sliderId }}"

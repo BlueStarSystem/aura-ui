@@ -34,7 +34,9 @@
         <label class="aura-label">{{ $label }}</label>
     @endif
 
-    <div class="aura-tags-container flex items-center flex-wrap gap-1.5 min-h-[42px] px-3 py-1.5 border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 aura-transition-fast focus-within:border-aura-primary-500 focus-within:shadow-[var(--aura-glow-primary)]" x-bind:class="{ 'opacity-50 pointer-events-none': {{ $disabled ? 'true' : 'false' }} }">
+    {{-- Clicking the padding around the field now lands in the field, which is
+         what a 42px box that holds a 24px input has to do to be that box. --}}
+    <div class="aura-tags-container flex items-center flex-wrap gap-1.5 min-h-[42px] px-3 py-1.5 border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 aura-transition-fast focus-within:border-aura-primary-500 focus-within:shadow-[var(--aura-glow-primary)]" x-bind:class="{ 'opacity-50 pointer-events-none': {{ $disabled ? 'true' : 'false' }} }" x-on:click="$refs.field?.focus()">
         <template x-for="(tag, idx) in tags" :key="idx">
             <span class="aura-tag inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-aura-primary-50 text-aura-primary-700 rounded-aura-full">
                 <span x-text="tag"></span>
@@ -46,7 +48,8 @@
 
         <input
             type="text"
-            class="aura-tags-field aura-input-{{ $size }} flex-1 min-w-[80px] border-none bg-transparent outline-none text-sm text-aura-surface-900 p-0 shadow-none"
+            x-ref="field"
+            class="aura-tags-field aura-input-{{ $size }} flex-1 min-h-6 min-w-[80px] border-none bg-transparent outline-none text-sm text-aura-surface-900 p-0 shadow-none"
             x-model="input"
             x-on:keydown="onKeydown($event)"
             @if($disabled) disabled @endif

@@ -72,7 +72,7 @@
             </span>
         </template>
         @if($searchable)
-            <input type="text" class="aura-multiselect-search flex-1 min-w-[80px] border-none bg-transparent outline-none text-sm text-aura-surface-900 p-0 shadow-none"
+            <input type="text" class="aura-multiselect-search flex-1 min-h-6 min-w-[80px] border-none bg-transparent outline-none text-sm text-aura-surface-900 p-0 shadow-none"
                 x-ref="search" x-model="search" x-on:focus="open = true" x-on:keydown="onKeydown($event)"
                 x-bind:placeholder="selected.length ? '' : {{ Js::from($placeholder) }}" @if($disabled) disabled @endif autocomplete="off" />
         @else
