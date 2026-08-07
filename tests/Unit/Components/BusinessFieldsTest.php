@@ -130,3 +130,11 @@ it('says which of the two ways produced the signature', function () {
         ->toContain('Signature drawn')
         ->toContain("'typed:'");
 });
+
+it('keeps the checksums in the free package, where Filament can reach them', function () {
+    // They moved out of Pro so the Filament package can use them without
+    // asking for a second licence. What is paid for is the field, not the
+    // arithmetic.
+    expect(BlueStarSystem\AuraUI\Support\VatNumber::isValid('00743110157'))->toBeTrue();
+    expect(BlueStarSystem\AuraUI\Support\FiscalCode::isValid('RSSMRA80A01H501U'))->toBeTrue();
+});
