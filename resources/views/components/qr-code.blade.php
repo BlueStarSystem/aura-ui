@@ -14,7 +14,7 @@
     /**
      * A QR code with something to read when you cannot scan it.
      *
-     * A QR code is a picture of a string. Ship it as an unnamed <svg> or a
+     * A QR code is a picture of a string. Ship it as an unnamed `svg` or a
      * <canvas> — which is what most libraries do — and it is nothing at all to
      * a screen reader, to a text browser, or to anyone whose camera is not
      * working. So the encoded value is always in the accessible name, and can

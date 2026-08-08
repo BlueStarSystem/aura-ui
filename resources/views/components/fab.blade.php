@@ -63,7 +63,7 @@
             <x-aura::icon :name="$icon" :class="$iconSize" />
         @else
             <span @if($expandable) :class="open ? 'rotate-45' : ''" class="aura-transition" @endif>
-                <svg class="{{ $iconSize }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                <svg aria-hidden="true" focusable="false" class="{{ $iconSize }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
             </span>
         @endif
     </button>

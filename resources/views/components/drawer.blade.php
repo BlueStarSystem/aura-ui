@@ -106,7 +106,7 @@
             @endif
             @if($closeable)
                 <button x-on:click="closeDrawer()" type="button" style="padding:0.25rem;color:var(--aura-surface-400, #9ca3af);cursor:pointer;border:none;background:none;line-height:0;" aria-label="{{ __('aura-ui::messages.close') }}">
-                    <svg style="width:1.25rem;height:1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    <svg aria-hidden="true" focusable="false" style="width:1.25rem;height:1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
             @endif
         </div>

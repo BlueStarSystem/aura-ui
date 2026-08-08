@@ -41,7 +41,7 @@
      aria-valuenow="{{ $val }}"
      aria-valuemin="0"
      aria-valuemax="100">
-    <svg width="{{ $svgSize }}" height="{{ $svgSize }}" viewBox="0 0 {{ $svgSize }} {{ $svgSize }}" class="transform -rotate-90">
+    <svg aria-hidden="true" focusable="false" width="{{ $svgSize }}" height="{{ $svgSize }}" viewBox="0 0 {{ $svgSize }} {{ $svgSize }}" class="transform -rotate-90">
         <circle cx="{{ $svgSize / 2 }}" cy="{{ $svgSize / 2 }}" r="{{ $radius }}"
                 fill="none" stroke="currentColor" stroke-width="{{ $strokeWidth }}"
                 class="opacity-15" />

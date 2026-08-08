@@ -349,6 +349,22 @@
     $svgContent = $resolvedName ?? '<circle cx="12" cy="12" r="10"/>';
 @endphp
 
-<svg {!! $sizeAttr !!} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" {{ $attributes }}>
+{{-- Hidden by default, and named only when the caller says so.
+     An icon is decoration nine times out of ten: it sits beside a word or
+     inside a button that already has a name, and announcing it a second time
+     as an unnamed graphic is noise. Passing `aria-label` or `role="img"`
+     overrides this, because the attribute bag comes after. --}}
+<svg
+    {!! $sizeAttr !!}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+    {{ $attributes }}
+>
     {!! $svgContent !!}
 </svg>
