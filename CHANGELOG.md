@@ -7,6 +7,203 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [3.26.0] - 2026-08-07
+
+### Added
+- `Support\VatNumber` and `Support\FiscalCode`: the European VAT check digit and the Italian
+  fiscal code check letter, computed offline. They moved here from the Pro package so the
+  Filament theme can use them without a second licence — the arithmetic is free, the fields that
+  use it are not. The Pro classes still work and delegate here.
+
+## [3.25.0] - 2026-08-07
+
+### Added
+- `button-group`, `combobox`, `menubar` and `qr-code`. The combobox carries the ARIA pattern in
+  full: `aria-activedescendant`, and options that are options rather than buttons, so arrowing
+  through the list is announced and Tab does not walk into the popup.
+- `currency-input`, `phone-input`, `iban-field` and `signature-pad` — the fields a European form
+  needs. Each posts a machine value rather than its own formatting, which is how `1.234,56`
+  becomes `1.234` on the server and a thousand euro leave an invoice. The IBAN carries the
+  ISO 13616 checksum and a matching `Rules\Iban` validation rule.
+- The signature pad offers typing your name beside the canvas. Drawing a curve has no keyboard
+  equivalent, so a canvas on its own is a WCAG 2.1.1 failure at Level A.
+
+### Fixed
+- `autocomplete` rendered its label without a `for` and its input without an `id`: the field's
+  only accessible name was its placeholder, which disappears on the first keystroke. Its options
+  were `<button role="option">`, which Tab walked into, and nothing announced the highlight.
+
+## [3.24.1] - 2026-08-07
+
+### Fixed
+- `date-picker`, `time-picker` and `autocomplete` rendered as bare text: no border, no
+  background, 20 pixels tall. They reused the `.aura-input` class name, which carries no CSS —
+  every visible property of a field came from utilities written inside the input component.
+  `Support\InputStyle` is now the one place that knows what a field looks like.
+- The slider's pointer target was as tall as the line it draws — six pixels. The track stays 6px;
+  the box you can hit is now 24, which is what WCAG 2.5.8 asks for.
+- The fields that hold chips (`tags`, `multiselect`) were 20 pixels tall, and clicking the
+  padding around them did nothing.
+
+## [3.24.0] - 2026-08-06
+
+### Added
+- Display, marketing, layout and navigation components: `image`, `price`, `usage-meter`,
+  `toggle-button`, `activity-row`, `action-bar`, `ticker`, `reveal`, `status-tiles` and the rest
+  of the fourth breadth batch.
+
+### Fixed
+- `price` and `ticker` wrote numbers in Italian format for every reader. Both now follow the
+  locale, so an American sees `1,234.50` and not `1.234,50`.
+
+## [3.23.0] - 2026-08-06
+
+### Added
+- Add the seven primitives the catalogue was missing
+
+## [3.22.2] - 2026-08-06
+
+### Fixed
+- Pick chip ink the browser can actually resolve, and follow the theme
+- Stop the dark overrides undoing the inverted scale
+- Make the collapsible trigger reachable from the keyboard
+- Raise the muted text and success shades above 4.5:1
+
+## [3.22.1] - 2026-08-06
+
+### Fixed
+- Give the critical controls an accessible name and a valid role
+
+## [3.22.0] - 2026-08-06
+
+### Added
+- Let the command palette open without a keyboard
+
+## [3.21.0] - 2026-08-06
+
+### Added
+- Close the remaining WCAG 2.2 gaps and three notification-centre defects
+
+## [3.20.0] - 2026-08-06
+
+### Added
+- Derive a field id from wire:model before falling back to a random one
+
+## [3.19.1] - 2026-08-06
+
+### Fixed
+- Let a colour through the CSS value guard
+
+## [3.19.0] - 2026-08-06
+
+### Added
+- Add label, number-input, password-input and a two-handle range slider
+
+## [3.18.4] - 2026-08-06
+
+### Fixed
+- Stop a value breaking out of the JavaScript string in an Alpine attribute
+
+## [3.18.3] - 2026-08-06
+
+### Fixed
+- Guard the five older components that interpolate a prop into style
+
+## [3.18.2] - 2026-08-06
+
+### Fixed
+- Connect a field's error message to the field, for a screen reader too
+
+## [3.18.1] - 2026-08-06
+
+### Fixed
+- Stop link and the layout primitives passing through what Blade does not escape
+
+## [3.18.0] - 2026-08-06
+
+### Added
+- Add fourteen layout, accessibility and typography primitives
+
+## [3.17.0] - 2026-08-05
+
+### Added
+- Ship a standalone aura binary so a project needs no Aura dependency
+
+## [3.16.4] - 2026-08-05
+
+### Fixed
+- Align the fab with the corrected button shades
+
+## [3.16.3] - 2026-08-05
+
+### Fixed
+- Stop aura:doctor --a11y reporting the field pattern it recommends
+
+## [3.16.2] - 2026-08-05
+
+### Fixed
+- Extend accent palettes to 900, fix flattened button hovers, add render-backed contrast test
+
+## [3.16.1] - 2026-08-05
+
+### Fixed
+- Stop the base border color from neutralising variant borders, restore keyframes @layer wrapping
+
+## [3.16.0] - 2026-08-04
+
+### Added
+- Make isIdentChar() non-ASCII-aware per the CSS Syntax spec
+- Flush trailing declarations, gate nested overrides, fix url() boundary
+- Extract theme declarations inside the scan, closing the regex seam
+- Enforce the theme-scanner unreadable invariant, not just the three inputs
+- Make theme-colour scanning quote/comment-aware and crash-proof aura:doctor
+- Harden theme-colour parsing and contrast reads in aura:doctor --a11y
+- Check the app's own theme colours for WCAG AA in aura:doctor --a11y
+- Recognize wrapping <label> as satisfying aura:doctor --a11y field labels
+- Fix three false positives in aura:doctor --a11y
+- Add accessibility checks to aura:doctor behind --a11y
+
+## [3.15.5] - 2026-08-04
+
+### Fixed
+- Fix editor.blade.php's missed resting border and hover-fade regressions
+- Close outline-button resting border contrast gap (WCAG AA 3:1)
+- Close remaining WCAG AA gaps -- form-control resting borders and toggle track boundary
+
+## [3.15.4] - 2026-08-04
+
+### Fixed
+- WCAG AA dark-mode contrast on button, calendar, fab, indicator, checkbox/radio/toggle
+
+## [3.15.3] - 2026-08-04
+
+### Fixed
+- Restore dark-mode visibility of toast and progress bars
+
+## [3.15.2] - 2026-08-04
+
+### Changed
+- Maintenance release.
+
+## [3.15.1] - 2026-08-04
+
+### Fixed
+- WCAG AA contrast on alert, affix/footer text, and free-package Class C/D surfaces
+- Meet WCAG AA contrast on solid component surfaces
+- Compute WCAG contrast from relative luminance, not OKLCH lightness
+
+## [3.15.0] - 2026-08-03
+
+### Added
+- Add aura:doctor to catch silent setup and usage mistakes
+
+## [3.16.5] - 2026-08-04
+
+The form-control contrast work. Released across 3.16.0-3.16.5; the entries
+below describe it as one change because that is how it is used.
+
 ### Fixed
 - **Form controls had a resting boundary too faint to perceive (WCAG 2.1 SC 1.4.11, 3:1).**
   The idle border of `input`, `select`, `textarea`, `checkbox`, `radio`, `multiselect`, `tags`,
