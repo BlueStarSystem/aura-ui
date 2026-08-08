@@ -20,7 +20,7 @@
                     <x-aura::icon name="zap" size="md" />
                 </div>
                 <h3 class="font-heading text-base font-semibold text-aura-surface-900 dark:text-white">Instant Velocity</h3>
-                <p class="mt-2 text-sm leading-relaxed text-aura-surface-500 dark:text-aura-surface-400">
+                <p class="mt-2 text-sm leading-relaxed text-aura-surface-600">
                     Pre-built, production-ready sections. Drop in and customise — no scaffolding required.
                 </p>
             </x-aura::card>
@@ -29,7 +29,7 @@
                     <x-aura::icon name="palette" size="md" />
                 </div>
                 <h3 class="font-heading text-base font-semibold text-aura-surface-900 dark:text-white">Design Tokens</h3>
-                <p class="mt-2 text-sm leading-relaxed text-aura-surface-500 dark:text-aura-surface-400">
+                <p class="mt-2 text-sm leading-relaxed text-aura-surface-600">
                     Consistent colour, spacing, and radius scales. Change your theme once, update everywhere.
                 </p>
             </x-aura::card>
@@ -38,7 +38,7 @@
                     <x-aura::icon name="moon" size="md" />
                 </div>
                 <h3 class="font-heading text-base font-semibold text-aura-surface-900 dark:text-white">Dark Mode Ready</h3>
-                <p class="mt-2 text-sm leading-relaxed text-aura-surface-500 dark:text-aura-surface-400">
+                <p class="mt-2 text-sm leading-relaxed text-aura-surface-600">
                     Every block ships with first-class dark mode variants. Zero extra effort on your part.
                 </p>
             </x-aura::card>
@@ -47,7 +47,7 @@
                     <x-aura::icon name="shield" size="md" />
                 </div>
                 <h3 class="font-heading text-base font-semibold text-aura-surface-900 dark:text-white">Accessible by Default</h3>
-                <p class="mt-2 text-sm leading-relaxed text-aura-surface-500 dark:text-aura-surface-400">
+                <p class="mt-2 text-sm leading-relaxed text-aura-surface-600">
                     ARIA attributes, keyboard navigation, and focus rings baked into every component.
                 </p>
             </x-aura::card>
@@ -56,8 +56,8 @@
                     <x-aura::icon name="code" size="md" />
                 </div>
                 <h3 class="font-heading text-base font-semibold text-aura-surface-900 dark:text-white">Own the Source</h3>
-                <p class="mt-2 text-sm leading-relaxed text-aura-surface-500 dark:text-aura-surface-400">
-                    Run <code class="rounded bg-aura-surface-100 px-1 py-0.5 text-xs dark:bg-aura-surface-800">aura:add</code> and the file lands in your project. Yours to edit forever.
+                <p class="mt-2 text-sm leading-relaxed text-aura-surface-600">
+                    Run <code class="rounded bg-aura-surface-100 px-1 py-0.5 text-xs text-aura-surface-900 dark:bg-aura-surface-800">aura:add</code> and the file lands in your project. Yours to edit forever.
                 </p>
             </x-aura::card>
             <x-aura::card hover class="group">
@@ -65,7 +65,7 @@
                     <x-aura::icon name="layers" size="md" />
                 </div>
                 <h3 class="font-heading text-base font-semibold text-aura-surface-900 dark:text-white">Composable Blocks</h3>
-                <p class="mt-2 text-sm leading-relaxed text-aura-surface-500 dark:text-aura-surface-400">
+                <p class="mt-2 text-sm leading-relaxed text-aura-surface-600">
                     Combine hero, feature, stats, and CTA sections freely. Blocks are self-contained by design.
                 </p>
             </x-aura::card>

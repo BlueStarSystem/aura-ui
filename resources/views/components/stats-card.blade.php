@@ -24,7 +24,7 @@
 
 <{{ $tag }} @if($href) href="{{ $href }}" @endif {{ $attributes->class([$baseClasses, $href ? 'aura-card-hover hover:shadow-aura-xl hover:-translate-y-0.5 hover:border-aura-surface-300' : '']) }}>
     <div class="aura-stats-content flex flex-col gap-1">
-        <p class="aura-stats-title m-0 text-[13px] font-medium text-aura-surface-400 uppercase tracking-wider">{{ $title }}</p>
+        <p class="aura-stats-title m-0 text-[13px] font-medium text-aura-surface-600 uppercase tracking-wider">{{ $title }}</p>
         <p class="aura-stats-value m-0 text-[28px] font-bold text-aura-surface-900 tracking-tight leading-tight">{{ $value }}</p>
         @if($change)
             <div class="aura-stats-change {{ $changeClass }} inline-flex items-center gap-1 mt-1 text-[13px] font-semibold">
