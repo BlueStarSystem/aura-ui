@@ -33,7 +33,7 @@
         <span class="aura-toggle-text flex flex-col">
             <span class="aura-toggle-label text-sm font-[450] text-aura-surface-900">{{ $label }}</span>
             @if($description)
-                <span class="aura-toggle-description text-xs text-aura-surface-400">{{ $description }}</span>
+                <span class="aura-toggle-description text-xs text-aura-surface-600">{{ $description }}</span>
             @endif
         </span>
     @endif

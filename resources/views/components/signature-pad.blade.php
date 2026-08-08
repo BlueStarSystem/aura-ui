@@ -145,7 +145,7 @@
     <input type="hidden" name="{{ $name }}" x-bind:value="value" />
 
     @if($error)
-        <p id="{{ $descriptionId }}" role="alert" class="aura-signature-error text-xs font-medium text-aura-danger-500">{{ $error }}</p>
+        <p id="{{ $descriptionId }}" role="alert" class="aura-signature-error text-xs font-medium text-aura-danger-700 dark:text-aura-danger-500">{{ $error }}</p>
     @elseif($hint)
         <p class="aura-signature-hint text-xs text-aura-surface-600">{{ $hint }}</p>
     @endif

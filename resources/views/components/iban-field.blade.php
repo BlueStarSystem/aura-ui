@@ -98,7 +98,7 @@
     <input type="hidden" name="{{ $name }}" x-bind:value="plain" />
 
     @if($error)
-        <p id="{{ $descriptionId }}" role="alert" class="aura-iban-field-error text-xs font-medium text-aura-danger-500">{{ $error }}</p>
+        <p id="{{ $descriptionId }}" role="alert" class="aura-iban-field-error text-xs font-medium text-aura-danger-700 dark:text-aura-danger-500">{{ $error }}</p>
     @else
         <p
             id="{{ $descriptionId }}"

@@ -8,6 +8,15 @@
     'size' => 'md',
 ])
 
+@php
+    use BlueStarSystem\AuraUI\Support\Html;
+
+    // A label with no `for` and an input with no id: clicking the label
+    // does nothing and the error text below is attached to nothing.
+    $tagsFieldId = Html::fieldId($attributes->get('id'), null, $label, Html::wireModelFrom($attributes->getAttributes()));
+    $tagsFieldIdError = $tagsFieldId.'-error';
+@endphp
+
 <div
     {{ $attributes->class(['aura-tags-wrapper relative flex flex-col gap-1.5']) }}
     x-data="{
@@ -31,7 +40,7 @@
     }"
 >
     @if($label)
-        <label class="aura-label">{{ $label }}</label>
+        <label for="{{ $tagsFieldId }}" class="aura-label">{{ $label }}</label>
     @endif
 
     {{-- Clicking the padding around the field now lands in the field, which is
@@ -48,7 +57,7 @@
 
         <input
             type="text"
-            x-ref="field"
+            x-ref="field" id="{{ $tagsFieldId }}" @if($error) aria-invalid="true" aria-describedby="{{ $tagsFieldIdError }}" @endif 
             class="aura-tags-field aura-input-{{ $size }} flex-1 min-h-6 min-w-[80px] border-none bg-transparent outline-none text-sm text-aura-surface-900 p-0 shadow-none"
             x-model="input"
             x-on:keydown="onKeydown($event)"
@@ -63,7 +72,7 @@
     @endif
 
     @if($error)
-        <p class="aura-input-error-text">{{ $error }}</p>
+        <p role="alert" id="{{ $tagsFieldIdError }}" class="aura-input-error-text">{{ $error }}</p>
     @elseif($hint)
         <p class="aura-input-hint">{{ $hint }}</p>
     @endif

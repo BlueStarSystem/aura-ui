@@ -12,6 +12,15 @@
 ])
 
 @php
+    use BlueStarSystem\AuraUI\Support\Html;
+
+    // A label with no `for` and an input with no id: clicking the label
+    // does nothing and the error text below is attached to nothing.
+    $multiselectId = Html::fieldId($attributes->get('id'), null, $label, Html::wireModelFrom($attributes->getAttributes()));
+    $multiselectIdError = $multiselectId.'-error';
+@endphp
+
+@php
     $normalized = [];
     foreach ($options as $k => $v) {
         if (is_int($k)) {
@@ -57,7 +66,7 @@
     x-on:click.outside="open = false"
 >
     @if($label)
-        <label class="aura-label">{{ $label }}</label>
+        <label for="{{ $multiselectId }}" class="aura-label">{{ $label }}</label>
     @endif
 
     <div class="aura-multiselect-control flex items-center flex-wrap gap-1.5 min-h-[42px] px-3 py-1.5 border border-aura-surface-500 rounded-aura-md bg-aura-surface-0 aura-transition-fast focus-within:border-aura-primary-500 focus-within:shadow-[var(--aura-glow-primary)] {{ $error ? 'border-aura-danger-500' : '' }}"
@@ -73,7 +82,8 @@
         </template>
         @if($searchable)
             <input type="text" class="aura-multiselect-search flex-1 min-h-6 min-w-[80px] border-none bg-transparent outline-none text-sm text-aura-surface-900 p-0 shadow-none"
-                x-ref="search" x-model="search" x-on:focus="open = true" x-on:keydown="onKeydown($event)"
+                x-ref="search" x-model="search" id="{{ $multiselectId }}" @if($error) aria-invalid="true" aria-describedby="{{ $multiselectIdError }}" @endif 
+ x-on:focus="open = true" x-on:keydown="onKeydown($event)"
                 x-bind:placeholder="selected.length ? '' : {{ Js::from($placeholder) }}" @if($disabled) disabled @endif autocomplete="off" />
         @else
             <span class="flex-1 text-sm text-aura-surface-400" x-show="!selected.length">{{ $placeholder }}</span>
@@ -97,7 +107,7 @@
     </div>
 
     @if($error)
-        <p class="aura-input-error-text">{{ $error }}</p>
+        <p role="alert" id="{{ $multiselectIdError }}" class="aura-input-error-text">{{ $error }}</p>
     @elseif($hint)
         <p class="aura-input-hint">{{ $hint }}</p>
     @endif

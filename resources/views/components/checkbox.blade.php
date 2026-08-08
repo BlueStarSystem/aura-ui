@@ -26,7 +26,7 @@
         <span class="aura-checkbox-content flex flex-col gap-0.5">
             <span class="aura-checkbox-label text-sm font-[450] text-aura-surface-900 leading-snug">{{ $label }}</span>
             @if($description)
-                <span id="{{ $descriptionId }}" class="aura-checkbox-description text-xs text-aura-surface-400 leading-snug">{{ $description }}</span>
+                <span id="{{ $descriptionId }}" class="aura-checkbox-description text-xs text-aura-surface-600 leading-snug">{{ $description }}</span>
             @endif
         </span>
     @endif

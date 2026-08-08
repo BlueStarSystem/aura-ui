@@ -447,8 +447,13 @@
     background: var(--color-aura-surface-0);
 }
 
+/* The select was missing here, so in dark mode a field in error kept the light
+   danger-50 background from the rule above while its text inverted to near
+   white: white on pale pink, which is not a contrast problem so much as an
+   invisible field. */
 .dark .aura-has-error .aura-input,
-.dark .aura-has-error .aura-textarea {
+.dark .aura-has-error .aura-textarea,
+.dark .aura-has-error .aura-select {
     background: rgba(248, 113, 113, 0.06);
 }
 

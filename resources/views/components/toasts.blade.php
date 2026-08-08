@@ -61,7 +61,7 @@
         >
             <div class="aura-toast-icon shrink-0" x-bind:class="{
                 'text-aura-success-500': toast.type === 'success',
-                'text-aura-danger-500': toast.type === 'danger' || toast.type === 'error',
+                'text-aura-danger-700 dark:text-aura-danger-500': toast.type === 'danger' || toast.type === 'error',
                 'text-aura-warning-500': toast.type === 'warning',
                 'text-aura-info-500': toast.type === 'info'
             }">

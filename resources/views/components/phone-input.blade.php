@@ -117,7 +117,7 @@
     <input type="hidden" name="{{ $name }}" x-bind:value="full" />
 
     @if($error)
-        <p id="{{ $descriptionId }}" role="alert" class="aura-phone-input-error text-xs font-medium text-aura-danger-500">{{ $error }}</p>
+        <p id="{{ $descriptionId }}" role="alert" class="aura-phone-input-error text-xs font-medium text-aura-danger-700 dark:text-aura-danger-500">{{ $error }}</p>
     @elseif($hint)
         <p id="{{ $descriptionId }}" class="aura-phone-input-hint text-xs text-aura-surface-600">{{ $hint }}</p>
     @endif

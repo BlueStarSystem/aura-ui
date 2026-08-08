@@ -21,8 +21,8 @@
     {{ $slot }}
 
     @if($error)
-        <p @if($descriptionId) id="{{ $descriptionId }}" @endif class="aura-input-error-text text-xs text-aura-danger-500">{{ $error }}</p>
+        <p role="alert" @if($descriptionId) id="{{ $descriptionId }}" @endif class="aura-input-error-text text-xs text-aura-danger-700 dark:text-aura-danger-500">{{ $error }}</p>
     @elseif($hint)
-        <p @if($descriptionId) id="{{ $descriptionId }}" @endif class="aura-input-hint text-xs text-aura-surface-400">{{ $hint }}</p>
+        <p @if($descriptionId) id="{{ $descriptionId }}" @endif class="aura-input-hint text-xs text-aura-surface-600">{{ $hint }}</p>
     @endif
 </div>

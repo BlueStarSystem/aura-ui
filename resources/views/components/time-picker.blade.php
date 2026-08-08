@@ -12,6 +12,15 @@
 ])
 
 @php
+    use BlueStarSystem\AuraUI\Support\Html;
+
+    // A label with no `for` and an input with no id: clicking the label
+    // does nothing and the error text below is attached to nothing.
+    $timePickerId = Html::fieldId($attributes->get('id'), null, $label, Html::wireModelFrom($attributes->getAttributes()));
+    $timePickerIdError = $timePickerId.'-error';
+@endphp
+
+@php
     use BlueStarSystem\AuraUI\Support\InputStyle;
 
     // The class name alone carries no CSS: this rendered as bare text.
@@ -58,13 +67,15 @@
     x-on:keydown.escape.window="open = false"
 >
     @if($label)
-        <label class="aura-label">{{ $label }}</label>
+        <label for="{{ $timePickerId }}" class="aura-label">{{ $label }}</label>
     @endif
 
     <div class="aura-timepicker-input-wrap relative">
         <input
             type="text"
+            id="{{ $timePickerId }}"
             class="{{ implode(' ', $inputClasses) }} aura-timepicker-input"
+            @if($error) aria-invalid="true" aria-describedby="{{ $timePickerIdError }}" @endif
             x-bind:value="value"
             placeholder="{{ $placeholder }}"
             readonly
@@ -127,7 +138,7 @@
     </div>
 
     @if($error)
-        <p class="aura-input-error-text">{{ $error }}</p>
+        <p role="alert" id="{{ $timePickerIdError }}" class="aura-input-error-text">{{ $error }}</p>
     @elseif($hint)
         <p class="aura-input-hint">{{ $hint }}</p>
     @endif

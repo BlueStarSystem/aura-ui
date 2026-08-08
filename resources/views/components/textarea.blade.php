@@ -64,9 +64,9 @@
 
     <div class="aura-input-footer">
         @if($error)
-            <p id="{{ $descriptionId }}" role="alert" class="aura-input-error-text text-xs text-aura-danger-500 font-medium flex items-center gap-1 aura-animate-shake">{{ $error }}</p>
+            <p id="{{ $descriptionId }}" role="alert" class="aura-input-error-text text-xs text-aura-danger-700 dark:text-aura-danger-500 font-medium flex items-center gap-1 aura-animate-shake">{{ $error }}</p>
         @elseif($hint)
-            <p id="{{ $descriptionId }}" class="aura-input-hint text-xs text-aura-surface-400 leading-snug">{{ $hint }}</p>
+            <p id="{{ $descriptionId }}" class="aura-input-hint text-xs text-aura-surface-600 leading-snug">{{ $hint }}</p>
         @endif
 
         @if($characterCount && $maxlength)

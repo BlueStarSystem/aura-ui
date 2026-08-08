@@ -124,6 +124,7 @@
             role="combobox"
             aria-autocomplete="list"
             aria-controls="{{ $autocompleteListId }}"
+            @if($error) aria-invalid="true" aria-describedby="{{ $autocompleteId }}-error" @endif
             x-bind:aria-expanded="open"
             {{-- Arrowing down used to highlight an option visually and announce
                  nothing at all: the focus never leaves the input, so the only
@@ -185,7 +186,9 @@
     </div>
 
     @if($error)
-        <p class="aura-input-error-text">{{ $error }}</p>
+        {{-- Announced when it appears, and attached to the field so it is also
+             read by anyone who tabs onto it afterwards. --}}
+        <p role="alert" id="{{ $autocompleteId }}-error" class="aura-input-error-text">{{ $error }}</p>
     @elseif($hint)
         <p class="aura-input-hint">{{ $hint }}</p>
     @endif

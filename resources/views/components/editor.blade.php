@@ -133,7 +133,7 @@
     </div>
 
     @if($error)
-        <p class="aura-input-error-text" id="{{ $editorId }}-error">{{ $error }}</p>
+        <p role="alert" class="aura-input-error-text" id="{{ $editorId }}-error">{{ $error }}</p>
     @elseif($hint)
         <p class="aura-input-hint" id="{{ $editorId }}-hint">{{ $hint }}</p>
     @endif

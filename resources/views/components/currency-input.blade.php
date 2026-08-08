@@ -121,7 +121,7 @@
     />
 
     @if($error)
-        <p id="{{ $descriptionId }}" role="alert" class="aura-currency-input-error text-xs font-medium text-aura-danger-500">{{ $error }}</p>
+        <p id="{{ $descriptionId }}" role="alert" class="aura-currency-input-error text-xs font-medium text-aura-danger-700 dark:text-aura-danger-500">{{ $error }}</p>
     @else
         <p id="{{ $descriptionId }}" class="aura-currency-input-hint text-xs text-aura-surface-600">
             {{ $hint ?? __('aura-ui::messages.currency.hint', ['currency' => strtoupper($currency)]) }}

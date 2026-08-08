@@ -10,7 +10,7 @@
     </div>
     <h3 class="aura-empty-state-title m-0 mb-2 text-base font-semibold text-aura-surface-900">{{ $title }}</h3>
     @if($description)
-        <p class="aura-empty-state-description m-0 mb-5 text-sm text-aura-surface-400 max-w-[360px] leading-normal">{{ $description }}</p>
+        <p class="aura-empty-state-description m-0 mb-5 text-sm text-aura-surface-600 max-w-[360px] leading-normal">{{ $description }}</p>
     @endif
     @if($slot->isNotEmpty())
         <div class="aura-empty-state-actions flex items-center gap-2">

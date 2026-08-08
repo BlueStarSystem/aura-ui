@@ -188,7 +188,7 @@
     >{{ $noResultsText ?? __('aura-ui::messages.combobox.no_results') }}</p>
 
     @if($error)
-        <p id="{{ $descriptionId }}" role="alert" class="aura-combobox-error text-xs font-medium text-aura-danger-500">{{ $error }}</p>
+        <p id="{{ $descriptionId }}" role="alert" class="aura-combobox-error text-xs font-medium text-aura-danger-700 dark:text-aura-danger-500">{{ $error }}</p>
     @elseif($hint)
         <p id="{{ $descriptionId }}" class="aura-combobox-hint text-xs text-aura-surface-600">{{ $hint }}</p>
     @endif

@@ -141,7 +141,7 @@
                 <x-aura::icon name="upload-cloud" size="xl" class="aura-file-upload-icon text-aura-surface-300" />
                 <p class="aura-file-upload-text text-sm text-aura-surface-500">{{ __('aura-ui::messages.file_upload.drop_or_select') }}</p>
                 @if($maxSize)
-                    <p class="aura-file-upload-hint text-xs text-aura-surface-400">Max {{ $maxSize }}</p>
+                    <p class="aura-file-upload-hint text-xs text-aura-surface-600">Max {{ $maxSize }}</p>
                 @endif
             @endif
         </div>
@@ -171,10 +171,10 @@
     </div>
 
     {{-- JS error --}}
-    <p x-show="error" x-text="error" class="aura-input-error-text"></p>
+    <p role="alert" x-show="error" x-text="error" class="aura-input-error-text"></p>
 
     @if($error)
-        <p class="aura-input-error-text">{{ $error }}</p>
+        <p role="alert" class="aura-input-error-text">{{ $error }}</p>
     @elseif($hint)
         <p class="aura-input-hint">{{ $hint }}</p>
     @endif
