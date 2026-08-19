@@ -1,49 +1,55 @@
 # Aura UI
 
 [![Latest Version](https://img.shields.io/packagist/v/bluestarsystem/aura-ui.svg?style=flat-square)](https://packagist.org/packages/bluestarsystem/aura-ui)
+[![Downloads](https://img.shields.io/packagist/dt/bluestarsystem/aura-ui.svg?style=flat-square)](https://packagist.org/packages/bluestarsystem/aura-ui)
 [![License](https://img.shields.io/packagist/l/bluestarsystem/aura-ui.svg?style=flat-square)](LICENSE)
 [![Tests](https://github.com/BlueStarSystem/aura-ui/actions/workflows/tests.yml/badge.svg)](https://github.com/BlueStarSystem/aura-ui/actions/workflows/tests.yml)
 [![PHP](https://img.shields.io/badge/php-8.3%2B-8892BF?style=flat-square)]()
-[![Laravel](https://img.shields.io/badge/laravel-12-FF2D20?style=flat-square)]()
+[![Laravel](https://img.shields.io/badge/laravel-12%20%7C%2013-FF2D20?style=flat-square)]()
 [![Tailwind CSS](https://img.shields.io/badge/tailwind-4-38BDF8?style=flat-square)]()
 
-**"Vibrant Depth" UI component library for Laravel 12 + Livewire 4 + Alpine.js + Tailwind CSS 4.**
+**"Vibrant Depth" UI component library for Laravel 12/13 + Livewire 3/4 + Alpine.js + Tailwind CSS 4.**
 
-Aura UI provides **64 production-ready Blade components** with a cohesive design system featuring gradients, glow effects, micro-animations, glass morphism, and full dark mode support. Unlike flat/minimal UI libraries, Aura UI intentionally goes in a different direction while staying professional.
+Aura UI ships **127 production-ready Blade components under the MIT licence** — no account, no
+licence key, no paid tier required to use them. They share one design system: gradients, glow,
+micro-animations, glass morphism and full dark mode. Where most libraries go flat and minimal,
+Aura deliberately goes the other way, while staying professional.
 
-Date picker, file upload, autocomplete, charts, calendar, command palette and the rich editor are all included here, under the MIT licence -- no account and no licence key required.
+**[Browse every component →](https://aura-ui.com/components)** · machine-readable index at
+[`/r/registry.json`](https://aura-ui.com/r/registry.json)
 
-**Building an admin panel?** [Aura UI Pro](https://aura-ui.com) adds a DataTable system, application shells and data-heavy components on top.
+Date picker, time picker, file upload, autocomplete, multiselect, calendar, command palette,
+QR code, the editor, a Chart.js-backed chart, and European business fields such as the IBAN
+field and the currency input — all in the free package.
+
+## Why Aura
+
+- **Breadth, free.** Most libraries put the interesting components behind a licence. Here the
+  calendar, the command palette, the date picker and a chart component (line, bar, pie,
+  doughnut, area) are MIT.
+- **Own the code.** `php artisan aura:add button` copies the component source into your app.
+  Keep Aura as a dependency or walk away with the files — your choice, no lock-in.
+- **Accessibility is tested, not claimed.** 111 colour pairs are checked against the WCAG
+  contrast thresholds in CI, and `php artisan aura:doctor --a11y` runs the same checks against
+  *your* Blade templates.
+- **Built to be read by AI assistants.** Every docs page is available as raw Markdown by
+  appending `.md` to its URL, indexed in [llms.txt](https://aura-ui.com/llms.txt), plus an MCP
+  server so your assistant can look up real component APIs instead of inventing them.
+- **1,233 tests** in this package (measured 2026-08-09).
 
 ## Requirements
 
 - PHP 8.3+
-- Laravel 12
+- Laravel 12 or 13
 - Tailwind CSS 4
+
+Livewire is optional — the components are anonymous Blade components and work without it.
 
 ## Installation
 
 ```bash
 composer require bluestarsystem/aura-ui
-```
-
-Publish config and CSS:
-
-```bash
 php artisan aura:install
-```
-
-Or publish individually:
-
-```bash
-# Config only
-php artisan vendor:publish --tag=aura-ui-config
-
-# CSS only
-php artisan vendor:publish --tag=aura-ui-css
-
-# Views (for customization)
-php artisan vendor:publish --tag=aura-ui-views
 ```
 
 Import the CSS in your app:
@@ -51,6 +57,14 @@ Import the CSS in your app:
 ```css
 /* resources/css/app.css */
 @import "vendor/aura-ui/aura.css";
+```
+
+Publish individually if you prefer:
+
+```bash
+php artisan vendor:publish --tag=aura-ui-config
+php artisan vendor:publish --tag=aura-ui-css
+php artisan vendor:publish --tag=aura-ui-views
 ```
 
 ## Quick Start
@@ -81,84 +95,41 @@ Import the CSS in your app:
 
 ## Components
 
-### Primitives
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Button | `<x-aura::button>` | 6 variants, 5 sizes, outline, gradient, loading state |
-| Input | `<x-aura::input>` | Label, hint, error, prefix/suffix, clearable |
-| Textarea | `<x-aura::textarea>` | Auto-resize, character count |
-| Select | `<x-aura::select>` | Native select with custom styling |
-| Checkbox | `<x-aura::checkbox>` | Animated check, label, description |
-| Radio | `<x-aura::radio>` | Grouped via `<x-aura::radio-group>` |
-| Toggle | `<x-aura::toggle>` | Switch with sizes and colors |
-| Icon | `<x-aura::icon>` | Heroicons integration |
+The full catalogue, with live previews and props for every component, is at
+**[aura-ui.com/components](https://aura-ui.com/components)**.
 
-### Feedback
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Badge | `<x-aura::badge>` | 6 variants, dot, outline, pill, removable |
-| Alert | `<x-aura::alert>` | 4 variants, dismissible, icon, title |
-| Spinner | `<x-aura::spinner>` | Border and gradient styles, 3 sizes |
-| Skeleton | `<x-aura::skeleton>` | Text, title, circle, avatar, button, image |
-| Progress | `<x-aura::progress>` | 5 colors, striped, animated, label |
+It is deliberately not duplicated here: a list in a README goes stale the moment a component is
+added, and this one did — it advertised a third of what was actually in the box.
 
-### Layout
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Card | `<x-aura::card>` | Header/body/footer slots, glass, hover |
-| Container | `<x-aura::container>` | Max-width centered wrapper (sm/md/lg/xl/full) |
-| Layout | `<x-aura::layout>` | Flex wrapper for main + aside |
-| Main | `<x-aura::main>` | Semantic primary content area |
-| Aside | `<x-aura::aside>` | Sidebar with width and sticky options |
-| Modal | `<x-aura::modal>` | Overlay, slide-over, glass, sizes |
-| Dropdown | `<x-aura::dropdown>` | Items, separators, keyboard nav |
-| Tooltip | `<x-aura::tooltip>` | Positions, delay |
-| Avatar | `<x-aura::avatar>` | Sizes, status, initials, group |
+Each page is also available as Markdown for humans and machines alike, e.g.
+[`/docs/components/button.md`](https://aura-ui.com/docs/components/button.md).
 
-### Navigation
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Breadcrumbs | `<x-aura::breadcrumbs>` | Items array, responsive |
-| Pagination | `<x-aura::pagination>` | Laravel paginator, per-page |
+## Own the code
 
-### Data Display
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Empty State | `<x-aura::empty-state>` | Icon, title, description, actions |
-| Stats Card | `<x-aura::stats-card>` | Value, change, icon |
-| Description List | `<x-aura::description-list>` | Label/value pairs |
-| Table | `<x-aura::table>` | Composable table with striped, hoverable, bordered, compact |
+```bash
+php artisan aura:init                 # prepare the destination and publish the CSS
+php artisan aura:add button card      # copy the source into your project
+php artisan aura:add table --dry-run  # see what it would write first
+```
 
-### Typography
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Heading | `<x-aura::heading>` | Semantic h1-h6 with auto sizing |
-| Subheading | `<x-aura::subheading>` | Secondary descriptive text |
-| Text | `<x-aura::text>` | Paragraph text with size, color, weight |
+Copied components are yours: edit them freely, and drop the dependency if you want to.
 
-### Form Layout
-| Component | Usage | Description |
-|-----------|-------|-------------|
-| Form | `<x-aura::form>` | Sections, grid, actions |
+## Accessibility
 
-## Aura UI Pro
+```bash
+php artisan aura:doctor          # setup and component-usage problems
+php artisan aura:doctor --a11y   # plus the accessibility checks, on your own views
+```
 
-Unlock 25 additional components and a powerful DataTable system with [Aura UI Pro](https://aura-ui.com):
-
-- **Application shells**: App shell, sidebar, dock, steps wizard, resizable panels
-- **Data-heavy**: Kanban board, tree view, scheduler, carousel
-- **Charts**: Area chart, bar chart, stat chart, sparkline, gauge
-- **Advanced forms**: Color picker, date range picker, OTP input, tags input, pillbox, rich text
-- **Messaging**: Chat bubble, mail message, composer
-- **Overlays**: Hover card, confirmation dialog
-- **DataTable**: 6 Livewire traits, column builder, bulk actions, filters, inline editing, row details
+Components target WCAG 2.1 AA. Contrast is enforced in CI over 111 colour pairs, in light and
+dark mode, so a theme change cannot quietly push text below the minimum.
 
 ## Design System
 
-Aura UI's "Vibrant Depth" design system is built on CSS custom properties:
+Built on CSS custom properties:
 
 - **Colors**: 6 semantic palettes (primary, secondary, success, warning, danger, info) + surface scale
-- **Shadows**: 6 elevation levels + colored glow effects for focus states
+- **Shadows**: 6 elevation levels + coloured glow effects for focus states
 - **Animations**: 14 keyframes with spring easing curves
 - **Glass morphism**: 3 intensity levels (subtle, standard, strong)
 - **Typography**: Inter (sans) + JetBrains Mono (mono)
@@ -166,17 +137,13 @@ Aura UI's "Vibrant Depth" design system is built on CSS custom properties:
 
 ### Dark Mode
 
-All components support dark mode via the `.dark` class on `<html>`:
+Add `.dark` to `<html>`; colours, shadows and glows adapt on their own.
 
 ```html
 <html class="dark">
 ```
 
-Colors, shadows, and glows automatically adapt.
-
-### Customization
-
-Override CSS custom properties to theme Aura UI:
+### Theming
 
 ```css
 :root {
@@ -185,9 +152,15 @@ Override CSS custom properties to theme Aura UI:
 }
 ```
 
+Full guide: [Theming](https://aura-ui.com/docs/theming) · [Dark Mode](https://aura-ui.com/docs/dark-mode).
+
+### Translations
+
+Ships with English and Italian strings; publish `aura-ui-lang` to add your own.
+
 ## Playground
 
-Visit `/aura/playground` in your app to see all components live. Toggle in config:
+Visit `/aura/playground` in your app to browse every component live:
 
 ```php
 // config/aura-ui.php
@@ -196,18 +169,37 @@ Visit `/aura/playground` in your app to see all components live. Toggle in confi
 ],
 ```
 
+## Aura UI Pro
+
+[Aura UI Pro](https://aura-ui.com/pricing) adds **52 components** on top of the free 127, aimed
+at admin panels and data-heavy screens:
+
+- **DataTable**: 6 Livewire traits — column builder, filters, bulk actions, inline editing, row details
+- **Application shells**: app shell, sidebar, dock, steps wizard, resizable split panes
+- **Data-heavy**: kanban board, tree, scheduler, carousel
+- **Messaging**: chat bubble, mail message, composer
+- **Advanced inputs**: colour picker, date range picker, OTP input, tags input, rich text
+  editor, and the VAT / Italian fiscal code field
+- **Charts**: area, bar, mixed, gauge, sparkline and stat charts
+
+Building on Filament instead? [Aura Filament](https://aura-ui.com/filament) brings the same
+design language to Filament v4/v5 with 8 presets.
+
+Which components are free and which are Pro is always answered by
+[`/r/registry.json`](https://aura-ui.com/r/registry.json), never by this file.
+
 ## Testing
 
 ```bash
-cd packages/bluestarsystem/aura-ui
-php vendor/bin/pest
+composer install
+vendor/bin/pest
 ```
 
 ## Links
 
-- [Documentation & Pro](https://aura-ui.com) — Full docs, playground, and Pro components
-- [Dev.to Article](https://dev.to/bluestarsystem/building-a-vibrant-depth-design-language-for-laravel-components-with-tailwind-css-4-524i) — Technical deep-dive on the design language
-- [Changelog](CHANGELOG.md) — Release history
+- [Documentation](https://aura-ui.com) — full docs, live previews, playground
+- [All components](https://aura-ui.com/components) · [llms.txt](https://aura-ui.com/llms.txt) for AI assistants
+- [Changelog](CHANGELOG.md)
 
 ## License
 
