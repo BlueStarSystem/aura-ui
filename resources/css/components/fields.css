@@ -1,0 +1,24 @@
+/*
+ * How wide a form field is allowed to be.
+ *
+ * Nine components used to carry `max-w-[340px]` in the class list they build
+ * themselves. Five of them did not merge the attributes they were given, so the
+ * width could not be changed by passing a class — and where it could, a
+ * `max-w-none` from the outside only ever tied with the utility already there,
+ * leaving the winner to the order of the compiled stylesheet.
+ *
+ * The cap is unchanged by default. It is now a custom property, like everything
+ * else in this design system, so an application can widen fields where its
+ * layout calls for it:
+ *
+ *   :root            { --aura-field-max-width: none; }   // every field
+ *   .checkout-form   { --aura-field-max-width: 28rem; }  // one form
+ *
+ * In @layer components so a utility class from the application still wins over
+ * it, for the cases where reaching for one is the natural thing to do.
+ */
+@layer components {
+    .aura-field {
+        max-width: var(--aura-field-max-width, 340px);
+    }
+}

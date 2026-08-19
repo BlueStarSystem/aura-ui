@@ -67,7 +67,7 @@
 @endphp
 
 <div
-    {{ $attributes->except(['id', 'aria-describedby'])->class(['aura-phone-input flex w-full max-w-[340px] flex-col gap-1.5']) }}
+    {{ $attributes->except(['id', 'aria-describedby'])->class(['aura-phone-input flex aura-field w-full flex-col gap-1.5']) }}
     x-data="{
         prefix: {{ Js::from($prefix) }},
         national: {{ Js::from($national) }},

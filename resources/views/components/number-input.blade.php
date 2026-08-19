@@ -26,7 +26,7 @@
     };
 @endphp
 
-<div class="aura-number-input aura-input-wrapper flex flex-col gap-1.5 w-full max-w-[340px] {{ $error ? 'aura-has-error' : '' }}">
+<div class="aura-number-input aura-input-wrapper flex flex-col gap-1.5 aura-field w-full {{ $error ? 'aura-has-error' : '' }}">
     @if($label)
         <x-aura::label :for="$inputId">{{ $label }}</x-aura::label>
     @endif

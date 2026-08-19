@@ -39,7 +39,7 @@
     ];
     if ($error) $textareaClasses[] = 'aura-input-error';
 
-    $wrapperClasses = ['aura-input-wrapper', 'flex flex-col gap-1.5 w-full max-w-[340px]'];
+    $wrapperClasses = ['aura-input-wrapper', 'flex flex-col gap-1.5 aura-field w-full'];
     if ($error) $wrapperClasses[] = 'aura-has-error';
 @endphp
 

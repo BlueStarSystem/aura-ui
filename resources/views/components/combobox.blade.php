@@ -46,7 +46,7 @@
 @endphp
 
 <div
-    {{ $attributes->except(['id', 'aria-describedby'])->class(['aura-combobox-wrapper relative flex w-full max-w-[340px] flex-col gap-1.5']) }}
+    {{ $attributes->except(['id', 'aria-describedby'])->class(['aura-combobox-wrapper relative flex aura-field w-full flex-col gap-1.5']) }}
     x-data="{
         open: false,
         query: {{ Js::from((string) $value) }},

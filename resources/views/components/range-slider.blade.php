@@ -39,7 +39,7 @@
     to reimplement all of it, and usually does not.
 --}}
 <div
-    {{ $attributes->except(['id', 'name'])->class(['aura-range-slider flex flex-col gap-1.5 w-full max-w-[340px]', $colorClass, 'aura-has-error' => (bool) $error]) }}
+    {{ $attributes->except(['id', 'name'])->class(['aura-range-slider flex flex-col gap-1.5 aura-field w-full', $colorClass, 'aura-has-error' => (bool) $error]) }}
     x-data="{
         min: {{ Js::from($min) }},
         max: {{ Js::from($max) }},

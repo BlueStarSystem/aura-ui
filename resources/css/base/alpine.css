@@ -1,0 +1,24 @@
+/*
+ * Rules the Alpine-driven components need from the host application.
+ *
+ * In @layer base for the same reason a11y.css is: a production Tailwind 4 build
+ * drops rules it finds outside a layer, and this package lost all its keyframes
+ * that way once.
+ */
+@layer base {
+    /*
+     * Twenty-five components in this package use x-cloak. Alpine removes the
+     * attribute once it has booted, but until then nothing hides the element —
+     * unless this rule exists. Applications that never wrote it saw every one of
+     * those components in all of its states at once: the password field, for
+     * instance, showed both its "reveal" and its "hide" icon side by side, and
+     * kept showing them for good in any layout that loaded no Alpine at all.
+     *
+     * Shipping it here rather than asking each application to remember it: the
+     * components depend on it, so the package that provides them should provide
+     * it too.
+     */
+    [x-cloak] {
+        display: none !important;
+    }
+}
