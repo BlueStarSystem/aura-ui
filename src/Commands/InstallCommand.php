@@ -14,21 +14,33 @@ class InstallCommand extends Command
     {
         $this->info('Installing Aura UI...');
 
-        // Publish config
+        /*
+         * The config is a file the application owns and edits, so it is never
+         * overwritten: publishing it a second time leaves an existing one alone.
+         */
         $this->callSilently('vendor:publish', [
             '--tag' => 'aura-ui-config',
         ]);
         $this->components->info('Config file published.');
 
-        // Publish CSS
+        /*
+         * The stylesheet and the JS assets are copies of the package, not files
+         * to edit — they land under a directory called vendor for that reason.
+         * They are forced, because `vendor:publish` otherwise refuses to touch a
+         * file that already exists, and the copy then keeps whatever it had at
+         * install time. Upgrading the package would leave the old stylesheet in
+         * place with no error and no warning: new rules simply never reach the
+         * build, which is the kind of failure nobody thinks to look for.
+         */
         $this->callSilently('vendor:publish', [
             '--tag' => 'aura-ui-css',
+            '--force' => true,
         ]);
         $this->components->info('CSS files published.');
 
-        // Publish JS vendor assets (Alpine.js, Chart.js for playground)
         $this->callSilently('vendor:publish', [
             '--tag' => 'aura-ui-assets',
+            '--force' => true,
         ]);
         $this->components->info('JS vendor assets published.');
 
@@ -36,9 +48,17 @@ class InstallCommand extends Command
         $this->components->info('Aura UI installed successfully!');
         $this->newLine();
 
-        $this->line('  Next steps:');
-        $this->line('  1. Add to your CSS: <comment>@import "vendor/aura-ui/aura.css";</comment>');
-        $this->line('  2. Visit <comment>/aura/playground</comment> to preview components');
+        $this->line('  Add these to <comment>resources/css/app.css</comment>:');
+        $this->newLine();
+        $this->line("      @import 'tailwindcss';");
+        $this->line("      @source '../../vendor/bluestarsystem/aura-ui/resources/views/**/*.blade.php';");
+        $this->line("      @import '../../vendor/bluestarsystem/aura-ui/resources/css/aura.css';");
+        $this->newLine();
+        $this->line('  Importing the stylesheet straight from <comment>vendor</comment> keeps it in step with the');
+        $this->line('  package on every <comment>composer update</comment>, with nothing to re-publish. The copy');
+        $this->line('  under <comment>resources/css/vendor/aura-ui</comment> still works if you already import it.');
+        $this->newLine();
+        $this->line('  Then visit <comment>/aura/playground</comment> to preview components.');
         $this->newLine();
 
         return self::SUCCESS;
