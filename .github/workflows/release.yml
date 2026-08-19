@@ -182,6 +182,52 @@ jobs:
           git tag ${{ steps.version.outputs.new_tag }}
           git push origin ${{ steps.version.outputs.new_tag }}
 
+      - name: Publish GitHub Release
+        # The tag alone is invisible: 63 versions had shipped to Packagist while
+        # the Releases page stayed empty, so the repo read as dormant to anyone
+        # landing on it — and GitHub's release feed, which people actually
+        # subscribe to, had nothing to carry.
+        #
+        # Gated exactly like the Satis trigger (not like the tag step) so it is
+        # retryable: a run whose release call failed can be re-run against a tag
+        # that already exists. `gh release view` makes it idempotent — creating a
+        # release that is already there is an error, and must not fail the job.
+        #
+        # Notes are built from the commit subjects in the released range rather
+        # than --generate-notes, which summarises pull requests: this repo
+        # commits straight to master, so auto-generated notes come back empty.
+        if: steps.bump.outputs.type != 'none'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.head_tag.outputs.tag }}"
+          if [ -z "$TAG" ]; then
+            TAG="${{ steps.version.outputs.new_tag }}"
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists, nothing to do"
+            exit 0
+          fi
+
+          PREV="${{ steps.latest_tag.outputs.tag }}"
+          if [ -n "$PREV" ]; then
+            RANGE="$PREV..HEAD"
+          else
+            RANGE="HEAD"
+          fi
+
+          {
+            git log $RANGE --no-merges --pretty=tformat:'- %s'               | grep -E '^- (feat|fix|perf|refactor)(\(.+\))?!?:' || echo '- Maintenance release'
+            echo ""
+            echo "Install: \`composer require bluestarsystem/aura-ui:$TAG\`"
+            echo ""
+            echo "Full component catalogue: https://aura-ui.com/components"
+          } > /tmp/notes.md
+
+          gh release create "$TAG" --title "$TAG" --notes-file /tmp/notes.md
+          echo "Published release $TAG"
+
       - name: Trigger Satis rebuild
         # Publishing must be retryable, unlike tagging: this runs whenever the
         # commit is release-worthy, whether the tag was just created above or
