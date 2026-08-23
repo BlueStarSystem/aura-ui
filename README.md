@@ -169,25 +169,6 @@ Visit `/aura/playground` in your app to browse every component live:
 ],
 ```
 
-## Aura UI Pro
-
-[Aura UI Pro](https://aura-ui.com/pricing) adds **52 components** on top of the free 127, aimed
-at admin panels and data-heavy screens:
-
-- **DataTable**: 6 Livewire traits — column builder, filters, bulk actions, inline editing, row details
-- **Application shells**: app shell, sidebar, dock, steps wizard, resizable split panes
-- **Data-heavy**: kanban board, tree, scheduler, carousel
-- **Messaging**: chat bubble, mail message, composer
-- **Advanced inputs**: colour picker, date range picker, OTP input, tags input, rich text
-  editor, and the VAT / Italian fiscal code field
-- **Charts**: area, bar, mixed, gauge, sparkline and stat charts
-
-Building on Filament instead? [Aura Filament](https://aura-ui.com/filament) brings the same
-design language to Filament v4/v5 with 8 presets.
-
-Which components are free and which are Pro is always answered by
-[`/r/registry.json`](https://aura-ui.com/r/registry.json), never by this file.
-
 ## Testing
 
 ```bash
