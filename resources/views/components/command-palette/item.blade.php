@@ -7,12 +7,12 @@
 
 <button
     type="button"
-    class="aura-command-item flex items-center gap-3 w-full px-3 py-2 text-sm text-aura-surface-700 rounded-aura-md cursor-pointer border-none bg-transparent text-left aura-transition-fast hover:bg-aura-surface-100"
+   
     data-command-item
     data-value="{{ strtolower($value) }}"
     x-show="!search || {{ Js::from(strtolower($value)) }}.includes(search.toLowerCase())"
     @click="open = false; $dispatch('aura:command', {{ Js::from($value) }})"
-    {{ $attributes }}
+    {{ $attributes->class(['aura-command-item flex items-center gap-3 w-full px-3 py-2 text-sm text-aura-surface-700 rounded-aura-md cursor-pointer border-none bg-transparent text-left aura-transition-fast hover:bg-aura-surface-100']) }}
 >
     @if($icon)
         <span class="aura-command-item-icon shrink-0 text-aura-surface-400">

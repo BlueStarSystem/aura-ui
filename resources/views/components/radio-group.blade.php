@@ -3,7 +3,7 @@
     'name' => null,
 ])
 
-<fieldset class="aura-radio-group border-none p-0 m-0" {{ $attributes }}>
+<fieldset {{ $attributes->class(['aura-radio-group border-none p-0 m-0']) }}>
     @if($label)
         <legend class="aura-label text-sm font-medium text-aura-surface-700 mb-2">{{ $label }}</legend>
     @endif

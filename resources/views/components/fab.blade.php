@@ -39,8 +39,7 @@
 @endphp
 
 <div @if($expandable) x-data="{ open: false }" @endif
-     class="aura-fab fixed {{ $positionClass }} z-50"
-     {{ $attributes }}>
+     {{ $attributes->class(['aura-fab fixed', $positionClass, 'z-50']) }}>
 
     @if($expandable && isset($actions))
         <div x-show="open" x-transition:enter="aura-transition" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"

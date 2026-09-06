@@ -67,15 +67,34 @@
 @endphp
 
 <div
-    {{ $attributes->except(['id', 'aria-describedby'])->class(['aura-phone-input flex aura-field w-full flex-col gap-1.5']) }}
+    {{-- wire:model is entangled below, not left on this div where Livewire
+         would ignore it in silence. --}}
+    {{ $attributes->except(['id', 'aria-describedby'])->whereDoesntStartWith('wire:model')->class(['aura-phone-input flex aura-field w-full flex-col gap-1.5']) }}
     x-data="{
         prefix: {{ Js::from($prefix) }},
         national: {{ Js::from($national) }},
+        codes: {{ Js::from(array_map(fn ($entry) => is_array($entry) ? $entry[0] : $entry, array_values($list))) }},
+        @if($attributes->wire('model')->value())
+        model: $wire.entangle({{ Js::from($attributes->wire('model')->value()) }}){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }},
+        @endif
 
         get full() {
             const digits = this.national.replace(/[^0-9]/g, '');
 
             return digits === '' ? '' : this.prefix + digits;
+        },
+
+        init() {
+            if (! ('model' in this)) return;
+
+            // The Livewire property holds the whole number: split it the way
+            // the server did for `value`, then keep it in step with the parts.
+            if (typeof this.model === 'string' && this.model.startsWith('+')) {
+                const code = [...this.codes].sort((a, b) => b.length - a.length).find(c => this.model.startsWith(c));
+                if (code) { this.prefix = code; this.national = this.model.slice(code.length).trim(); }
+            }
+
+            this.$watch('full', value => { this.model = value; });
         }
     }"
 >

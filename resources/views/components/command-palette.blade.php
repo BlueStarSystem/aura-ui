@@ -4,7 +4,6 @@
     'shortcut' => 'Cmd+K',
     'name' => null,
 ])
-
 @php
     /**
      * Ctrl+K was the only way in, which leaves out anyone on a touch device
@@ -21,7 +20,7 @@
 @endphp
 
 <div
-    class="aura-command-palette"
+   
     style="z-index: var(--z-aura-toast);"
     x-data="{
         open: false,
@@ -51,7 +50,7 @@
     x-on:keydown.escape.window="closePalette()"
     x-on:open-command-palette.window="{!! $openCondition !!}"
     x-on:close-command-palette.window="{!! $closeCondition !!}"
-    {{ $attributes }}
+    {{ $attributes->class(['aura-command-palette']) }}
 >
     <template x-teleport="body">
         <div

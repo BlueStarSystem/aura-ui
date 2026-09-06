@@ -15,9 +15,8 @@
 @endphp
 
 <div
-    class="aura-tabs {{ $variantClass }}"
     x-data="{ activeTab: {{ Js::from($defaultActive) }} }"
-    {{ $attributes }}
+    {{ $attributes->class(['aura-tabs', $variantClass]) }}
 >
     <div class="aura-tabs-list flex {{ $variant === 'vertical' ? 'flex-col border-r border-aura-surface-200 pr-4' : 'border-b border-aura-surface-200' }} gap-0" role="tablist">
         @foreach($tabs as $tab)

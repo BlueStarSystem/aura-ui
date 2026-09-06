@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A single component published to `resources/views/vendor/aura/components/` is now registered
   explicitly, ahead of the package paths, instead of relying on Blade's view-namespace fallback.
   Reported by the TempGuard team while taking their shell to WCAG 2.2 AA.
+- Fifteen more components wrote a literal `class` before the raw attribute bag and so discarded
+  the caller's: `accordion`, `accordion.item`, `breadcrumbs`, `chart`, `command-palette` and its
+  `group`/`item`, `dropdown.item`, `dropdown.separator`, `fab`, `radio-group`, `tabs`, `tabs.tab`,
+  `toggle`, `tooltip`. A test now scans every component for the pattern.
+- `iban-field` and `phone-input`: `wire:model` landed on the wrapper div, where Livewire ignores
+  it. They entangle the property now; `phone-input` splits the stored number into prefix and
+  national part on load.
+
+### Added
+- `checkbox`: the default slot is the label when `label` is not given, so a consent line can
+  carry links; and an `error` prop that sets `aria-invalid` and an associated `role="alert"`
+  message (the docs had shown it for months).
 
 ## [3.26.0] - 2026-08-07
 

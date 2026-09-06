@@ -39,9 +39,11 @@
 @endphp
 
 <div
-    {{ $attributes->except(['id', 'aria-describedby'])->class(['aura-iban-field flex aura-field w-full flex-col gap-1.5']) }}
+    {{-- wire:model is entangled below, not left on this div where Livewire
+         would ignore it in silence. --}}
+    {{ $attributes->except(['id', 'aria-describedby'])->whereDoesntStartWith('wire:model')->class(['aura-iban-field flex aura-field w-full flex-col gap-1.5']) }}
     x-data="{
-        display: {{ Js::from($initial) }},
+        display: @if($attributes->wire('model')->value()) $wire.entangle({{ Js::from($attributes->wire('model')->value()) }}){{ $attributes->wire('model')->hasModifier('live') ? '.live' : '' }} @else {{ Js::from($initial) }} @endif,
 
         get plain() { return this.display.replace(/[^0-9A-Za-z]/g, '').toUpperCase(); },
 

@@ -4,7 +4,7 @@
     'delay' => 200,
 ])
 
-<div class="aura-tooltip-wrapper relative inline-flex" x-data="{ show: false }" {{ $attributes }}>
+<div x-data="{ show: false }" {{ $attributes->class(['aura-tooltip-wrapper relative inline-flex']) }}>
     <div
         x-on:mouseenter="setTimeout(() => show = true, {{ (int) $delay }})"
         x-on:mouseleave="show = false"

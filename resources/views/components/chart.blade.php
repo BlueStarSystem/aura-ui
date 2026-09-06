@@ -35,7 +35,7 @@
 @endphp
 
 <div
-    class="aura-chart relative"
+   
     style="height: {{ $safeHeight }};"
     x-data="{
         chart: null,
@@ -69,7 +69,7 @@
         }
     }"
     x-on:destroy="destroy()"
-    {{ $attributes }}
+    {{ $attributes->class(['aura-chart relative']) }}
 >
     <canvas x-ref="canvas"></canvas>
 </div>

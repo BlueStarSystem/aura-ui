@@ -11,9 +11,8 @@
 @endphp
 
 <div
-    class="aura-accordion-item"
     @if($open) x-init="openItems.push({{ Js::from($itemName) }})" @endif
-    {{ $attributes }}
+    {{ $attributes->class(['aura-accordion-item']) }}
 >
     <button
         type="button"
