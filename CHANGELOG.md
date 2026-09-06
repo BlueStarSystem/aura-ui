@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Nothing yet.
+### Fixed
+- `dropdown`: the `position` prop was accepted and never read, so the menu was always pinned to
+  the trigger's left edge and opened off-screen next to the right edge of a narrow viewport.
+  `bottom-start` (default), `bottom-end`, `top-start` and `top-end` now do what they say.
+- `dropdown`: a `class` passed by the caller produced a second `class` attribute on the wrapper,
+  which browsers discard. It is merged now, so the menu can be restyled from outside.
+- A single component published to `resources/views/vendor/aura/components/` is now registered
+  explicitly, ahead of the package paths, instead of relying on Blade's view-namespace fallback.
+  Reported by the TempGuard team while taking their shell to WCAG 2.2 AA.
 
 ## [3.26.0] - 2026-08-07
 

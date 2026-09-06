@@ -29,11 +29,34 @@ class AuraUIServiceProvider extends ServiceProvider
 
     protected function registerComponents(): void
     {
+        $this->registerComponentOverrides();
+
         // Anonymous Blade components from resources/views/components/
         Blade::anonymousComponentPath(
             __DIR__.'/../resources/views/components',
             'aura'
         );
+    }
+
+    /**
+     * Let the application override a single component by publishing it to
+     * resources/views/vendor/aura/components/, the directory the views tag
+     * already publishes to. loadViewsFrom() does this lookup for dotted
+     * namespaces; anonymousComponentPath() does not, so we register the
+     * directory ourselves, ahead of the package path, and only once -- the
+     * Pro package shares the same prefix and calls this too.
+     */
+    protected function registerComponentOverrides(): void
+    {
+        $registered = array_column(Blade::getAnonymousComponentPaths(), 'path');
+
+        foreach ((array) $this->app['config']->get('view.paths', []) as $viewPath) {
+            $overridePath = $viewPath.'/vendor/aura/components';
+
+            if (is_dir($overridePath) && ! in_array($overridePath, $registered, true)) {
+                Blade::anonymousComponentPath($overridePath, 'aura');
+            }
+        }
     }
 
     protected function registerPlayground(): void

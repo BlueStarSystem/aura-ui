@@ -5,11 +5,26 @@
 ])
 
 @php
-    $menuClasses = ['aura-dropdown-menu', 'absolute top-[calc(100%+4px)] left-0 z-aura-dropdown min-w-[200px] p-1.5 bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-xl origin-top-left'];
+    // `position` was accepted and never read: the menu was always pinned to the
+    // trigger's left edge, so a dropdown near the right edge of a narrow screen
+    // opened off the viewport. `-end` variants anchor to the right edge, `top-`
+    // variants open upwards.
+    $positionClasses = match ($position) {
+        'bottom-end' => 'top-[calc(100%+4px)] right-0 origin-top-right',
+        'top-start' => 'bottom-[calc(100%+4px)] left-0 origin-bottom-left',
+        'top-end' => 'bottom-[calc(100%+4px)] right-0 origin-bottom-right',
+        default => 'top-[calc(100%+4px)] left-0 origin-top-left',
+    };
+    $opensUpwards = str_starts_with($position, 'top-');
+
+    $menuClasses = ['aura-dropdown-menu', 'absolute z-aura-dropdown min-w-[200px] p-1.5 bg-aura-surface-0 border border-aura-surface-200 rounded-aura-lg shadow-aura-xl', $positionClasses];
     if ($glass) $menuClasses[] = 'aura-glass';
 @endphp
 
-<div class="aura-dropdown relative inline-block" x-data="{ open: false }" {{ $attributes }}>
+{{-- The wrapper's class must go through the attribute bag: a literal class=""
+     followed by the raw attribute bag gave callers who passed a class two class
+     attributes on one tag, and the browser drops the second. --}}
+<div x-data="{ open: false }" {{ $attributes->class(['aura-dropdown relative inline-block']) }}>
     {{-- The ARIA used to sit on this wrapper, which has no role and therefore
          allows neither attribute — so the menu's open state was announced by
          nothing. It belongs on whatever interactive element the caller put in
@@ -38,7 +53,7 @@
         x-on:keydown.arrow-down.prevent="(() => { const items = [...$el.querySelectorAll('[role=menuitem]')].filter(e => e.offsetParent !== null); if (! items.length) return; const i = items.indexOf(document.activeElement); items[(i + 1) % items.length].focus(); })()"
         x-on:keydown.arrow-up.prevent="(() => { const items = [...$el.querySelectorAll('[role=menuitem]')].filter(e => e.offsetParent !== null); if (! items.length) return; const i = items.indexOf(document.activeElement); items[(i - 1 + items.length) % items.length].focus(); })()"
         x-transition:enter="aura-transition"
-        x-transition:enter-start="opacity-0 transform scale-95 -translate-y-1"
+        x-transition:enter-start="opacity-0 transform scale-95 {{ $opensUpwards ? 'translate-y-1' : '-translate-y-1' }}"
         x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
         x-transition:leave="aura-transition-fast"
         x-transition:leave-start="opacity-100"
