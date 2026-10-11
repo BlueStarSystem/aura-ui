@@ -34,6 +34,9 @@ final class VatNumber
         'DE' => '/^[0-9]{9}$/',
         'DK' => '/^[0-9]{8}$/',
         'EE' => '/^[0-9]{9}$/',
+        // Greece writes its VAT numbers with EL, the code VIES uses; GR is kept
+        // for callers that pass the ISO country code.
+        'EL' => '/^[0-9]{9}$/',
         'ES' => '/^[A-Z0-9][0-9]{7}[A-Z0-9]$/',
         'FI' => '/^[0-9]{8}$/',
         'FR' => '/^[A-Z0-9]{2}[0-9]{9}$/',
