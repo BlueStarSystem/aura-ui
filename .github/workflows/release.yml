@@ -228,6 +228,53 @@ jobs:
           gh release create "$TAG" --title "$TAG" --notes-file /tmp/notes.md
           echo "Published release $TAG"
 
+      - name: Report release to aura-ui.com
+        # The site's changelog and monthly digest read releases from here: the
+        # hand-kept CHANGELOG copies had stopped three months behind, and the
+        # private packages have no GitHub Releases to read instead.
+        #
+        # Gated like the Satis trigger so a re-run repairs a missed report; the
+        # endpoint upserts. The range is taken from the tag before THIS one,
+        # not from "Get latest tag": on a re-run HEAD is already tagged, that
+        # step returns HEAD's own tag, and the notes would come back empty.
+        if: steps.bump.outputs.type != 'none'
+        env:
+          AURA_RELEASES_API_KEY: ${{ secrets.AURA_RELEASES_API_KEY }}
+        run: |
+          if [ -z "$AURA_RELEASES_API_KEY" ]; then
+            echo "::warning::AURA_RELEASES_API_KEY is not set; release not reported to aura-ui.com"
+            exit 0
+          fi
+
+          TAG="${{ steps.head_tag.outputs.tag }}"
+          if [ -z "$TAG" ]; then
+            TAG="${{ steps.version.outputs.new_tag }}"
+          fi
+
+          PREV=$(git describe --tags --abbrev=0 "$TAG^" 2>/dev/null || true)
+          if [ -n "$PREV" ]; then
+            RANGE="$PREV..$TAG"
+          else
+            RANGE="$TAG"
+          fi
+
+          NOTES=$(git log $RANGE --no-merges --pretty=tformat:'- %s' | grep -E '^- (feat|fix|perf|refactor)(\(.+\))?!?:' || true)
+
+          jq -n \
+            --arg package "${{ github.event.repository.name }}" \
+            --arg version "$TAG" \
+            --arg released_at "$(git log -1 --format=%cI "$TAG")" \
+            --arg notes "$NOTES" \
+            '{package: $package, version: $version, released_at: $released_at, notes: $notes}' > /tmp/release.json
+
+          curl -sS --fail-with-body -X POST https://aura-ui.com/api/v1/releases \
+            -H "X-Aura-Releases-Key: $AURA_RELEASES_API_KEY" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json" \
+            --data @/tmp/release.json
+          echo ""
+          echo "Reported $TAG to aura-ui.com"
+
       - name: Trigger Satis rebuild
         # Publishing must be retryable, unlike tagging: this runs whenever the
         # commit is release-worthy, whether the tag was just created above or
