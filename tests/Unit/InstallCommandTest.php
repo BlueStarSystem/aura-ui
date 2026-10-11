@@ -45,3 +45,9 @@ it('is still registered under the same name', function () {
     expect((new ReflectionClass(InstallCommand::class))->getDefaultProperties()['signature'])
         ->toBe('aura:install');
 });
+
+it('tells the reader where to hear about new releases', function () {
+    $source = (string) file_get_contents(__DIR__.'/../../src/Commands/InstallCommand.php');
+
+    expect($source)->toContain('https://aura-ui.com/changelog');
+});

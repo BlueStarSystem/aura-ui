@@ -60,6 +60,8 @@ class InstallCommand extends Command
         $this->newLine();
         $this->line('  Then visit <comment>/aura/playground</comment> to preview components.');
         $this->newLine();
+        $this->line('  Release notes, and a once-a-month digest if you want one: <comment>https://aura-ui.com/changelog</comment>');
+        $this->newLine();
 
         return self::SUCCESS;
     }
